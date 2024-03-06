@@ -48,3 +48,5 @@ The Front end project must use TypeScript and Redux toolkit.
 
 - Presentation: **7/3** and **8/3/ 2024**
 - Submitting Front-end project **10am 8/3/2024**
+
+https://synchronize-ecommerce.vercel.app/
