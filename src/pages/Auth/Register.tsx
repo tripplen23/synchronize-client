@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useAppDispatch } from "../../redux/utils/hooks";
 import { register } from "../../redux/features/auth/authSlice";
+import { UserRole } from "../../misc/authType";
 
 const Register = () => {
   const {
@@ -12,12 +13,14 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: any) => {
     try {
       // Dispatch the register action
       await dispatch(register(data));
       // Handle successful registration, redirect or show a success message
+      navigate("/login"); // Navigate to the login page
     } catch (error) {
       // Handle registration error, show an error message
       console.error("Registration failed:", error);
@@ -82,7 +85,24 @@ const Register = () => {
                 </p>
               )}
             </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">
+                User Role
+              </label>
+              <select
+                {...registerForm("UserRole", { required: true })}
+                className="input-field w-full p-2"
+              >
+                <option value={UserRole.Customer}>Customer</option>
+              </select>
+              {errors.UserRole && (
+                <p className="text-red-500 text-xs mt-1">
+                  This field is required
+                </p>
+              )}
+            </div>
 
+            {/* 
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">
                 User Avatar (optional)
@@ -93,7 +113,7 @@ const Register = () => {
                 type="file"
               />
             </div>
-
+            */}
             <div className="flex items-center justify-center">
               <motion.button
                 whileHover={{ scale: 1.05 }}

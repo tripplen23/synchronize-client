@@ -8,7 +8,7 @@ const register = async (userData: RegisterType) => {
     return response.data;
   } catch (error) {
     console.error("Error during registration request:", error);
-    throw error; // Rethrow the error to propagate it to the caller
+    throw error;
   }
 };
 
@@ -21,10 +21,10 @@ const login = async (userData: LoginType) => {
       localStorage.setItem("userIdDemo", JSON.stringify(1));
     }
 
-    return userToken; // token
+    return userToken;
   } catch (error) {
     console.error("Error during login request:", error);
-    throw error; // Rethrow the error to propagate it to the caller
+    throw error;
   }
 };
 

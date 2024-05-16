@@ -27,10 +27,15 @@ export interface LoginType {
   password: string;
 }
 
+export enum UserRole {
+  Admin = "admin",
+  Customer = "customer",
+}
+
 export interface RegisterType {
   UserName: string;
   UserEmail: string;
   UserPassword: string;
-  UserRole: "customer";
+  UserRole: UserRole;
   UserAvatar?: string;
 }

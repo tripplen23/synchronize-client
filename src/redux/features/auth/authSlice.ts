@@ -33,8 +33,8 @@ export const register = createAsyncThunk(
         UserName: userData.UserName,
         UserEmail: userData.UserEmail,
         UserPassword: userData.UserPassword,
-        UserAvatar: userData.UserAvatar,
         UserRole: userData.UserRole,
+        UserAvatar: userData.UserAvatar,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
