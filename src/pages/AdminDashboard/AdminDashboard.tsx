@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
+import { getAuthProfile } from "../../redux/features/auth/authSlice";
 import {
   getProducts,
   addNewProduct,
@@ -12,7 +13,6 @@ import UpdatingModalComponent from "../../components/reusable/ModalComponents/Up
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
 import { Link } from "react-router-dom";
 import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
-import { getUser } from "../../redux/features/auth/authSlice";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 
 const AdminDashboard = () => {
@@ -34,10 +34,9 @@ const AdminDashboard = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  // TODO: Fetch user information
+  // TODO: Fetch auth information
   useEffect(() => {
-    const userId: number = Number(localStorage.getItem("userIdDemo"));
-    dispatch(getUser(userId));
+    dispatch(getAuthProfile());
   }, [dispatch]);
 
   // TODO: Handler for adding / updating / deleting products
@@ -84,9 +83,9 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-semibold">Admin Dashboard</h1>
         <br />
         <div className="profileInfo flex flex-col">
-          <span className="name">Admin Name: {`${user?.name}`}</span>
+          <span className="name">Admin Name: {`${user?.userName}`}</span>
           <span className="email">
-            Email: <strong>{user?.email}</strong>
+            Email: <strong>{user?.userEmail}</strong>
           </span>
         </div>
       </div>

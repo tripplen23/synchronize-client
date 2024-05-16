@@ -24,17 +24,17 @@ export const initialState: AuthState = {
   error: null,
   status: "",
 };
-// Async thunk for registration
+// TODO: Async thunk for registration
 export const register = createAsyncThunk(
   "auth/register",
   async (userData: RegisterType, thunkAPI) => {
     try {
       return await authService.register({
-        UserName: userData.UserName,
-        UserEmail: userData.UserEmail,
-        UserPassword: userData.UserPassword,
-        UserRole: userData.UserRole,
-        UserAvatar: userData.UserAvatar,
+        userName: userData.userName,
+        userEmail: userData.userEmail,
+        userPassword: userData.userPassword,
+        userRole: userData.userRole,
+        userAvatar: userData.userAvatar,
       });
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -75,12 +75,12 @@ export const login = createAsyncThunk(
   }
 );
 
-// TODO: Async thunk for Get user
-export const getUser = createAsyncThunk(
-  "auth/user",
-  async (userId: number, thunkAPI) => {
+// TODO: Async thunk for Get user profile
+export const getAuthProfile = createAsyncThunk(
+  "auth/getAuthProfile",
+  async (_, thunkAPI) => {
     try {
-      return await authService.getUser(userId);
+      return await authService.getAuthProfile();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -145,6 +145,7 @@ const authSlice = createSlice({
       login.fulfilled,
       (state: AuthState, action: PayloadAction<string>) => {
         localStorage.setItem("loginToken", JSON.stringify(action.payload));
+        // Dispatch getAuthProfile after login
         return {
           ...state,
           isLoading: false,
@@ -163,8 +164,8 @@ const authSlice = createSlice({
       };
     });
 
-    // TODO: Reducer's cases for getUser
-    builder.addCase(getUser.pending, (state: AuthState) => {
+    // TODO: Reducer's cases for getAuthProfile
+    builder.addCase(getAuthProfile.pending, (state: AuthState) => {
       return {
         ...state,
         isLoading: true,
@@ -172,9 +173,9 @@ const authSlice = createSlice({
       };
     });
     builder.addCase(
-      getUser.fulfilled,
+      getAuthProfile.fulfilled,
       (state: AuthState, action: PayloadAction<UserDetailsType>) => {
-        localStorage.setItem("userDetails", JSON.stringify(action.payload));
+        console.log("Get Auth Profile Action Payload: ", action.payload);
         return {
           ...state,
           isLoading: false,
@@ -184,7 +185,7 @@ const authSlice = createSlice({
         };
       }
     );
-    builder.addCase(getUser.rejected, (state: AuthState, action) => {
+    builder.addCase(getAuthProfile.rejected, (state: AuthState, action) => {
       return {
         ...state,
         isLoading: false,

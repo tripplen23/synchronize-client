@@ -1,12 +1,16 @@
 import { UUID } from "crypto";
 
+export enum UserRole {
+  Admin = "admin",
+  Customer = "customer",
+}
+
 export interface UserDetailsType {
   id: UUID;
-  name: string;
-  email: string;
-  password: string;
-  avatar?: string;
-  userRole: string; // User Role is enum between Customer and Admin
+  userName: string;
+  userEmail: string;
+  userAvatar?: string;
+  userRole: UserRole;
 
   /*
   address?: {
@@ -26,16 +30,10 @@ export interface LoginType {
   email: string;
   password: string;
 }
-
-export enum UserRole {
-  Admin = "admin",
-  Customer = "customer",
-}
-
 export interface RegisterType {
-  UserName: string;
-  UserEmail: string;
-  UserPassword: string;
-  UserRole: UserRole;
-  UserAvatar?: string;
+  userName: string;
+  userEmail: string;
+  userPassword: string;
+  userRole: UserRole;
+  userAvatar?: string;
 }

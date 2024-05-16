@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
-import { getUser, login } from "../../redux/features/auth/authSlice";
+import { login } from "../../redux/features/auth/authSlice";
 import { motion } from "framer-motion";
 import VanGoghImage from "../../assets/imgs/VanGoghImage.jpg";
+import { getAuthProfile } from "../../redux/features/auth/authSlice";
 
 const Login = () => {
   const { user, token } = useAppSelector((state) => state.auth);
@@ -18,11 +19,11 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user === null && token) {
-      const userId = localStorage.getItem("userIdDemo");
-      dispatch(getUser(Number(userId)));
+    if (token) {
+      dispatch(getAuthProfile())
+      navigate("/");
     }
-  }, [token, user, dispatch]);
+  }, [token, navigate, dispatch]);
 
   const onSubmit = async (data: any) => {
     setLoading(true);

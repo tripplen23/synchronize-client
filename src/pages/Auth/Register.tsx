@@ -40,12 +40,12 @@ const Register = () => {
                 Name
               </label>
               <input
-                {...registerForm("UserName", { required: true })}
+                {...registerForm("userName", { required: true })}
                 className="input-field w-full p-2"
                 type="text"
                 placeholder="Enter your name"
               />
-              {errors.UserName && (
+              {errors.userName && (
                 <p className="text-red-500 text-xs mt-1">
                   This field is required
                 </p>
@@ -57,7 +57,7 @@ const Register = () => {
                 Email
               </label>
               <input
-                {...registerForm("UserEmail", {
+                {...registerForm("userEmail", {
                   required: true,
                   pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
                 })}
@@ -65,7 +65,7 @@ const Register = () => {
                 type="email"
                 placeholder="Enter your email"
               />
-              {errors.UserEmail && (
+              {errors.userEmail && (
                 <p className="text-red-500 text-xs mt-1">
                   This field is required and must be a valid email
                 </p>
@@ -77,12 +77,12 @@ const Register = () => {
                 Password
               </label>
               <input
-                {...registerForm("UserPassword", { required: true })}
+                {...registerForm("userPassword", { required: true })}
                 className="input-field w-full p-2"
                 type="password"
                 placeholder="Enter your password"
               />
-              {errors.UserPassword && (
+              {errors.userPassword && (
                 <p className="text-red-500 text-xs mt-1">
                   This field is required
                 </p>
@@ -93,12 +93,12 @@ const Register = () => {
                 User Role
               </label>
               <select
-                {...registerForm("UserRole", { required: true })}
+                {...registerForm("userRole", { required: true })}
                 className="input-field w-full p-2"
               >
                 <option value={UserRole.Customer}>Customer</option>
               </select>
-              {errors.UserRole && (
+              {errors.userRole && (
                 <p className="text-red-500 text-xs mt-1">
                   This field is required
                 </p>
@@ -111,7 +111,7 @@ const Register = () => {
                 User Avatar (optional)
               </label>
               <input
-                {...registerForm("UserAvatar")}
+                {...registerForm("userAvatar")}
                 className="input-field w-full p-2"
                 type="file"
               />

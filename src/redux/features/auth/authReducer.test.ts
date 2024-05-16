@@ -1,7 +1,6 @@
 import store from "../../utils/store";
 import {
   login,
-  getUser,
   authReset,
   AuthState,
   initialState,
@@ -31,19 +30,5 @@ describe("login action", () => {
     expect(state.isSuccess).toEqual(true);
     expect(state.status).toEqual("success");
     expect(state.token).not.toBeNull(); // Check if token is returned
-  });
-});
-
-describe("get user", () => {
-  it("fulfills with user details on successful login", async () => {
-    const userId: number = 1;
-
-    await store.dispatch(getUser(userId));
-    const state = store.getState().auth as AuthState;
-
-    expect(state.isLoading).toEqual(false);
-    expect(state.isSuccess).toEqual(true);
-    expect(state.status).toEqual("success");
-    expect(state.user?.name).toEqual(mockUsers[0].name);
   });
 });
