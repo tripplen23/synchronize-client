@@ -57,14 +57,17 @@ const Register = () => {
                 Email
               </label>
               <input
-                {...registerForm("UserEmail", { required: true })}
+                {...registerForm("UserEmail", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                })}
                 className="input-field w-full p-2"
                 type="email"
                 placeholder="Enter your email"
               />
               {errors.UserEmail && (
                 <p className="text-red-500 text-xs mt-1">
-                  This field is required
+                  This field is required and must be a valid email
                 </p>
               )}
             </div>
