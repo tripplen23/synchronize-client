@@ -1,25 +1,35 @@
-import axiosConfig from "../../utils/axiosConfig";
-import { LoginType } from "../../../misc/authType";
+import newAxiosConfig from "../../utils/newAxiosConfig";
+import { LoginType, RegisterType } from "../../../misc/authType";
 
 // Register
-const register = async (userData: LoginType) => {
-  const response = await axiosConfig.post("users", userData);
-
-  return response.data; // token
+const register = async (userData: RegisterType) => {
+  try {
+    const response = await newAxiosConfig.post("users", userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration request:", error);
+    throw error; // Rethrow the error to propagate it to the caller
+  }
 };
 
 const login = async (userData: LoginType) => {
-  const response = await axiosConfig.post("auth/login", userData);
+  try {
+    const response = await newAxiosConfig.post("auth/login", userData);
+    var userToken = response.data;
 
-  if (response.data) {
-    localStorage.setItem("userIdDemo", JSON.stringify(1));
+    if (userToken) {
+      localStorage.setItem("userIdDemo", JSON.stringify(1));
+    }
+
+    return userToken; // token
+  } catch (error) {
+    console.error("Error during login request:", error);
+    throw error; // Rethrow the error to propagate it to the caller
   }
-
-  return response.data; // token
 };
 
 const getUser = async (userId: number) => {
-  const response = await axiosConfig.get(`users/${userId}`);
+  const response = await newAxiosConfig.get(`users/${userId}`);
 
   if (response.data) {
     localStorage.setItem("userDetails", JSON.stringify(response.data));

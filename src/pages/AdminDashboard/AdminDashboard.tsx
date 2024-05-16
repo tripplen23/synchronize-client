@@ -84,9 +84,7 @@ const AdminDashboard = () => {
         <h1 className="text-3xl font-semibold">Admin Dashboard</h1>
         <br />
         <div className="profileInfo flex flex-col">
-          <span className="name">
-            Admin Name: {`${user?.name.firstname} ${user?.name.lastname}`}
-          </span>
+          <span className="name">Admin Name: {`${user?.name}`}</span>
           <span className="email">
             Email: <strong>{user?.email}</strong>
           </span>

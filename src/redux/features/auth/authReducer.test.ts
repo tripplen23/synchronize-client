@@ -23,7 +23,7 @@ afterAll(() => authMSW.close());
 
 describe("login action", () => {
   it("fulfills with user details on successful login", async () => {
-    const userData = { username: "johnd", password: "m38rmF$" };
+    const userData = { email: "yuanke@admin.com", password: "yuanke@123" };
     await store.dispatch(login(userData));
     const state = store.getState().auth as AuthState;
 
@@ -44,6 +44,6 @@ describe("get user", () => {
     expect(state.isLoading).toEqual(false);
     expect(state.isSuccess).toEqual(true);
     expect(state.status).toEqual("success");
-    expect(state.user?.name.firstname).toEqual(mockUsers[0].name.firstname);
+    expect(state.user?.name).toEqual(mockUsers[0].name);
   });
 });

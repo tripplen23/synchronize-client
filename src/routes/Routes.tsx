@@ -1,6 +1,14 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import { Cart, Catalog, Home, Product, AdminDashboard, Login } from "../pages";
+import {
+  Cart,
+  Catalog,
+  Home,
+  Product,
+  AdminDashboard,
+  Login,
+  Register,
+} from "../pages";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +25,12 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+
+      // Register
+      {
+        path: "register",
+        element: <Register />,
       },
 
       // Admin: Should be set as a private route

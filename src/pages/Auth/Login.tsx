@@ -26,8 +26,8 @@ const Login = () => {
 
   const onSubmit = async (data: any) => {
     setLoading(true);
-    const { username, password } = data;
-    await dispatch(login({ username, password })).then((resultAction: any) => {
+    const { email, password } = data;
+    await dispatch(login({ email, password })).then((resultAction: any) => {
       // Specify the type of 'resultAction' as 'any'
       setLoading(false);
       if (login.fulfilled.match(resultAction)) {
@@ -56,9 +56,9 @@ const Login = () => {
             <div className="mb-6">
               <label
                 className="block text-sm font-medium text-gray-700"
-                htmlFor="username"
+                htmlFor="email"
               >
-                Username
+                Email
               </label>
               <motion.input
                 initial={{ opacity: 0, x: -20 }}
@@ -66,10 +66,10 @@ const Login = () => {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="input-field w-full p-2"
                 type="text"
-                placeholder="Enter your username"
-                {...register("username", { required: true })}
+                placeholder="Enter your email"
+                {...register("email", { required: true })}
               />
-              {errors.username && (
+              {errors.email && (
                 <p className="text-red-500 text-xs mt-1">
                   This field is required
                 </p>
@@ -112,7 +112,7 @@ const Login = () => {
             </div>
           </form>
           <div className="text-center mt-4">
-            <Link to="/register" className="text-blue-500 hover:underline">
+            <Link to="/Register" className="text-blue-500 hover:underline">
               Register an account
             </Link>
           </div>

@@ -1,13 +1,14 @@
-export interface UserDetailsType {
-  id?: number;
-  email: string;
-  username?: string;
-  password?: string;
-  name: {
-    firstname: string;
-    lastname: string;
-  };
+import { UUID } from "crypto";
 
+export interface UserDetailsType {
+  id: UUID;
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string;
+  userRole: string; // User Role is enum between Customer and Admin
+
+  /*
   address?: {
     city: string;
     number: string;
@@ -18,9 +19,18 @@ export interface UserDetailsType {
     };
   };
   phone?: string;
+  */
 }
 
 export interface LoginType {
-  username: string;
+  email: string;
   password: string;
+}
+
+export interface RegisterType {
+  UserName: string;
+  UserEmail: string;
+  UserPassword: string;
+  UserRole: "customer";
+  UserAvatar?: string;
 }

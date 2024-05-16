@@ -3,6 +3,7 @@ import { LoginType, UserDetailsType } from "../../../misc/authType";
 import authService from "./authService";
 import { STATUS } from "../../../constants/Status";
 import axios from "axios";
+import { RegisterType } from "../../../misc/authType";
 
 export interface AuthState {
   user: UserDetailsType | null;
@@ -23,14 +24,40 @@ export const initialState: AuthState = {
   error: null,
   status: "",
 };
+// Async thunk for registration
+export const register = createAsyncThunk(
+  "auth/register",
+  async (userData: RegisterType, thunkAPI) => {
+    try {
+      return await authService.register({
+        UserName: userData.UserName,
+        UserEmail: userData.UserEmail,
+        UserPassword: userData.UserPassword,
+        UserAvatar: userData.UserAvatar,
+        UserRole: userData.UserRole,
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue({
+          message: error.message,
+          status: error.response?.status,
+        });
+      }
+      return thunkAPI.rejectWithValue({
+        message: "An error occurred",
+        status: 500,
+      });
+    }
+  }
+);
 
-// TODO: login
+// TODO: Async thunk for login
 export const login = createAsyncThunk(
   "auth/login",
   async (user: LoginType, thunkAPI) => {
     try {
       return await authService.login({
-        username: String(user.username),
+        email: String(user.email),
         password: String(user.password),
       });
     } catch (error) {
@@ -48,7 +75,7 @@ export const login = createAsyncThunk(
   }
 );
 
-// TODO: Get user
+// TODO: Async thunk for Get user
 export const getUser = createAsyncThunk(
   "auth/user",
   async (userId: number, thunkAPI) => {
@@ -60,7 +87,7 @@ export const getUser = createAsyncThunk(
   }
 );
 
-// TODO: Logout
+// TODO: Async thunk for Logout
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     return await authService.logout();
@@ -76,7 +103,36 @@ const authSlice = createSlice({
     authReset: () => initialState,
   },
   extraReducers: (builder) => {
-    
+    // TODO: Reducer's cases for registration
+    builder.addCase(register.pending, (state: AuthState) => {
+      return {
+        ...state,
+        isLoading: true,
+        status: STATUS.LOADING,
+      };
+    });
+    builder.addCase(
+      register.fulfilled,
+      (state: AuthState, action: PayloadAction<string>) => {
+        console.log("Register Action Payload: ", action.payload);
+        return {
+          ...state,
+          isLoading: false,
+          isSuccess: true,
+          data: action.payload,
+          status: STATUS.SUCCESS,
+        };
+      }
+    );
+    builder.addCase(register.rejected, (state: AuthState, action) => {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error.message ?? "error",
+        status: STATUS.ERROR,
+      };
+    });
+
     // TODO: Reducer's cases for login
     builder.addCase(login.pending, (state: AuthState) => {
       return {

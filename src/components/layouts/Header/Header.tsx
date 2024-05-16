@@ -3,6 +3,7 @@ import LogoComponent from "../../reusable/LogoComponent/LogoComponent";
 import { motion, AnimatePresence } from "framer-motion";
 import { MoonIcon, SunIcon } from "../../reusable/IconComponent/IconComponent";
 import useThemeSwitcher from "../../../hooks/useThemeSwitcher";
+import { FaRegRegistered } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
@@ -174,6 +175,14 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
                   className={iconStyles}
                 >
                   <IoMdLogIn />
+                </motion.a>{" "}
+                <motion.a
+                  href="/register"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={iconStyles}
+                >
+                  <FaRegRegistered />
                 </motion.a>
               </div>
             )}
@@ -294,6 +303,14 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
                     className="w-6 mx-3"
                   >
                     <IoMdLogIn />
+                  </motion.a>
+                  <motion.a
+                    href="/register"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="w-6 mx-3"
+                  >
+                    <FaRegRegistered />
                   </motion.a>
                 </div>
               )}
