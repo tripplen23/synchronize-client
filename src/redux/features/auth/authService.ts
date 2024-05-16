@@ -1,10 +1,15 @@
 import axiosConfig from "../../utils/axiosConfig";
 import { LoginType } from "../../../misc/authType";
 
-// DOCS: Login -> User login
+// Register
+const register = async (userData: LoginType) => {
+  const response = await axiosConfig.post("users", userData);
+
+  return response.data; // token
+};
+
 const login = async (userData: LoginType) => {
   const response = await axiosConfig.post("auth/login", userData);
-  console.log("login response data: ", response.data);
 
   if (response.data) {
     localStorage.setItem("userIdDemo", JSON.stringify(1));
@@ -13,10 +18,8 @@ const login = async (userData: LoginType) => {
   return response.data; // token
 };
 
-// DOCS: User -> Get a single
 const getUser = async (userId: number) => {
   const response = await axiosConfig.get(`users/${userId}`);
-  console.log("getUser response data: ", response.data);
 
   if (response.data) {
     localStorage.setItem("userDetails", JSON.stringify(response.data));
@@ -35,6 +38,7 @@ const authService = {
   getUser,
   logout,
   login,
+  register,
 };
 
 export default authService;

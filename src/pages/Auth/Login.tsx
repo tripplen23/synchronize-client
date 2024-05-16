@@ -1,12 +1,10 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import { getUser, login } from "../../redux/features/auth/authSlice";
 import { motion } from "framer-motion";
-import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
-import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
-import VanGoghImage from "../../assets/imgs/VanGoghImage.jpg"; // Import your Van Gogh image
+import VanGoghImage from "../../assets/imgs/VanGoghImage.jpg";
 
 const Login = () => {
   const { user, token } = useAppSelector((state) => state.auth);
@@ -17,6 +15,7 @@ const Login = () => {
   } = useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user === null && token) {
@@ -25,30 +24,25 @@ const Login = () => {
     }
   }, [token, user, dispatch]);
 
-  // TODO: Signin/Login handler
   const onSubmit = async (data: any) => {
-    console.log("Login data: ", data);
-    const username = data.username as string;
-    const password = data.password as string;
-
-    const resultAction = await dispatch(login({ username, password }));
-
-    if (login.fulfilled.match(resultAction)) {
-      // Login was successful, navigate to Home page
-      navigate("/");
-      console.log(user);
-    } else if (login.rejected.match(resultAction)) {
-      const error: any = resultAction.payload;
-      console.error(
-        `Login failed with status ${error.status}: ${error.message}`
-      );
-      // Handle the error as needed, e.g., show an error message to the user
-    }
+    setLoading(true);
+    const { username, password } = data;
+    await dispatch(login({ username, password })).then((resultAction: any) => {
+      // Specify the type of 'resultAction' as 'any'
+      setLoading(false);
+      if (login.fulfilled.match(resultAction)) {
+        navigate("/");
+      } else if (login.rejected.match(resultAction)) {
+        const error: any = resultAction.payload; // Specify the type of 'error' as 'any'
+        console.error(
+          `Login failed with status ${error.status}: ${error.message}`
+        );
+      }
+    });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden mt-6">
-      <TransitionEffect />
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{ backgroundImage: `url(${VanGoghImage})` }}
@@ -64,7 +58,7 @@ const Login = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="username"
               >
-                Username (For demo: johnd)
+                Username
               </label>
               <motion.input
                 initial={{ opacity: 0, x: -20 }}
@@ -87,7 +81,7 @@ const Login = () => {
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="password"
               >
-                Password (For demo: m38rmF$)
+                Password
               </label>
               <motion.input
                 initial={{ opacity: 0, x: -20 }}
@@ -109,13 +103,19 @@ const Login = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                disabled={loading}
                 className="bg-dark hover:bg-gray-800 text-white font-bold py-2 px-6 rounded-full focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Sign In
+                {loading ? "Signing In..." : "Sign In"}
               </motion.button>
             </div>
           </form>
+          <div className="text-center mt-4">
+            <Link to="/register" className="text-blue-500 hover:underline">
+              Register an account
+            </Link>
+          </div>
         </div>
       </div>
     </div>
