@@ -6,6 +6,11 @@ import {
   Home,
   Product,
   AdminDashboard,
+  AdminProduct,
+  AdminProfile,
+  AdminUser,
+  AdminOrder,
+  AdminReview,
   Login,
   Register,
 } from "../pages";
@@ -37,6 +42,28 @@ export const router = createBrowserRouter([
       {
         path: "admin",
         element: <AdminDashboard />,
+        children: [
+          {
+            path: "adminproduct",
+            element: <AdminProduct />,
+          },
+          {
+            path: "adminuser",
+            element: <AdminUser />,
+          },
+          {
+            path: "adminprofile",
+            element: <AdminProfile />,
+          },
+          {
+            path: "adminorder",
+            element: <AdminOrder />,
+          },
+          {
+            path: "adminreview",
+            element: <AdminReview />,
+          },
+        ],
       },
 
       // Catalog

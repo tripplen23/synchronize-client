@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useAppDispatch } from "../../redux/utils/hooks";
 import { register } from "../../redux/features/auth/authSlice";
-import { UserRole } from "../../misc/authType";
+import { UserRole } from "../../misc/enum";
 
 const Register = () => {
   const {

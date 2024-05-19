@@ -1,13 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { LoginType, UserDetailsType } from "../../../misc/authType";
+import {
+  UserCredential,
+  UserDetailsType,
+  RegisterType,
+} from "../../../misc/authType";
 import authService from "./authService";
 import { STATUS } from "../../../constants/Status";
 import axios from "axios";
-import { RegisterType } from "../../../misc/authType";
 
 export interface AuthState {
   user: UserDetailsType | null;
-  userId: 0;
   token: string;
   isLoading: boolean;
   isSuccess: boolean;
@@ -17,25 +19,18 @@ export interface AuthState {
 
 export const initialState: AuthState = {
   user: null,
-  userId: 0,
   token: "",
   isLoading: false,
   isSuccess: false,
   error: null,
   status: "",
 };
-// TODO: Async thunk for registration
+
 export const register = createAsyncThunk(
   "auth/register",
   async (userData: RegisterType, thunkAPI) => {
     try {
-      return await authService.register({
-        userName: userData.userName,
-        userEmail: userData.userEmail,
-        userPassword: userData.userPassword,
-        userRole: userData.userRole,
-        userAvatar: userData.userAvatar,
-      });
+      return await authService.register(userData);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue({
@@ -51,15 +46,11 @@ export const register = createAsyncThunk(
   }
 );
 
-// TODO: Async thunk for login
 export const login = createAsyncThunk(
   "auth/login",
-  async (user: LoginType, thunkAPI) => {
+  async (user: UserCredential, thunkAPI) => {
     try {
-      return await authService.login({
-        email: String(user.email),
-        password: String(user.password),
-      });
+      return await authService.login(user);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue({
@@ -75,7 +66,6 @@ export const login = createAsyncThunk(
   }
 );
 
-// TODO: Async thunk for Get user profile
 export const getAuthProfile = createAsyncThunk(
   "auth/getAuthProfile",
   async (_, thunkAPI) => {
@@ -87,10 +77,9 @@ export const getAuthProfile = createAsyncThunk(
   }
 );
 
-// TODO: Async thunk for Logout
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
-    return await authService.logout();
+    authService.logout();
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -103,115 +92,73 @@ const authSlice = createSlice({
     authReset: () => initialState,
   },
   extraReducers: (builder) => {
-    // TODO: Reducer's cases for registration
-    builder.addCase(register.pending, (state: AuthState) => {
-      return {
-        ...state,
-        isLoading: true,
-        status: STATUS.LOADING,
-      };
+    builder.addCase(register.pending, (state) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
     });
     builder.addCase(
       register.fulfilled,
-      (state: AuthState, action: PayloadAction<string>) => {
-        console.log("Register Action Payload: ", action.payload);
-        return {
-          ...state,
-          isLoading: false,
-          isSuccess: true,
-          data: action.payload,
-          status: STATUS.SUCCESS,
-        };
+      (state, action: PayloadAction<UserDetailsType>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        state.status = STATUS.SUCCESS;
       }
     );
-    builder.addCase(register.rejected, (state: AuthState, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error.message ?? "error",
-        status: STATUS.ERROR,
-      };
+    builder.addCase(register.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Error";
+      state.status = STATUS.ERROR;
     });
 
-    // TODO: Reducer's cases for login
-    builder.addCase(login.pending, (state: AuthState) => {
-      return {
-        ...state,
-        isLoading: true,
-        status: STATUS.LOADING,
-      };
+    builder.addCase(login.pending, (state) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
     });
-    builder.addCase(
-      login.fulfilled,
-      (state: AuthState, action: PayloadAction<string>) => {
-        localStorage.setItem("loginToken", JSON.stringify(action.payload));
-        // Dispatch getAuthProfile after login
-        return {
-          ...state,
-          isLoading: false,
-          isSuccess: true,
-          token: action.payload,
-          status: STATUS.SUCCESS,
-        };
-      }
-    );
-    builder.addCase(login.rejected, (state: AuthState, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error.message ?? "error",
-        status: STATUS.ERROR,
-      };
+    builder.addCase(login.fulfilled, (state, action: PayloadAction<string>) => {
+      localStorage.setItem("loginToken", JSON.stringify(action.payload));
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.token = action.payload;
+      state.status = STATUS.SUCCESS;
+    });
+    builder.addCase(login.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Error";
+      state.status = STATUS.ERROR;
     });
 
-    // TODO: Reducer's cases for getAuthProfile
-    builder.addCase(getAuthProfile.pending, (state: AuthState) => {
-      return {
-        ...state,
-        isLoading: true,
-        status: STATUS.LOADING,
-      };
+    builder.addCase(getAuthProfile.pending, (state) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
     });
     builder.addCase(
       getAuthProfile.fulfilled,
-      (state: AuthState, action: PayloadAction<UserDetailsType>) => {
-        console.log("Get Auth Profile Action Payload: ", action.payload);
-        return {
-          ...state,
-          isLoading: false,
-          isSuccess: true,
-          user: action.payload,
-          status: STATUS.SUCCESS,
-        };
+      (state, action: PayloadAction<UserDetailsType>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+        state.status = STATUS.SUCCESS;
       }
     );
-    builder.addCase(getAuthProfile.rejected, (state: AuthState, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error.message ?? "error",
-        user: null,
-        status: STATUS.ERROR,
-      };
+    builder.addCase(getAuthProfile.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Error";
+      state.user = null;
+      state.status = STATUS.ERROR;
     });
 
-    // TODO: Reducer's cases for logout
-    builder.addCase(logout.fulfilled, (state: AuthState) => {
-      return {
-        ...state,
-        isLoading: false,
-        isSuccess: true,
-        user: null,
-        status: STATUS.SUCCESS,
-      };
+    builder.addCase(logout.fulfilled, (state) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.user = null;
+      state.token = "";
+      state.status = STATUS.SUCCESS;
     });
-    builder.addCase(logout.rejected, (state: AuthState, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error.message ?? "error",
-        status: STATUS.ERROR,
-      };
+    builder.addCase(logout.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message || "Error";
+      state.status = STATUS.ERROR;
     });
   },
 });

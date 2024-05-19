@@ -1,19 +1,24 @@
 import newAxiosConfig from "../../utils/newAxiosConfig";
-import { LoginType, RegisterType } from "../../../misc/authType";
+import {
+  UserCredential,
+  RegisterType,
+  UserDetailsType,
+} from "../../../misc/authType";
 
-const register = async (userData: RegisterType) => {
+const register = async (userData: RegisterType): Promise<UserDetailsType> => {
   try {
-    const response = await newAxiosConfig.post("users", userData);
+    const response = await newAxiosConfig.post("/users", userData);
     return response.data;
   } catch (error) {
     console.error("Error during registration request:", error);
     throw error;
   }
 };
-const login = async (userData: LoginType) => {
+
+const login = async (userData: UserCredential): Promise<string> => {
   try {
-    const response = await newAxiosConfig.post("auth/login", userData);
-    var userToken = response.data;
+    const response = await newAxiosConfig.post("/auth/login", userData);
+    const userToken = response.data;
     return userToken;
   } catch (error) {
     console.error("Error during login request:", error);
@@ -21,9 +26,9 @@ const login = async (userData: LoginType) => {
   }
 };
 
-const getAuthProfile = async () => {
+const getAuthProfile = async (): Promise<UserDetailsType> => {
   try {
-    const response = await newAxiosConfig.get("auth/profile");
+    const response = await newAxiosConfig.get("/auth/profile");
     return response.data;
   } catch (error) {
     console.error("Error during getAuthProfile request:", error);
@@ -31,7 +36,7 @@ const getAuthProfile = async () => {
   }
 };
 
-const logout = () => {
+const logout = (): void => {
   localStorage.removeItem("loginToken");
   localStorage.removeItem("authDetails");
   localStorage.removeItem("userIdDemo");

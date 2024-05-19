@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import productReducer from "../features/product/productSlice";
 import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/cart/cartSlice";
+import categoryReducer from "../features/category/categorySlice";
 import slideReducer from "../features/slider/sliderSlice";
 
 // TODO: Store all the states
@@ -9,8 +10,9 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     cart: cartReducer,
+    category: categoryReducer,
     product: productReducer,
-    slider: slideReducer
+    slider: slideReducer,
   },
 });
 

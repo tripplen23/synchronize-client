@@ -1,5 +1,6 @@
 import { ModifiedProductType } from "../../../misc/productType";
 import axiosConfig from "../../utils/axiosConfig";
+import newAxiosConfig from "../../utils/newAxiosConfig";
 
 // TODO: CRUD
 

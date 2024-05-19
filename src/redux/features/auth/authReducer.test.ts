@@ -6,7 +6,7 @@ import {
   initialState,
 } from "./authSlice";
 import authService from "./authService";
-import { LoginType } from "../../../misc/authType";
+import { UserCredential } from "../../../misc/authType";
 import { authMSW } from "../../../shared/authMSW";
 import { mockUsers } from "../../../data/mockUsers";
 import { useAppSelector } from "../../utils/hooks";
