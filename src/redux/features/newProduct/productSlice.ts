@@ -273,6 +273,29 @@ const productSlice = createSlice({
       state.error = action.error.message ?? "error";
       state.status = STATUS.ERROR;
     });
+
+    // sortProductsByPrice
+    builder.addCase(sortProductsByPrice.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      sortProductsByPrice.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType[]>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.products = action.payload;
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(
+      sortProductsByPrice.rejected,
+      (state: ProductState, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? "error";
+        state.status = STATUS.ERROR;
+      }
+    );
   },
 });
 
