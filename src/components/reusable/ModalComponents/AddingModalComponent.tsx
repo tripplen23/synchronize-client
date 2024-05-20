@@ -1,153 +1,165 @@
 import React, { useState } from "react";
+import {
+  ProductCreateType,
+  ImageCreateType,
+} from "../../../misc/newProductType";
+import imageCompression from "browser-image-compression";
 import Modal from "react-modal";
-import ButtonComponent from "../ButtonComponent/ButtonComponent";
-import { categories } from "../../../data/categoryData";
-import { ProductCreateType } from "../../../misc/newProductType";
 
-interface AddingProductModalProps {
+interface AddingModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (productData: ProductCreateType) => void;
 }
 
-const AddingModalComponent: React.FC<AddingProductModalProps> = ({
+const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
   isOpen,
   onClose,
   onAdd,
 }) => {
-  const [formData, setFormData] = useState<ProductCreateType>({
-    productTitle: "",
-    productPrice: 0,
-    categoryId: "",
-    productDescription: "",
-    productImages: [],
-    productInventory: 0, // Add the productInventory property
-  });
+  const [productTitle, setProductTitle] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [productPrice, setProductPrice] = useState(0);
+  const [categoryId, setCategoryId] = useState("");
+  const [productInventory, setProductInventory] = useState(0);
+  const [productImages, setProductImages] = useState<ImageCreateType[]>([]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageUrl = reader.result as string;
-        setFormData((prevFormData) => ({ ...prevFormData, image: imageUrl }));
-      };
-      reader.readAsDataURL(file);
+    const files = event.target.files;
+    if (files) {
+      const convertedImages: ImageCreateType[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const compressedFile = await imageCompression(file, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 500,
+        });
+        const base64Image = await imageCompression.getDataUrlFromFile(
+          compressedFile
+        );
+        convertedImages.push({ imageData: base64Image });
+      }
+      setProductImages(convertedImages);
     }
   };
 
-  const handleAdd = () => {
-    onAdd(formData);
-    onClose();
+  const handleSubmit = () => {
+    const productData: ProductCreateType = {
+      productTitle,
+      productDescription,
+      productPrice,
+      categoryId,
+      productInventory,
+      productImages,
+    };
+    onAdd(productData);
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} ariaHideApp={false}>
-      <div className="max-w-md mx-auto bg-light rounded p-6">
-        <h2 className="text-xl font-semibold mb-4 ">Add Product</h2>
-        <form>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+    >
+      <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Add New Product
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="space-y-4"
+        >
           <div>
-            <div className="mb-4">
-              <label htmlFor="title" className="block text-gray-700">
-                Title:
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                required
-                className="w-full border rounded p-2"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="price" className="block text-gray-700">
-                Price:
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                required
-                className="w-full border rounded p-2"
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="category" className="block text-gray-700">
-                Category:
-              </label>
-              <select
-                id="category"
-                name="category"
-                required
-                className="w-full border rounded p-2"
-                value={formData.categoryId}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  handleInputChange(e)
-                }
-              >
-                {/* Map through categories to create options */}
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-gray-700">
-                Description:
-              </label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                required
-                className="w-full border rounded p-2"
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="image" className="block text-gray-700">
-                Image:
-              </label>
-              <input
-                type="file" // Change input type to file
-                id="image"
-                name="image"
-                accept="image/*" // Accept only image files
-                className="w-full border rounded p-2"
-                onChange={handleImageChange} // Call handleImageChange on change
-              />
-              {formData.productImages && (
-                <img
-                  src={formData.productImages.toString()} // Convert formData.productImage to a string
-                  alt="Selected"
-                  className="mt-2 rounded"
-                  style={{ maxWidth: "100%" }}
-                />
-              )}
-            </div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Title:
+            </label>
+            <input
+              type="text"
+              value={productTitle}
+              onChange={(e) => setProductTitle(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
           </div>
-
-          <div className="mt-4 flex space-x-2 justify-end">
-            <ButtonComponent type="button" onClick={handleAdd}>
-              Add Product
-            </ButtonComponent>
-            <ButtonComponent type="button" onClick={onClose}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Description:
+            </label>
+            <textarea
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Price:
+            </label>
+            <input
+              type="number"
+              value={productPrice}
+              onChange={(e) => setProductPrice(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Category ID:
+            </label>
+            <input
+              type="text"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Inventory:
+            </label>
+            <input
+              type="number"
+              value={productInventory}
+              onChange={(e) => setProductInventory(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Images:
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageUpload}
+              className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
               Cancel
-            </ButtonComponent>
+            </button>
+            <button
+              type="submit"
+              className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Add Product
+            </button>
           </div>
         </form>
       </div>
