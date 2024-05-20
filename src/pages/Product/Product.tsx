@@ -3,7 +3,7 @@ import GoToTopComponent from "../../components/reusable/GoToTopComponent/GoToTop
 import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getProductById } from "../../redux/features/product/productSlice";
+import { getProductById } from "../../redux/features/newProduct/productSlice";
 import { CartItemType } from "../../misc/cartType";
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import { sizeData } from "../../data/categoryData";
@@ -18,28 +18,27 @@ const Product = () => {
   const navigate = useNavigate();
 
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
-
+  /*
   const addToCartHandler = () => {
     setIsLoadingProduct(true);
     const cartProduct: CartItemType = {
       quantity: 1,
       product: {
-        id: Number(id),
+        id: product.id,
         title: product.title,
         price: product.price,
         image: product.image,
-        description: product.description,
-        category: product.category,
-        rating: product.rating,
+        
       },
     };
     dispatch(addToCart(cartProduct)).then(() => {
       setIsLoadingProduct(false);
     });
   };
+*/
 
   useEffect(() => {
-    dispatch(getProductById(Number(id)));
+    dispatch(getProductById(String(id)));
   }, [dispatch, id]);
 
   const routes = [
@@ -65,18 +64,20 @@ const Product = () => {
               {routes[1].name}
             </Link>
             <span>&gt;</span>
-            <p>{product.title}</p>
+            {product && <p>{product.productTitle}</p>}
           </div>
 
           {/* Product container */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left side */}
             <div className="relative">
-              <img
-                src={product.image}
-                alt={product.title}
-                className="w-full rounded-lg shadow-lg"
-              />
+              {product && (
+                <img
+                  src={product.productImage[0].toString()}
+                  alt={product.productTitle}
+                  className="w-full rounded-lg shadow-lg"
+                />
+              )}
               <div className="absolute top-4 left-4">
                 <button
                   onClick={() => navigate(-1)}
@@ -90,10 +91,10 @@ const Product = () => {
             {/* Right side */}
             <div>
               <h2 className="text-3xl smPhone:text-xl font-semibold mb-4">
-                {product.title}
+                {product?.productTitle}
               </h2>
               <p className="text-gray-800 dark:text-gray-500 mb-6 ipadMini:text-sm">
-                {product.description}
+                {product?.productDescription}
               </p>
               <div className="mb-6">
                 <h3 className="text-xl font-semibold mb-2">Size:</h3>
@@ -120,9 +121,10 @@ const Product = () => {
               <div className="flex items-center mb-6">
                 <h3 className="text-xl font-semibold mr-4">Price:</h3>
                 <p className="text-2xl font-bold text-primary">
-                  €{product.price}
+                  €{product?.productPrice}
                 </p>
               </div>
+              {/*
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => addToCartHandler()}
@@ -146,6 +148,7 @@ const Product = () => {
                   Continue Shopping
                 </Link>
               </div>
+                */}
             </div>
           </div>
         </div>

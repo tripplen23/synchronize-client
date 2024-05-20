@@ -4,7 +4,6 @@ import {
   CategoryCreateType,
   CategoryUpdateType,
 } from "../../../misc/categoryType";
-import { UUID } from "crypto";
 
 const getAllCategories = async (): Promise<CategoryReadType[]> => {
   try {
@@ -16,7 +15,9 @@ const getAllCategories = async (): Promise<CategoryReadType[]> => {
   }
 };
 
-const getCategoryById = async (categoryId: UUID): Promise<CategoryReadType> => {
+const getCategoryById = async (
+  categoryId: string
+): Promise<CategoryReadType> => {
   try {
     const response = await newAxiosConfig.get<CategoryReadType>(
       `categories/${categoryId}`
@@ -44,7 +45,7 @@ const createCategory = async (
 };
 
 const updateCategory = async (
-  categoryId: UUID,
+  categoryId: string,
   categoryData: CategoryUpdateType
 ): Promise<CategoryReadType> => {
   try {
@@ -59,7 +60,7 @@ const updateCategory = async (
   }
 };
 
-const deleteCategory = async (categoryId: UUID): Promise<boolean> => {
+const deleteCategory = async (categoryId: string): Promise<boolean> => {
   try {
     const response = await newAxiosConfig.delete<boolean>(
       `categories/${categoryId}`

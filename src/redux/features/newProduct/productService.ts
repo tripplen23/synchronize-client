@@ -1,4 +1,3 @@
-import { UUID } from "crypto";
 import newAxiosConfig from "../../utils/newAxiosConfig";
 import {
   ProductCreateType,
@@ -18,7 +17,7 @@ const getProducts = async (): Promise<ProductReadType[]> => {
 };
 
 // Get a single product
-const getProductById = async (productId: UUID): Promise<ProductReadType> => {
+const getProductById = async (productId: string): Promise<ProductReadType> => {
   try {
     const response = await newAxiosConfig.get<ProductReadType>(
       `products/${productId}`
@@ -32,7 +31,7 @@ const getProductById = async (productId: UUID): Promise<ProductReadType> => {
 
 // Get in category
 const getProductsByCategory = async (
-  categoryId: UUID
+  categoryId: string
 ): Promise<ProductReadType[]> => {
   try {
     const response = await newAxiosConfig.get<ProductReadType[]>(
@@ -65,7 +64,7 @@ const addNewProduct = async (
 };
 
 // Delete a product
-const deleteProduct = async (productId: UUID): Promise<boolean> => {
+const deleteProduct = async (productId: string): Promise<boolean> => {
   try {
     const response = await newAxiosConfig.delete(`products/${productId}`);
     return response.data;
@@ -77,7 +76,7 @@ const deleteProduct = async (productId: UUID): Promise<boolean> => {
 
 // Update a product
 const updateProduct = async (
-  productId: UUID,
+  productId: string,
   productData: ProductUpdateType
 ): Promise<ProductReadType> => {
   try {
@@ -91,8 +90,6 @@ const updateProduct = async (
     throw error;
   }
 };
-
-
 
 const productService = {
   getProducts,

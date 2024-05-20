@@ -1,9 +1,8 @@
-import { UUID } from "crypto";
 import { UserReadType } from "./userType";
 import { orderStatus } from "./enum";
 
 export interface OrderReadType {
-  id: UUID;
+  id: string;
   User: UserReadType;
   OrderProducts: OrderProductReadType[];
   ShippingInfo: ShippingInfoReadType;
@@ -18,30 +17,30 @@ export interface OrderCreateType {
 }
 
 export interface OrderUpdateStatusType {
-  orderId: UUID;
+  orderId: string;
   shippingInfo?: ShippingInfoUpdateType;
   orderStatus: orderStatus;
 }
 
 export interface OrderProductReadType {
-  productId: UUID;
+  productId: string;
   productTitle: string;
   productPrice: number;
   quantity: number;
 }
 
 export interface OrderProductCreateType {
-  productId: UUID;
+  productId: string;
   quantity: number;
 }
 
 export interface OrderProductUpdateType {
-  productId: UUID;
+  productId: string;
   quantity: number;
 }
 
 export interface ShippingInfoReadType {
-  id: UUID;
+  id: string;
   shippingAddress: string;
   shippingCity: string;
   shippingCountry: string;
@@ -58,7 +57,7 @@ export interface ShippingInfoCreateType {
 }
 
 export interface ShippingInfoUpdateType {
-  shippingInfoId: UUID;
+  shippingInfoId: string;
   shippingAddress?: string;
   shippingCity?: string;
   shippingCountry?: string;

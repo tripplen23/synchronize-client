@@ -6,7 +6,6 @@ import {
 } from "../../../misc/categoryType";
 import categoryService from "./categoryService";
 import { STATUS } from "../../../constants/Status";
-import { UUID } from "crypto";
 
 interface CategoryState {
   categories: CategoryReadType[];
@@ -40,9 +39,9 @@ export const getAllCategories = createAsyncThunk<CategoryReadType[], void>(
   }
 );
 
-export const getCategoryById = createAsyncThunk<CategoryReadType, UUID>(
+export const getCategoryById = createAsyncThunk<CategoryReadType, string>(
   "category/getCategoryById",
-  async (categoryId: UUID, thunkAPI) => {
+  async (categoryId: string, thunkAPI) => {
     try {
       return await categoryService.getCategoryById(categoryId);
     } catch (error: any) {
@@ -73,7 +72,7 @@ export const createCategory = createAsyncThunk<
 
 export const updateCategory = createAsyncThunk<
   CategoryReadType,
-  { categoryId: UUID; categoryData: CategoryUpdateType }
+  { categoryId: string; categoryData: CategoryUpdateType }
 >("category/updateCategory", async ({ categoryId, categoryData }, thunkAPI) => {
   try {
     return await categoryService.updateCategory(categoryId, categoryData);
@@ -85,9 +84,9 @@ export const updateCategory = createAsyncThunk<
   }
 });
 
-export const deleteCategory = createAsyncThunk<boolean, UUID>(
+export const deleteCategory = createAsyncThunk<boolean, string>(
   "category/deleteCategory",
-  async (categoryId: UUID, thunkAPI) => {
+  async (categoryId: string, thunkAPI) => {
     try {
       return await categoryService.deleteCategory(categoryId);
     } catch (error: any) {

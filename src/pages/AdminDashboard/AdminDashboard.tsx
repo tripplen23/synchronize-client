@@ -6,14 +6,14 @@ import {
   addNewProduct,
   deleteProduct,
   updateProduct,
-} from "../../redux/features/product/productSlice";
-import { ModifiedProductType, ProductType } from "../../misc/productType";
+} from "../../redux/features/newProduct/productSlice";
 import AddingModalComponent from "../../components/reusable/ModalComponents/AddingModalComponent";
 import UpdatingModalComponent from "../../components/reusable/ModalComponents/UpdatingModalComponent";
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
 import { Link } from "react-router-dom";
 import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
+import { ProductCreateType, ProductReadType, ProductUpdateType } from "../../misc/newProductType";
 
 const AdminDashboard = () => {
   const { products, isLoading } = useAppSelector((state) => state.product);
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isAddingModalOpen, setIsAddingModalOpen] = useState(false);
   const [isUpdatingModalOpen, setIsUpdatingModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+  const [selectedProduct, setSelectedProduct] = useState<ProductReadType | null>(
     null
   );
 
@@ -40,17 +40,17 @@ const AdminDashboard = () => {
   }, [dispatch]);
 
   // TODO: Handler for adding / updating / deleting products
-  const handleAdd = (productData: ModifiedProductType) => {
+  const handleAdd = (productData: ProductCreateType) => {
     dispatch(addNewProduct(productData));
     setIsAddingModalOpen(false);
   };
 
-  const handleUpdateClick = (product: ProductType) => {
+  const handleUpdateClick = (product: ProductReadType) => {
     setSelectedProduct(product);
     setIsUpdatingModalOpen(true);
   };
 
-  const handleUpdate = (updatedProductData: ProductType) => {
+  const handleUpdate = (updatedProductData: ProductUpdateType) => {
     if (selectedProduct) {
       dispatch(
         updateProduct({
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
     setIsUpdatingModalOpen(false);
   };
 
-  const handleDelete = (productId: number) => {
+  const handleDelete = (productId: string) => {
     dispatch(deleteProduct(productId));
   };
 
@@ -137,17 +137,17 @@ const AdminDashboard = () => {
                     </td>
                     <td className="px-4 py-3 text-primary underline">
                       <Link to={`/products/${String(product.id)}`}>
-                        {product.title}
+                        {product.productTitle}
                       </Link>
                     </td>
                     <td className="px-4 py-3 text-dark dark:text-light">
-                      {product.category}
+                      {product.category.categoryName}
                     </td>
                     <td className="px-4 py-3 text-dark dark:text-light">
-                      {product.description}
+                      {product.productDescription}
                     </td>
                     <td className="px-4 py-3 text-dark dark:text-light">
-                      {product.price}
+                      {product.productPrice}
                     </td>
                     <td className="px-4 py-3">
                       <span

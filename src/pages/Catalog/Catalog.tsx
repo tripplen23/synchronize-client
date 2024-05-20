@@ -6,7 +6,6 @@ import {
   sortProductsByPrice,
 } from "../../redux/features/product/productSlice";
 import ProductCardComponent from "../../components/reusable/ProductCardComponent/ProductCardComponent";
-import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
 import { ROUTES } from "../../constants/Route";
 import { useNavigate, useParams } from "react-router-dom";
 import { categoryData } from "../../data/categoryData";
@@ -111,11 +110,13 @@ const Catalog = () => {
             id={product.id}
             key={index}
             productKey={index}
-            title={product.title}
-            price={product.price}
+            productTitle={product.productTitle}
+            productPrice={product.productPrice}
             category={product.category}
-            image={product.image}
-            rating={product.rating}
+            productImage={product.productImage}
+            productInventory={product.productInventory}
+            productDescription={product.productDescription}
+            categoryId={product.categoryId} // Add categoryId prop
           />
         ))}
       </div>

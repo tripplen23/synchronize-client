@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductType, Rating } from "../../../misc/productType";
+import { ProductReadType } from "../../../misc/newProductType";
 import { useAppDispatch } from "../../../redux/utils/hooks";
 import { CartItemType } from "../../../misc/cartType";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
@@ -9,19 +9,20 @@ import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 import { CgShoppingBag } from "react-icons/cg";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
-interface ProductCardComponentProps extends ProductType {
+interface ProductCardComponentProps extends ProductReadType {
   productKey: number;
 }
 
 const ProductCardComponent: FC<ProductCardComponentProps> = ({
   id,
   productKey,
-  title,
-  price,
-  description,
+  productTitle,
+  productPrice,
+  productDescription,
   category,
-  image,
-  rating,
+  productImage,
+  productInventory,
+  // productRating
 }) => {
   const dispatch = useAppDispatch();
   const [isLoadingProduct, setIsLoadingProduct] = useState<boolean>(false);
@@ -29,6 +30,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
   const addToCartHandler = () => {
     setIsLoadingProduct(true);
 
+    /*
     const cartProduct: CartItemType = {
       quantity: 1,
       product: {
@@ -45,8 +47,10 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
     dispatch(addToCart(cartProduct)).then(() => {
       setIsLoadingProduct(false);
     });
+    */
   };
 
+  /*
   const renderRatingStars = (rating: Rating) => {
     const stars = [];
     const fullStars = Math.floor(rating.rate);
@@ -70,12 +74,12 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
 
     return stars;
   };
-
+  */
   return (
     <motion.div
-      id={title}
+      id={productTitle}
       key={productKey}
-      tabIndex={id}
+      tabIndex={parseInt(id)}
       transition={{
         ease: "easeInOut",
         duration: 0.4,
@@ -89,8 +93,8 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
           <div className="w-full h-64 relative">
             <img
               className="object-contain w-full h-full rounded-3xl"
-              src={image}
-              alt={title}
+              src={String(productImage)}
+              alt={productTitle}
             />
           </div>
         </Link>
@@ -99,19 +103,21 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
       {/* Product Details */}
       <div className="px-6 py-4 flex flex-col items-center">
         <div className="font-bold text-xl mb-2 text-gray-800 dark:text-white xl:h-10">
-          {title}
+          {productTitle}
         </div>
+        {/*
         <div className="flex items-center mb-2 xl:mt-[8rem]">
           {rating && renderRatingStars(rating)}
         </div>
+        */}
         <p className="text-gray-700 text-base mb-2 dark:text-gray-300">
-          {description}
+          {productDescription}
         </p>
         <p className="text-gray-700 text-base mb-2 dark:text-gray-300">
-          Category: {category}
+          Category: {category.categoryName}
         </p>
         <p className="text-gray-900 font-bold text-xl mb-2 dark:text-gray-100">
-          €{price}
+          €{productPrice}
         </p>
       </div>
 

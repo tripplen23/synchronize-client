@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import { ModifiedProductType } from "../../../misc/productType";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { categories } from "../../../data/categoryData";
+import { ProductCreateType } from "../../../misc/newProductType";
 
 interface AddingProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (productData: ModifiedProductType) => void;
+  onAdd: (productData: ProductCreateType) => void;
 }
 
 const AddingModalComponent: React.FC<AddingProductModalProps> = ({
@@ -15,12 +15,13 @@ const AddingModalComponent: React.FC<AddingProductModalProps> = ({
   onClose,
   onAdd,
 }) => {
-  const [formData, setFormData] = useState<ModifiedProductType>({
-    title: "",
-    price: 0,
-    category: "",
-    description: "",
-    image: "",
+  const [formData, setFormData] = useState<ProductCreateType>({
+    productTitle: "",
+    productPrice: 0,
+    categoryId: "",
+    productDescription: "",
+    productImage: [],
+    productInventory: 0, // Add the productInventory property
   });
 
   const handleInputChange = (
@@ -89,7 +90,7 @@ const AddingModalComponent: React.FC<AddingProductModalProps> = ({
                 name="category"
                 required
                 className="w-full border rounded p-2"
-                value={formData.category}
+                value={formData.categoryId}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   handleInputChange(e)
                 }
@@ -129,9 +130,9 @@ const AddingModalComponent: React.FC<AddingProductModalProps> = ({
                 className="w-full border rounded p-2"
                 onChange={handleImageChange} // Call handleImageChange on change
               />
-              {formData.image && (
+              {formData.productImage && (
                 <img
-                  src={formData.image}
+                  src={formData.productImage.toString()} // Convert formData.productImage to a string
                   alt="Selected"
                   className="mt-2 rounded"
                   style={{ maxWidth: "100%" }}

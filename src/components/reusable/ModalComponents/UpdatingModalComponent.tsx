@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { ProductType } from "../../../misc/productType";
+
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { categories } from "../../../data/categoryData";
+import { ProductReadType, ProductUpdateType } from "../../../misc/newProductType";
 
 interface UpdatingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (productData: ProductType) => void;
-  product: ProductType;
+  onUpdate: (productData: ProductUpdateType) => void;
+  product: ProductReadType;
 }
 
 const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
@@ -17,7 +18,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
   onUpdate,
   product,
 }) => {
-  const [formData, setFormData] = useState<ProductType>(product);
+  const [formData, setFormData] = useState<ProductReadType>(product);
 
   useEffect(() => {
     // Reset form data when the product prop changes
@@ -30,7 +31,14 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
   };
 
   const handleUpdate = () => {
-    onUpdate(formData);
+    const updatedProduct: ProductUpdateType = {
+      ...formData,
+      productImage: formData.productImage.map((image) => ({
+        ...image,
+        imageId: image.id || "",
+      })),
+    };
+    onUpdate(updatedProduct);
     onClose();
   };
 
@@ -50,7 +58,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="title"
                 required
                 className="w-full border rounded p-2"
-                value={formData.title}
+                value={formData.productTitle}
                 onChange={handleInputChange}
               />
             </div>
@@ -64,7 +72,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="price"
                 required
                 className="w-full border rounded p-2"
-                value={formData.price}
+                value={formData.productPrice}
                 onChange={handleInputChange}
               />
             </div>
@@ -78,7 +86,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="category"
                 required
                 className="w-full border rounded p-2"
-                value={formData.category}
+                value={formData.category.categoryName}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   handleInputChange(e)
                 }
@@ -102,7 +110,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="description"
                 required
                 className="w-full border rounded p-2"
-                value={formData.description}
+                value={formData.productDescription}
                 onChange={handleInputChange}
               />
             </div>
@@ -117,7 +125,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="image"
                 required
                 className="w-full border rounded p-2"
-                value={formData.image}
+                value={formData.productImage[0].toString()}
                 onChange={handleInputChange}
               />
             </div>

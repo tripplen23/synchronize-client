@@ -1,8 +1,7 @@
-import { UUID } from "crypto";
 import { UserRole } from "./enum";
 
 export interface UserReadType {
-  id: UUID;
+  id: string;
   userName: string;
   userEmail: string;
   userAvatar?: string;

@@ -1,9 +1,8 @@
-import { UUID } from "crypto";
 import { UserReadType } from "./userType";
 
 export interface CartReadType {
-  id: UUID;
-  userId: UUID;
+  id: string;
+  userId: string;
   user: UserReadType;
   cartItems: CartItemReadType[];
 }
@@ -13,24 +12,24 @@ export interface CategoryCreateType {
 }
 
 export interface CategoryUpdateType {
-  cartId: UUID;
+  cartId: string;
   cartItems: CartItemUpdateType[];
 }
 
 export interface CartItemReadType {
-  cartId: UUID;
-  productId: UUID;
+  cartId: string;
+  productId: string;
   productTitle: string;
   productPrice: number;
   quantity: number;
 }
 
 export interface CartItemCreateType {
-  productId: UUID;
+  productId: string;
   quantity: number;
 }
 
 export interface CartItemUpdateType {
-  productId: UUID;
+  productId: string;
   quantity: number;
 }

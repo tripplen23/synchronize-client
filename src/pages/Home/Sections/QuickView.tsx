@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import {
-  getCategory,
+  getProductsByCategory,
   getProducts,
-} from "../../../redux/features/product/productSlice";
+} from "../../../redux/features/newProduct/productSlice";
 import { ROUTES } from "../../../constants/Route";
 import { categoryData } from "../../../data/categoryData";
 import { Link } from "react-router-dom";
@@ -29,7 +29,7 @@ const QuickView = () => {
       const pathUrl = ROUTES.filter((item) => {
         return item.name.toLowerCase() === target.value.toLowerCase();
       });
-      dispatch(getCategory(pathUrl[0].url.toLowerCase()));
+      dispatch(getProductsByCategory(pathUrl[0].url.toLowerCase()));
     } else {
       dispatch(getProducts());
     }
@@ -84,11 +84,13 @@ const QuickView = () => {
               key={product.id}
               productKey={index}
               id={product.id}
-              title={product.title}
-              price={product.price}
+              productTitle={product.productTitle}
+              productPrice={product.productPrice}
               category={product.category}
-              image={product.image}
-              rating={product.rating}
+              productImage={product.productImage}
+              productDescription={product.productDescription} // Add productDescription prop
+              productInventory={product.productInventory} // Add productInventory prop
+              categoryId={product.categoryId} // Add categoryId prop
             />
           ))}
         </div>

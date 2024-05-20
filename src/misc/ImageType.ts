@@ -1,7 +1,5 @@
-import { UUID } from "crypto";
-
 export interface ImageReadType {
-  id: UUID;
+  id: string;
   imageData: string;
 }
 
@@ -10,6 +8,6 @@ export interface ImageCreateType {
 }
 
 export interface ImageUpdateType {
-  imageId: UUID;
+  imageId: string;
   imageData: string;
 }

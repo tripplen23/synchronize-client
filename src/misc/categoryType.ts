@@ -1,7 +1,5 @@
-import { UUID } from "crypto";
-
 export interface CategoryReadType {
-  categoryId: UUID;
+  categoryId: string;
   categoryName: string;
   categoryImage: string;
 }

@@ -1,4 +1,3 @@
-import { randomUUID, UUID } from "crypto";
 import {
   ProductCreateType,
   ProductReadType,
@@ -42,9 +41,9 @@ export const getProducts = createAsyncThunk<ProductReadType[], void>(
 );
 
 // Get Product By Id
-export const getProductById = createAsyncThunk<ProductReadType, UUID>(
+export const getProductById = createAsyncThunk<ProductReadType, string>(
   "product/getProductById",
-  async (productId: UUID, thunkAPI) => {
+  async (productId: string, thunkAPI) => {
     try {
       return await productService.getProductById(productId);
     } catch (error: any) {
@@ -57,9 +56,9 @@ export const getProductById = createAsyncThunk<ProductReadType, UUID>(
 );
 
 // Get Products By Category
-export const getProductsByCategory = createAsyncThunk<ProductReadType[], UUID>(
+export const getProductsByCategory = createAsyncThunk<ProductReadType[], string>(
   "product/getProductsByCategory",
-  async (categoryId: UUID, thunkAPI) => {
+  async (categoryId: string, thunkAPI) => {
     try {
       return await productService.getProductsByCategory(categoryId);
     } catch (error: any) {
@@ -72,9 +71,9 @@ export const getProductsByCategory = createAsyncThunk<ProductReadType[], UUID>(
 );
 
 // Delete Product
-export const deleteProduct = createAsyncThunk<boolean, UUID>(
+export const deleteProduct = createAsyncThunk<boolean, string>(
   "product/deleteProduct",
-  async (productId: UUID, thunkAPI) => {
+  async (productId: string, thunkAPI) => {
     try {
       return await productService.deleteProduct(productId);
     } catch (error: any) {
@@ -104,7 +103,7 @@ export const addNewProduct = createAsyncThunk<
 // Update Product
 export const updateProduct = createAsyncThunk<
   ProductReadType,
-  { productId: UUID; productData: ProductUpdateType }
+  { productId: string; productData: ProductUpdateType }
 >("product/updateProduct", async ({ productId, productData }, thunkAPI) => {
   try {
     return await productService.updateProduct(productId, productData);
@@ -147,3 +146,137 @@ export const sortProductsByPrice = createAsyncThunk(
     }
   }
 );
+
+const productSlice = createSlice({
+  name: "product",
+  initialState,
+  reducers: {
+    resetProduct: (state) => initialState,
+  },
+  extraReducers: (builder) => {
+    // getAllProducts
+    builder.addCase(getProducts.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      getProducts.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType[]>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.products = action.payload;
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(getProducts.rejected, (state: ProductState, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "error";
+      state.status = STATUS.ERROR;
+    });
+
+    // getProductById
+    builder.addCase(getProductById.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      getProductById.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.product = action.payload;
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(getProductById.rejected, (state: ProductState, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "error";
+      state.status = STATUS.ERROR;
+    });
+
+    // getProductsByCategory
+    builder.addCase(getProductsByCategory.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      getProductsByCategory.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType[]>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.products = action.payload;
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(
+      getProductsByCategory.rejected,
+      (state: ProductState, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? "error";
+        state.status = STATUS.ERROR;
+      }
+    );
+
+    // deleteProduct
+    builder.addCase(deleteProduct.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(deleteProduct.fulfilled, (state: ProductState) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.status = STATUS.SUCCESS;
+    });
+    builder.addCase(deleteProduct.rejected, (state: ProductState, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "error";
+      state.status = STATUS.ERROR;
+    });
+
+    // addNewProduct
+    builder.addCase(addNewProduct.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      addNewProduct.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.products.push(action.payload);
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(addNewProduct.rejected, (state: ProductState, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "error";
+      state.status = STATUS.ERROR;
+    });
+
+    // updateProduct
+    builder.addCase(updateProduct.pending, (state: ProductState) => {
+      state.isLoading = true;
+      state.status = STATUS.LOADING;
+    });
+    builder.addCase(
+      updateProduct.fulfilled,
+      (state: ProductState, action: PayloadAction<ProductReadType>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.product = action.payload;
+        state.status = STATUS.SUCCESS;
+      }
+    );
+    builder.addCase(updateProduct.rejected, (state: ProductState, action) => {
+      state.isLoading = false;
+      state.error = action.error.message ?? "error";
+      state.status = STATUS.ERROR;
+    });
+  },
+});
+
+const productReducer = productSlice.reducer;
+
+export const { resetProduct } = productSlice.actions;
+
+export default productReducer;
