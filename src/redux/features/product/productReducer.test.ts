@@ -131,14 +131,14 @@ describe("Add a new product(fulfilled)", () => {
       productDescription: "Merchandise",
       categoryId: "123456",
       productInventory: 0,
-      productImage: [],
+      productImages: [],
     };
 
     const modifiedProduct: ModifiedProductType = {
       category: createdProduct.categoryId,
       title: createdProduct.productTitle,
       price: createdProduct.productPrice,
-      image: createdProduct.productImage[0].toString(), // Convert array to string
+      image: createdProduct.productImages[0].toString(), // Convert array to string
       description: createdProduct.productDescription,
     };
 

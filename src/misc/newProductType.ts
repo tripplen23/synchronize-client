@@ -1,5 +1,4 @@
 import { CategoryReadType } from "./categoryType";
-import { ImageReadType, ImageUpdateType } from "./ImageType";
 
 export interface ProductReadType {
   id: string;
@@ -7,7 +6,7 @@ export interface ProductReadType {
   productDescription: string;
   productPrice: number;
   productInventory: number;
-  productImage: ImageReadType[];
+  productImages: ImageReadType[];
   categoryId: string;
   category: CategoryReadType;
 }
@@ -18,7 +17,7 @@ export interface ProductCreateType {
   productPrice: number;
   categoryId: string;
   productInventory: number;
-  productImage: ImageReadType[];
+  productImages: ImageCreateType[];
 }
 
 export interface ProductUpdateType {
@@ -28,5 +27,19 @@ export interface ProductUpdateType {
   productPrice?: number;
   categoryId?: string;
   productInventory?: number;
-  productImage?: ImageUpdateType[];
+  productImages?: ImageUpdateType[];
+}
+
+export interface ImageReadType {
+  id: string;
+  imageData: string;
+}
+
+export interface ImageCreateType {
+  imageData: string;
+}
+
+export interface ImageUpdateType {
+  imageId: string;
+  imageData: string;
 }

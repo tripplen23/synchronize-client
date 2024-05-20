@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductReadType } from "../../../misc/newProductType";
+import { ProductReadType, ImageReadType } from "../../../misc/newProductType";
 import { useAppDispatch } from "../../../redux/utils/hooks";
 import { CartItemType } from "../../../misc/cartType";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 import { CgShoppingBag } from "react-icons/cg";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import getImageData from "../../../helpers/getImageData";
 
 interface ProductCardComponentProps extends ProductReadType {
   productKey: number;
@@ -20,7 +21,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
   productPrice,
   productDescription,
   category,
-  productImage,
+  productImages,
   productInventory,
   // productRating
 }) => {
@@ -35,12 +36,13 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
       quantity: 1,
       product: {
         id: id,
-        title: title,
-        price: price,
-        image: image,
-        description: description,
+        productTitle: productTitle,
+        productPrice: productPrice,
+        productImage: productImage,
+        productDescription: productDescription,
         category: category,
-        rating: rating,
+        productInventory: productInventory,
+        categoryId: category.categoryId,
       },
     };
 
@@ -48,6 +50,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
       setIsLoadingProduct(false);
     });
     */
+    setIsLoadingProduct(false);
   };
 
   /*
@@ -75,6 +78,9 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
     return stars;
   };
   */
+
+  const imageData = getImageData(productImages);
+
   return (
     <motion.div
       id={productTitle}
@@ -93,7 +99,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
           <div className="w-full h-64 relative">
             <img
               className="object-contain w-full h-full rounded-3xl"
-              src={String(productImage)}
+              src={imageData}
               alt={productTitle}
             />
           </div>

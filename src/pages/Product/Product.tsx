@@ -10,6 +10,7 @@ import { sizeData } from "../../data/categoryData";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaOpencart } from "react-icons/fa";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
+import getImageData from "../../helpers/getImageData";
 
 const Product = () => {
   const { product, isLoading } = useAppSelector((state) => state.product);
@@ -18,6 +19,7 @@ const Product = () => {
   const navigate = useNavigate();
 
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
+
   /*
   const addToCartHandler = () => {
     setIsLoadingProduct(true);
@@ -46,6 +48,8 @@ const Product = () => {
     { name: "Products", route: "/catalog/" },
   ];
 
+  const imageData = getImageData(product?.productImages);
+
   return (
     <>
       <TransitionEffect />
@@ -73,7 +77,7 @@ const Product = () => {
             <div className="relative">
               {product && (
                 <img
-                  src={product.productImage[0].toString()}
+                  src={imageData}
                   alt={product.productTitle}
                   className="w-full rounded-lg shadow-lg"
                 />

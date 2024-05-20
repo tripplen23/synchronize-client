@@ -56,19 +56,19 @@ export const getProductById = createAsyncThunk<ProductReadType, string>(
 );
 
 // Get Products By Category
-export const getProductsByCategory = createAsyncThunk<ProductReadType[], string>(
-  "product/getProductsByCategory",
-  async (categoryId: string, thunkAPI) => {
-    try {
-      return await productService.getProductsByCategory(categoryId);
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-        message: error.message,
-        status: error.response?.status,
-      });
-    }
+export const getProductsByCategory = createAsyncThunk<
+  ProductReadType[],
+  string
+>("product/getProductsByCategory", async (categoryId: string, thunkAPI) => {
+  try {
+    return await productService.getProductsByCategory(categoryId);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({
+      message: error.message,
+      status: error.response?.status,
+    });
   }
-);
+});
 
 // Delete Product
 export const deleteProduct = createAsyncThunk<boolean, string>(
@@ -202,6 +202,7 @@ const productSlice = createSlice({
     builder.addCase(
       getProductsByCategory.fulfilled,
       (state: ProductState, action: PayloadAction<ProductReadType[]>) => {
+        console.log("Get Products By Category: ", action);
         state.isLoading = false;
         state.isSuccess = true;
         state.products = action.payload;

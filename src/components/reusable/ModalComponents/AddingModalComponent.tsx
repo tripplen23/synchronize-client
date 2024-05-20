@@ -20,7 +20,7 @@ const AddingModalComponent: React.FC<AddingProductModalProps> = ({
     productPrice: 0,
     categoryId: "",
     productDescription: "",
-    productImage: [],
+    productImages: [],
     productInventory: 0, // Add the productInventory property
   });
 
@@ -130,9 +130,9 @@ const AddingModalComponent: React.FC<AddingProductModalProps> = ({
                 className="w-full border rounded p-2"
                 onChange={handleImageChange} // Call handleImageChange on change
               />
-              {formData.productImage && (
+              {formData.productImages && (
                 <img
-                  src={formData.productImage.toString()} // Convert formData.productImage to a string
+                  src={formData.productImages.toString()} // Convert formData.productImage to a string
                   alt="Selected"
                   className="mt-2 rounded"
                   style={{ maxWidth: "100%" }}

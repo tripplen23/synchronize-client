@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import {
-  getCategory,
+  getProductsByCategory,
   getProducts,
   sortProductsByPrice,
-} from "../../redux/features/product/productSlice";
+} from "../../redux/features/newProduct/productSlice";
 import ProductCardComponent from "../../components/reusable/ProductCardComponent/ProductCardComponent";
 import { ROUTES } from "../../constants/Route";
 import { useNavigate, useParams } from "react-router-dom";
@@ -38,16 +38,16 @@ const Catalog = () => {
 
     setCurrentPage(1); // Reset page to 1 when switching categories
 
-    const category = [
-      ...categoryData.filter((item) => {
-        return item.name === id?.toString();
-      }),
-    ];
-    if (category[0].value !== "all") {
-      const pathUrl = ROUTES.filter((item) => {
-        return item.name.toLowerCase() === category[0].value.toLowerCase();
-      });
-      dispatch(getCategory(pathUrl[0].url.toLowerCase()));
+    const category = categoryData.find(
+      (item) => item.name.toLowerCase() === id?.toLowerCase()
+    );
+    if (category && category.value !== "all") {
+      const pathUrl = ROUTES.find(
+        (item) => item.name.toLowerCase() === category.value.toLowerCase()
+      );
+      if (pathUrl) {
+        dispatch(getProductsByCategory(pathUrl.url.toLowerCase()));
+      }
     } else {
       dispatch(getProducts());
     }
@@ -113,7 +113,7 @@ const Catalog = () => {
             productTitle={product.productTitle}
             productPrice={product.productPrice}
             category={product.category}
-            productImage={product.productImage}
+            productImages={product.productImages}
             productInventory={product.productInventory}
             productDescription={product.productDescription}
             categoryId={product.categoryId} // Add categoryId prop

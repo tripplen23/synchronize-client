@@ -87,7 +87,7 @@ const QuickView = () => {
               productTitle={product.productTitle}
               productPrice={product.productPrice}
               category={product.category}
-              productImage={product.productImage}
+              productImages={product.productImages}
               productDescription={product.productDescription} // Add productDescription prop
               productInventory={product.productInventory} // Add productInventory prop
               categoryId={product.categoryId} // Add categoryId prop

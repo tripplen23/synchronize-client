@@ -33,7 +33,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
   const handleUpdate = () => {
     const updatedProduct: ProductUpdateType = {
       ...formData,
-      productImage: formData.productImage.map((image) => ({
+      productImages: formData.productImages.map((image) => ({
         ...image,
         imageId: image.id || "",
       })),
@@ -86,7 +86,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="category"
                 required
                 className="w-full border rounded p-2"
-                value={formData.category.categoryName}
+                value={formData.category.categoryId}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                   handleInputChange(e)
                 }
@@ -125,7 +125,7 @@ const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
                 name="image"
                 required
                 className="w-full border rounded p-2"
-                value={formData.productImage[0].toString()}
+                value={formData.productImages[0].toString()}
                 onChange={handleInputChange}
               />
             </div>
