@@ -149,7 +149,7 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
             {isAuthenticated === true ? (
               <div className="flex">
                 <motion.a
-                  href="/admin"
+                  href="/admin/adminprofile"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.9 }}
                   className={iconStyles}
@@ -278,7 +278,7 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
               {isAuthenticated === true ? (
                 <div className="flex">
                   <motion.a
-                    href="/admin"
+                    href="/admin/adminprofile"
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.9 }}
                     className="w-6 mx-3 sm:mx-1"

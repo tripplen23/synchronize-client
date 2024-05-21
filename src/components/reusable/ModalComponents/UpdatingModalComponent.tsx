@@ -1,143 +1,139 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import { ProductUpdateType, ProductReadType } from "../../../misc/newProductType";
 
-import ButtonComponent from "../ButtonComponent/ButtonComponent";
-import { categories } from "../../../data/categoryData";
-import { ProductReadType, ProductUpdateType } from "../../../misc/newProductType";
-
-interface UpdatingModalProps {
+interface UpdatingModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
-  onUpdate: (productData: ProductUpdateType) => void;
+  onUpdate: (updatedProductData: ProductUpdateType) => void;
   product: ProductReadType;
 }
 
-const UpdatingModalComponent: React.FC<UpdatingModalProps> = ({
+const UpdatingModalComponent: React.FC<UpdatingModalComponentProps> = ({
   isOpen,
   onClose,
   onUpdate,
   product,
 }) => {
-  const [formData, setFormData] = useState<ProductReadType>(product);
+  const [productTitle, setProductTitle] = useState(product.productTitle);
+  const [productDescription, setProductDescription] = useState(product.productDescription);
+  const [productPrice, setProductPrice] = useState(product.productPrice);
+  const [categoryId, setCategoryId] = useState(product.categoryId);
+  const [productInventory, setProductInventory] = useState(product.productInventory);
 
   useEffect(() => {
-    // Reset form data when the product prop changes
-    setFormData(product);
+    if (product) {
+      setProductTitle(product.productTitle);
+      setProductDescription(product.productDescription);
+      setProductPrice(product.productPrice);
+      setCategoryId(product.categoryId);
+      setProductInventory(product.productInventory);
+    }
   }, [product]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const handleUpdate = () => {
-    const updatedProduct: ProductUpdateType = {
-      ...formData,
-      productImages: formData.productImages.map((image) => ({
-        ...image,
-        imageId: image.id || "",
-      })),
+  const handleSubmit = () => {
+    const updatedProductData: ProductUpdateType = {
+      id: product.id,
+      productTitle,
+      productDescription,
+      productPrice,
+      categoryId,
+      productInventory,
     };
-    onUpdate(updatedProduct);
-    onClose();
+    onUpdate(updatedProductData);
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onClose} ariaHideApp={false}>
-      <div className="max-w-md mx-auto bg-light rounded p-6">
-        <h2 className="text-xl font-semibold mb-4 ">Update Product</h2>
-        <form>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onClose}
+      className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+    >
+      <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Update Product
+        </h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="space-y-4"
+        >
           <div>
-            <div className="mb-4">
-              <label htmlFor="title" className="block text-gray-700">
-                Title:
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                required
-                className="w-full border rounded p-2"
-                value={formData.productTitle}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="price" className="block text-gray-700">
-                Price:
-              </label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                required
-                className="w-full border rounded p-2"
-                value={formData.productPrice}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="category" className="block text-gray-700">
-                Category:
-              </label>
-              <select
-                id="category"
-                name="category"
-                required
-                className="w-full border rounded p-2"
-                value={formData.category.categoryId}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  handleInputChange(e)
-                }
-              >
-                {/* Map through categories to create options */}
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="description" className="block text-gray-700">
-                Description:
-              </label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                required
-                className="w-full border rounded p-2"
-                value={formData.productDescription}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="image" className="block text-gray-700">
-                Image:
-              </label>
-              <input
-                type="text"
-                id="image"
-                name="image"
-                required
-                className="w-full border rounded p-2"
-                value={formData.productImages[0].toString()}
-                onChange={handleInputChange}
-              />
-            </div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Title:
+            </label>
+            <input
+              type="text"
+              value={productTitle}
+              onChange={(e) => setProductTitle(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
           </div>
-
-          <div className="mt-4 flex space-x-2 justify-end">
-            <ButtonComponent type="button" onClick={handleUpdate}>
-              Update Product
-            </ButtonComponent>
-            <ButtonComponent type="button" onClick={onClose}>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Description:
+            </label>
+            <textarea
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Price:
+            </label>
+            <input
+              type="number"
+              value={productPrice}
+              onChange={(e) => setProductPrice(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Category ID:
+            </label>
+            <input
+              type="text"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Inventory:
+            </label>
+            <input
+              type="number"
+              value={productInventory}
+              onChange={(e) => setProductInventory(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+            />
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
               Cancel
-            </ButtonComponent>
+            </button>
+            <button
+              type="submit"
+              className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Update Product
+            </button>
           </div>
         </form>
       </div>

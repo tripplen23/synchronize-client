@@ -27,7 +27,6 @@ export interface ProductUpdateType {
   productPrice?: number;
   categoryId?: string;
   productInventory?: number;
-  productImages?: ImageUpdateType[];
 }
 
 export interface ImageReadType {
@@ -36,10 +35,5 @@ export interface ImageReadType {
 }
 
 export interface ImageCreateType {
-  imageData: string;
-}
-
-export interface ImageUpdateType {
-  imageId: string;
   imageData: string;
 }
