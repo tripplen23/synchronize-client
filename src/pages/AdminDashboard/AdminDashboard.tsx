@@ -145,7 +145,13 @@ const AdminDashboard = () => {
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                   >
                     <td className="px-4 py-4">{product.id}</td>
-                    <td className="px-4 py-4">{product.productTitle}</td>
+                    <td className="px-4 py-4">
+                      <Link to={`/products/${String(product.id)}`}>
+                        <div className="hover:underline">
+                          {product.productTitle}
+                        </div>
+                      </Link>
+                    </td>
                     <td className="px-4 py-4">{product.productDescription}</td>
                     <td className="px-4 py-4">{product.productPrice}</td>
                     <td className="px-4 py-4">{product.categoryId}</td>
