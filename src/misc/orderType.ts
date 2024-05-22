@@ -9,6 +9,8 @@ export interface OrderReadType {
   shippingInfo: ShippingInfoReadType;
   totalPrice: number;
   orderStatus: orderStatus;
+  createdDate?: Date;
+  updatedDate?: Date;
 }
 
 export interface OrderCreateType {

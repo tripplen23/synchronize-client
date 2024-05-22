@@ -100,6 +100,21 @@ export const deleteOrder = createAsyncThunk<boolean, string>(
   }
 );
 
+// getOrdersByUserId
+export const getOrdersByUserId = createAsyncThunk<OrderReadType[], string>(
+  "orders/getOrdersByUserId",
+  async (userId: string, thunkAPI) => {
+    try {
+      return await orderService.getOrdersByUserId(userId);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({
+        message: error.message,
+        status: error.response?.status,
+      });
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -202,6 +217,27 @@ const orderSlice = createSlice({
         state.status = STATUS.SUCCESS;
       })
       .addCase(deleteOrder.rejected, (state: OrderState, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? "error";
+        state.status = STATUS.ERROR;
+      });
+
+    // getOrdersByUserId
+    builder
+      .addCase(getOrdersByUserId.pending, (state: OrderState) => {
+        state.isLoading = true;
+        state.error = STATUS.LOADING;
+      })
+      .addCase(
+        getOrdersByUserId.fulfilled,
+        (state: OrderState, action: PayloadAction<OrderReadType[]>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.orders = action.payload;
+          state.status = STATUS.SUCCESS;
+        }
+      )
+      .addCase(getOrdersByUserId.rejected, (state: OrderState, action) => {
         state.isLoading = false;
         state.error = action.error.message ?? "error";
         state.status = STATUS.ERROR;

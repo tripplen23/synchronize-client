@@ -6,7 +6,7 @@ export { default as Register } from "./Auth/Register";
 export { default as Product } from "./Product/Product";
 export { default as AdminDashboard } from "./AdminDashboard/AdminDashboard";
 export { default as AdminProduct } from "./AdminDashboard/AdminOnly/AdminProduct";
-export { default as AdminProfile } from "./AdminDashboard/AdminOnly/AdminProfile";
+export { default as AdminProfile } from "./AdminDashboard/AdminOnly/AdminProfile/AdminProfile";
 export { default as AdminUser } from "./AdminDashboard/AdminOnly/AdminUser";
 export { default as AdminOrder } from "./AdminDashboard/AdminOnly/AdminOrder";
 export { default as AdminReview } from "./AdminDashboard/AdminOnly/AdminReview";
