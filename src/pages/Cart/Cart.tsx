@@ -8,20 +8,21 @@ import { MdArrowBack, MdCheck, MdDelete } from "react-icons/md";
 import { TbTruckReturn } from "react-icons/tb";
 import {
   cartReset,
+  deleteCart,
   increaseQuantity,
   decreaseQuantity,
   deleteItemFromCart,
-} from "../../redux/features/cart/cartSlice";
+} from "../../redux/features/newCart/cartSlice";
 import { motion } from "framer-motion";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 
 const Cart = () => {
-  const { cartItems } = useAppSelector((state) => state.cart);
+  const { cart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.quantity * item.product.price,
+  const totalPrice = cart?.cartItems.reduce(
+    (total, item) => total + item.quantity * item.product.productPrice,
     0
   );
 
@@ -29,7 +30,7 @@ const Cart = () => {
     <section className="section py-10 px-5">
       <TransitionEffect />
       <div className="mainContainer flex flex-col md:flex-row justify-around mx-auto max-w-7xl">
-        {cartItems.length ? (
+        {cart?.cartItems.length ? (
           <div className="content grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Cart left */}
             <div className="cartLeft space-y-8 mr-8">
@@ -45,7 +46,7 @@ const Cart = () => {
                 </h1>
               </div>
 
-              {cartItems.map((item) => (
+              {cart.cartItems.map((item) => (
                 <motion.div
                   transition={{
                     ease: "easeInOut",
@@ -59,22 +60,35 @@ const Cart = () => {
                   className="cartCardWrapper border rounded-lg overflow-hidden shadow-lg bg-white"
                 >
                   <Link
-                    to={`/products/${item.product.id}`}
+                    to={`/products/${item.product.id}}`}
                     className="cartCartContainer flex items-center gap-4 p-4"
                   >
                     <div className="w-1/6 flex-shrink-0">
-                      <img
-                        src={item.product.image}
-                        alt={item.product.title}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
+                      {item.product.productImages.length > 0 &&
+                      item.product.productImages[0] ? (
+                        <img
+                          src={item.product.productImages[0].imageData}
+                          alt={item.product.productTitle}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <div className="w-full h-full object-cover rounded-lg bg-gray-200">
+                          <img
+                            src="https://picsum.photos/200/?random=365"
+                            alt={item.product.productTitle}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className="flex flex-col flex-grow">
                       <h3 className="text-lg font-semibold text-gray-800 truncate">
-                        {item.product.title}
+                        {item.product.productTitle}
                       </h3>
                       <p className="text-gray-600">Size: 36</p>
-                      <p className="text-primary">€ {item.product.price}</p>
+                      <p className="text-primary">
+                        € {item.product.productPrice}
+                      </p>
                       <div className="return flex items-center text-gray-600">
                         <TbTruckReturn className="icon mr-1" />
                         <span>14 days return available</span>
@@ -90,7 +104,14 @@ const Cart = () => {
                     <div className="cartCardRightWrapper flex items-center gap-4">
                       <ButtonComponent
                         className="button"
-                        onClick={() => dispatch(decreaseQuantity(item.product.id))}
+                        onClick={() =>
+                          dispatch(
+                            decreaseQuantity({
+                              cartId: item.cartId,
+                              productId: item.product.id,
+                            })
+                          )
+                        }
                       >
                         -
                       </ButtonComponent>
@@ -99,7 +120,14 @@ const Cart = () => {
                       </div>
                       <ButtonComponent
                         className="button"
-                        onClick={() => dispatch(increaseQuantity(item.product.id))}
+                        onClick={() =>
+                          dispatch(
+                            increaseQuantity({
+                              cartId: item.cartId,
+                              productId: item.product.id,
+                            })
+                          )
+                        }
                       >
                         +
                       </ButtonComponent>
@@ -107,7 +135,12 @@ const Cart = () => {
                     <ButtonComponent
                       className="cartCardDelete"
                       onClick={() =>
-                        dispatch(deleteItemFromCart(item.product.id))
+                        dispatch(
+                          deleteItemFromCart({
+                            cartId: item.cartId,
+                            productId: item.product.id,
+                          })
+                        )
                       }
                     >
                       <MdDelete className="icon" />
@@ -119,7 +152,7 @@ const Cart = () => {
               {/* Reset cart */}
               <div
                 className="emptyCart text-red-500 font-semibold cursor-pointer transition duration-300 ease-in-out transform hover:scale-105"
-                onClick={() => dispatch(cartReset())}
+                onClick={() => dispatch(deleteCart(cart.id))}
               >
                 Empty Cart
               </div>
@@ -149,7 +182,7 @@ const Cart = () => {
                 <h2 className="text-lg font-semibold mb-4">Price Details</h2>
                 <div className="priceContent flex justify-between">
                   <div className="title">Total price</div>
-                  <div className="price">€{totalPrice.toFixed(2)}</div>
+                  <div className="price">€{(totalPrice ?? 0).toFixed(2)}</div>
                 </div>
                 <div className="priceContent flex justify-between">
                   <div className="title">Shiping cost</div>
@@ -160,7 +193,7 @@ const Cart = () => {
                     Total Amount
                   </div>
                   <div className="price text-lg font-semibold">
-                    €{totalPrice.toFixed(2)}
+                    €{(totalPrice ?? 0).toFixed(2)}
                   </div>
                 </div>
                 <ButtonComponent className="button mt-6 w-full">

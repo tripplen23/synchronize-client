@@ -6,7 +6,8 @@ interface CartIconProps {
 }
 
 const CartIcon: React.FC<CartIconProps> = ({ handleShow }) => {
-  const { totalItems, status } = useAppSelector((state) => state.cart);
+  const { cart } = useAppSelector((state) => state.cart);
+  const totalItems = cart ? cart.cartItems.reduce((acc, item) => acc + item.quantity, 0) : 0;
   const [bump, setBump] = useState(false);
 
   useEffect(() => {

@@ -4,40 +4,47 @@ import SpinnerComponent from "../../components/reusable/SpinnerComponent/Spinner
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../redux/features/newProduct/productSlice";
-import { CartItemType } from "../../misc/cartType";
-import { addToCart } from "../../redux/features/cart/cartSlice";
+
+import { addToCart } from "../../redux/features/newCart/cartSlice";
 import { sizeData } from "../../data/categoryData";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaOpencart } from "react-icons/fa";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 import getImageData from "../../helpers/getImageData";
+import { CartItemCreateType } from "../../misc/newCartType";
 
 const Product = () => {
   const { product, isLoading } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { user } = useAppSelector((state) => state.auth);
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
 
-  /*
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
+    if (!user) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+
     setIsLoadingProduct(true);
-    const cartProduct: CartItemType = {
-      quantity: 1,
-      product: {
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        
-      },
-    };
-    dispatch(addToCart(cartProduct)).then(() => {
+    try {
+      await dispatch(
+        addToCart({
+          userId: user.id,
+          cartItem: {
+            productId: String(id),
+            quantity: 1,
+          } as CartItemCreateType,
+        })
+      ).unwrap();
+    } catch (error) {
+      console.log(error);
+    } finally {
       setIsLoadingProduct(false);
-    });
+    }
   };
-*/
 
   useEffect(() => {
     dispatch(getProductById(String(id)));
@@ -128,7 +135,7 @@ const Product = () => {
                   €{product?.productPrice}
                 </p>
               </div>
-              {/*
+
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => addToCartHandler()}
@@ -152,7 +159,6 @@ const Product = () => {
                   Continue Shopping
                 </Link>
               </div>
-                */}
             </div>
           </div>
         </div>

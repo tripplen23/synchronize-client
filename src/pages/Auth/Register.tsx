@@ -97,6 +97,7 @@ const Register = () => {
                 className="input-field w-full p-2"
               >
                 <option value={UserRole.Customer}>Customer</option>
+                <option value={UserRole.Admin}>Admin</option>
               </select>
               {errors.userRole && (
                 <p className="text-red-500 text-xs mt-1">

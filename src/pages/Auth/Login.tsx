@@ -38,7 +38,9 @@ const Login = () => {
         console.error(
           `Login failed with status ${error.status}: ${error.message}`
         );
-        alert("Login failed. Please check your credentials and try again.");
+        alert(
+          "Login failed. Please check your credentials and try again. If you don't have an account, feel free to register a new one!"
+        );
       }
     });
   };

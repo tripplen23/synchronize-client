@@ -1,3 +1,4 @@
+import { ProductReadType } from "./newProductType";
 import { UserReadType } from "./userType";
 
 export interface CartReadType {
@@ -18,9 +19,7 @@ export interface CartUpdateType {
 
 export interface CartItemReadType {
   cartId: string;
-  productId: string;
-  productTitle: string;
-  productPrice: number;
+  product: ProductReadType;
   quantity: number;
 }
 

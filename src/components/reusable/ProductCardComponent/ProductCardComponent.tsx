@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ProductReadType, ImageReadType } from "../../../misc/newProductType";
-import { useAppDispatch } from "../../../redux/utils/hooks";
-import { CartItemType } from "../../../misc/cartType";
-import { addToCart } from "../../../redux/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
+
+import { addToCart } from "../../../redux/features/newCart/cartSlice";
 import { motion } from "framer-motion";
 import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 import { CgShoppingBag } from "react-icons/cg";
@@ -26,31 +26,33 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
   // productRating
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { user } = useAppSelector((state) => state.auth);
   const [isLoadingProduct, setIsLoadingProduct] = useState<boolean>(false);
 
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
+    if (!user) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+
     setIsLoadingProduct(true);
-
-    /*
-    const cartProduct: CartItemType = {
-      quantity: 1,
-      product: {
-        id: id,
-        productTitle: productTitle,
-        productPrice: productPrice,
-        productImage: productImage,
-        productDescription: productDescription,
-        category: category,
-        productInventory: productInventory,
-        categoryId: category.categoryId,
-      },
-    };
-
-    dispatch(addToCart(cartProduct)).then(() => {
+    try {
+      await dispatch(
+        addToCart({
+          userId: user.id,
+          cartItem: {
+            productId: id,
+            quantity: 1,
+          },
+        })
+      ).unwrap();
+    } catch (error) {
+      console.error("Failed to add product to cart", error);
+    } finally {
       setIsLoadingProduct(false);
-    });
-    */
-    setIsLoadingProduct(false);
+    }
   };
 
   /*
@@ -116,9 +118,6 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
           {rating && renderRatingStars(rating)}
         </div>
         */}
-        <p className="text-gray-700 text-base mb-2 dark:text-gray-300">
-          {productDescription}
-        </p>
         <p className="text-gray-700 text-base mb-2 dark:text-gray-300">
           Category: {category.categoryName}
         </p>
