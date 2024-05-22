@@ -20,7 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(getAuthProfile())
+      dispatch(getAuthProfile());
       navigate("/");
     }
   }, [token, navigate, dispatch]);
@@ -38,6 +38,7 @@ const Login = () => {
         console.error(
           `Login failed with status ${error.status}: ${error.message}`
         );
+        alert("Login failed. Please check your credentials and try again.");
       }
     });
   };

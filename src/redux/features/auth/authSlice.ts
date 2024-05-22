@@ -7,10 +7,12 @@ import {
 import authService from "./authService";
 import { STATUS } from "../../../constants/Status";
 import axios from "axios";
+import { UserRole } from "../../../misc/enum";
 
 export interface AuthState {
   user: UserDetailsType | null;
   token: string;
+  userRole: UserRole | null;
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
@@ -20,6 +22,7 @@ export interface AuthState {
 export const initialState: AuthState = {
   user: null,
   token: "",
+  userRole: null,
   isLoading: false,
   isSuccess: false,
   error: null,
@@ -115,13 +118,18 @@ const authSlice = createSlice({
       state.isLoading = true;
       state.status = STATUS.LOADING;
     });
-    builder.addCase(login.fulfilled, (state, action: PayloadAction<string>) => {
-      localStorage.setItem("loginToken", JSON.stringify(action.payload));
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.token = action.payload;
-      state.status = STATUS.SUCCESS;
-    });
+    builder.addCase(
+      login.fulfilled,
+      (state, action: PayloadAction<{ token: string; userRole: UserRole }>) => {
+        localStorage.setItem("loginToken", action.payload.token);
+        localStorage.setItem("userRole", action.payload.userRole);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.token = action.payload.token;
+        state.userRole = action.payload.userRole;
+        state.status = STATUS.SUCCESS;
+      }
+    );
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error.message || "Error";

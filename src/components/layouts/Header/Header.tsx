@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
   const [mode, setMode] = useThemeSwitcher();
 
   // TODO: Authentication
-  const { user, token } = useAppSelector((state) => state.auth);
+  const { user, token, userRole } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -36,7 +36,6 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
   // TODO: Check if login token is present in local storage
   useEffect(() => {
     const loginToken = localStorage.getItem("loginToken");
-
     if (loginToken) {
       setIsAuthenticated(true);
     }
@@ -57,7 +56,6 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
 
   useEffect(() => {
     window.addEventListener("scroll", resizeHeaderOnScroll);
-
     return () => window.removeEventListener("scroll", resizeHeaderOnScroll);
   }, []);
 
@@ -145,17 +143,18 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
             >
               <CartIcon handleShow={handleShow} />
             </motion.div>
-            {/* If user is in the local storage, logout will be shown otherwise login and User*/}
-            {isAuthenticated === true ? (
+            {isAuthenticated ? (
               <div className="flex">
-                <motion.a
-                  href="/admin/adminprofile"
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={iconStyles}
-                >
-                  <SiSuperuser />
-                </motion.a>
+                {userRole === "Admin" && (
+                  <motion.a
+                    href="/admin/adminprofile"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={iconStyles}
+                  >
+                    <SiSuperuser />
+                  </motion.a>
+                )}
                 <motion.button
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.9 }}
@@ -274,17 +273,18 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
               >
                 <CartIcon handleShow={handleShow} />
               </motion.div>
-              {/* If user is in the local storage, logout will be shown otherwise login and User*/}
-              {isAuthenticated === true ? (
+              {isAuthenticated ? (
                 <div className="flex">
-                  <motion.a
-                    href="/admin/adminprofile"
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-6 mx-3 sm:mx-1"
-                  >
-                    <SiSuperuser />
-                  </motion.a>
+                  {userRole === "Admin" && (
+                    <motion.a
+                      href="/admin/adminprofile"
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="w-6 mx-3 sm:mx-1"
+                    >
+                      <SiSuperuser />
+                    </motion.a>
+                  )}
                   <motion.button
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.9 }}

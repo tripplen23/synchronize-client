@@ -202,7 +202,6 @@ const productSlice = createSlice({
     builder.addCase(
       getProductsByCategory.fulfilled,
       (state: ProductState, action: PayloadAction<ProductReadType[]>) => {
-        console.log("Get Products By Category: ", action);
         state.isLoading = false;
         state.isSuccess = true;
         state.products = action.payload;

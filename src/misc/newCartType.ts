@@ -7,11 +7,11 @@ export interface CartReadType {
   cartItems: CartItemReadType[];
 }
 
-export interface CategoryCreateType {
+export interface CartCreateType {
   cartItems: CartItemCreateType[];
 }
 
-export interface CategoryUpdateType {
+export interface CartUpdateType {
   cartId: string;
   cartItems: CartItemUpdateType[];
 }

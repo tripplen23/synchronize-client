@@ -4,6 +4,7 @@ import {
   RegisterType,
   UserDetailsType,
 } from "../../../misc/authType";
+import { UserRole } from "../../../misc/enum";
 
 const register = async (userData: RegisterType): Promise<UserDetailsType> => {
   try {
@@ -15,11 +16,15 @@ const register = async (userData: RegisterType): Promise<UserDetailsType> => {
   }
 };
 
-const login = async (userData: UserCredential): Promise<string> => {
+const login = async (
+  userData: UserCredential
+): Promise<{ token: string; userRole: UserRole }> => {
   try {
     const response = await newAxiosConfig.post("/auth/login", userData);
-    const userToken = response.data;
-    return userToken;
+    const { token, userRole } = response.data;
+    localStorage.setItem("loginToken", token);
+    localStorage.setItem("userRole", userRole);
+    return { token, userRole };
   } catch (error) {
     console.error("Error during login request:", error);
     throw error;

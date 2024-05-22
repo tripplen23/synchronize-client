@@ -3,11 +3,9 @@ import { HttpResponse, http } from "msw";
 import { setupServer } from "msw/node";
 
 import { ModifiedProductType, ProductType } from "../misc/productType";
-import { mockProducts, mockJewelryProducts } from "../data/mockProducts";
+import { mockProducts } from "../data/mockProducts";
 
 const productsUrl = "https://fakestoreapi.com/";
-const productsCategoryUrl1 =
-  "https://fakestoreapi.com/products/category/jewelery";
 
 export const handler = [
   http.get(productsUrl, () => {
