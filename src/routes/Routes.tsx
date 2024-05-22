@@ -13,6 +13,8 @@ import {
   AdminReview,
   Login,
   Register,
+  ConfirmOrder,
+  OrderSuccess
 } from "../pages";
 
 export const router = createBrowserRouter([
@@ -97,6 +99,21 @@ export const router = createBrowserRouter([
       {
         path: "*",
         element: <Navigate to="/" />,
+      },
+
+      // Order
+      {
+        path: "order",
+        children: [
+          {
+            path: "confirm",
+            element: <ConfirmOrder />,
+          },
+          {
+            path: "success",
+            element: <OrderSuccess />,
+          },
+        ],
       },
     ],
   },

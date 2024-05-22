@@ -14,7 +14,7 @@ export interface OrderReadType {
 export interface OrderCreateType {
   orderProducts: OrderProductCreateType[];
   shippingInfo: ShippingInfoCreateType;
-  orderStatus: orderStatus;
+  orderStatus?: orderStatus;
 }
 
 export interface OrderUpdateStatusType {

@@ -1,53 +1,77 @@
 import React from "react";
-import { useAppSelector } from "../../redux/utils/hooks";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useAppSelector, useAppDispatch } from "../../redux/utils/hooks";
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
+import { useNavigate } from "react-router-dom";
+import { ShippingInfoCreateType } from "../../misc/orderType";
 
 const CartRight: React.FC = () => {
   const { cart } = useAppSelector((state) => state.cart);
+  const { register, handleSubmit } = useForm<ShippingInfoCreateType>();
+  const navigate = useNavigate();
 
   const totalPrice = cart?.cartItems.reduce(
     (total, item) => total + item.quantity * item.product.productPrice,
     0
   );
 
+  const onSubmit: SubmitHandler<ShippingInfoCreateType> = (data) => {
+    // Store the shipping info in local storage or global state
+    // Navigate to the order confirmation page
+    localStorage.setItem("shippingInfo", JSON.stringify(data));
+    navigate("/order/confirm");
+  };
+
   return (
-    <div className="cartRight mt-16">
-      <div className="coupon bg-light border rounded-lg p-6 shadow-lg mb-5">
-        <h2 className="text-lg font-semibold mb-4 dark:text-dark">Coupons</h2>
-        <div className="couponContent flex items-center gap-4">
-          <div className="flex-grow">
-            <div className="relative mt-1">
-              <input
-                type="text"
-                className="block md:w-72 ipadMini:w-48 xl:w-96 surfaceDuo:w-48 py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:text-dark sm:text-sm"
-                placeholder="Enter coupon code"
-              />
-              <ButtonComponent className="button absolute top-0 right-10 ipadPro:right-0 h-full px-4 py-2">
-                Apply
-              </ButtonComponent>
-            </div>
+    <div className="flex justify-end">
+      <div className="cartRight mt-16">
+        <div className="bg-light border rounded-lg p-6 shadow-lg mb-5">
+          <h2 className="text-lg font-semibold mb-4 dark:text-dark">
+            Shipping Information
+          </h2>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-1 gap-4"
+          >
+            <input
+              {...register("shippingAddress", { required: true })}
+              placeholder="Address"
+              className="block w-full py-2 px-3 mb-2 border border-gray-300 rounded-md shadow-sm"
+            />
+            <input
+              {...register("shippingCity", { required: true })}
+              placeholder="City"
+              className="block w-full py-2 px-3 mb-2 border border-gray-300 rounded-md shadow-sm"
+            />
+            <input
+              {...register("shippingCountry", { required: true })}
+              placeholder="Country"
+              className="block w-full py-2 px-3 mb-2 border border-gray-300 rounded-md shadow-sm"
+            />
+            <input
+              {...register("shippingPostCode", { required: true })}
+              placeholder="Post Code"
+              className="block w-full py-2 px-3 mb-2 border border-gray-300 rounded-md shadow-sm"
+            />
+            <input
+              {...register("shippingPhone", { required: true })}
+              placeholder="Phone"
+              className="block w-full py-2 px-3 mb-2 border border-gray-300 rounded-md shadow-sm "
+            />
+            <ButtonComponent type="submit" className="self-end">
+              Place Order
+            </ButtonComponent>
+          </form>
+        </div>
+        <div className="total bg-light border rounded-lg p-6 shadow-lg">
+          <h2 className="text-lg font-semibold mb-4 dark:text-dark">
+            Order Summary
+          </h2>
+          <div className="flex justify-between mb-4">
+            <span>Total Price:</span>
+            <span>${totalPrice?.toFixed(2)}</span>
           </div>
         </div>
-      </div>
-      <div className="priceDetails bg-white border rounded-lg p-6 shadow-lg dark:text-dark">
-        <h2 className="text-lg font-semibold mb-4">Price Details</h2>
-        <div className="priceContent flex justify-between">
-          <div className="title">Total price</div>
-          <div className="price">€{(totalPrice ?? 0).toFixed(2)}</div>
-        </div>
-        <div className="priceContent flex justify-between">
-          <div className="title">Shipping cost</div>
-          <div className="price">FREE</div>
-        </div>
-        <div className="totalContent flex justify-between items-center mt-4">
-          <div className="title text-lg font-semibold">Total Amount</div>
-          <div className="price text-lg font-semibold">
-            €{(totalPrice ?? 0).toFixed(2)}
-          </div>
-        </div>
-        <ButtonComponent className="button mt-6 w-full">
-          Place Order
-        </ButtonComponent>
       </div>
     </div>
   );
