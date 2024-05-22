@@ -3,6 +3,7 @@ import productReducer from "../features/newProduct/productSlice";
 import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/newCart/cartSlice";
 import categoryReducer from "../features/category/categorySlice";
+import orderReducer from "../features/order/orderSlice";
 import slideReducer from "../features/slider/sliderSlice";
 
 // TODO: Store all the states
@@ -12,6 +13,7 @@ const store = configureStore({
     cart: cartReducer,
     category: categoryReducer,
     product: productReducer,
+    order: orderReducer,
     slider: slideReducer,
   },
 });

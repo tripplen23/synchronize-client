@@ -1,11 +1,12 @@
 import { UserReadType } from "./userType";
 import { orderStatus } from "./enum";
+import { ProductReadType } from "./newProductType";
 
 export interface OrderReadType {
   id: string;
   User: UserReadType;
-  OrderProducts: OrderProductReadType[];
-  ShippingInfo: ShippingInfoReadType;
+  orderProducts: OrderProductReadType[];
+  shippingInfo: ShippingInfoReadType;
   totalPrice: number;
   orderStatus: orderStatus;
 }
@@ -23,9 +24,7 @@ export interface OrderUpdateStatusType {
 }
 
 export interface OrderProductReadType {
-  productId: string;
-  productTitle: string;
-  productPrice: number;
+  product: ProductReadType;
   quantity: number;
 }
 
