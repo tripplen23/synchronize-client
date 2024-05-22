@@ -22,8 +22,6 @@ const login = async (
   try {
     const response = await newAxiosConfig.post("/auth/login", userData);
     const { token, userRole } = response.data;
-    localStorage.setItem("loginToken", token);
-    localStorage.setItem("userRole", userRole);
     return { token, userRole };
   } catch (error) {
     console.error("Error during login request:", error);
@@ -45,6 +43,7 @@ const logout = (): void => {
   localStorage.removeItem("loginToken");
   localStorage.removeItem("authDetails");
   localStorage.removeItem("userIdDemo");
+  localStorage.removeItem("userRole");
 };
 
 const authService = {
