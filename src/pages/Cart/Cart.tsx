@@ -7,7 +7,6 @@ import { MdArrowBack, MdCheck, MdDelete } from "react-icons/md";
 
 import { TbTruckReturn } from "react-icons/tb";
 import {
-  cartReset,
   deleteCart,
   increaseQuantity,
   decreaseQuantity,
