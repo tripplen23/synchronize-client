@@ -7,16 +7,16 @@ import {
   deleteProduct,
   updateProduct,
 } from "../../../redux/features/newProduct/productSlice";
-import AddingModalComponent from "../../../components/reusable/ModalComponents/AddingModalComponent";
-import UpdatingModalComponent from "../../../components/reusable/ModalComponents/UpdatingModalComponent";
+import AddingModalComponent from "../../../components/reusable/ModalComponents/AddingProductModalComponent";
+import UpdatingModalComponent from "../../../components/reusable/ModalComponents/UpdatingProductModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
-import SpinnerComponent from "../../../components/reusable/SpinnerComponent/SpinnerComponent";
 import {
   ProductCreateType,
   ProductReadType,
   ProductUpdateType,
 } from "../../../misc/newProductType";
 import { Link } from "react-router-dom";
+import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
 
 const AdminProduct = () => {
   const { products, isLoading } = useAppSelector((state) => state.product);
@@ -68,9 +68,7 @@ const AdminProduct = () => {
 
   return (
     <div className="bg-light dark:bg-dark p-8 rounded shadow">
-      {isLoading ? (
-        <SpinnerComponent />
-      ) : (
+      <TransitionEffect />
         <>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Product List</h2>
@@ -121,11 +119,15 @@ const AdminProduct = () => {
                   <td className="px-4 py-4">
                     <div className="flex space-x-2">
                       <ButtonComponent
+                        className="dark:bg-primary"
                         onClick={() => handleUpdateClick(product)}
                       >
                         Edit
                       </ButtonComponent>
-                      <ButtonComponent onClick={() => handleDelete(product.id)}>
+                      <ButtonComponent
+                        className="dark:bg-red-300"
+                        onClick={() => handleDelete(product.id)}
+                      >
                         Delete
                       </ButtonComponent>
                     </div>
@@ -134,7 +136,7 @@ const AdminProduct = () => {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-6 ">
             {Array.from({ length: totalPages }, (_, index) => (
               <button
                 key={index + 1}
@@ -142,7 +144,7 @@ const AdminProduct = () => {
                 className={`px-3 py-1 mx-1 ${
                   currentPage === index + 1
                     ? "bg-primary text-white"
-                    : "bg-gray-300"
+                    : "bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
                 }`}
               >
                 {index + 1}
@@ -150,7 +152,7 @@ const AdminProduct = () => {
             ))}
           </div>
         </>
-      )}
+
       <AddingModalComponent
         isOpen={isAddingModalOpen}
         onClose={() => setIsAddingModalOpen(false)}

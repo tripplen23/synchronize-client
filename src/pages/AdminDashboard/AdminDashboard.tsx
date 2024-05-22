@@ -21,9 +21,6 @@ const AdminDashboard = () => {
           <CustomLink to="/admin/adminuser" isActive={false}>
             Users
           </CustomLink>
-          <CustomLink to="/admin/adminreview" isActive={false}>
-            Reviews
-          </CustomLink>
         </div>
       </div>
       <Outlet />

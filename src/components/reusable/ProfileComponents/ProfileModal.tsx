@@ -15,15 +15,24 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
 
   const dispatch = useAppDispatch();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (user) {
-      dispatch(
-        updateUser({
-          userId: user.id,
-          userData: { userName, userEmail, userAvatar },
-        })
-      );
-      onClose();
+      try {
+        await dispatch(
+          updateUser({
+            userId: user.id,
+            userData: {
+              userName,
+              userEmail,
+              userAvatar,
+            },
+          })
+        );
+        onClose();
+      } catch (err) {
+        console.error(err);
+        alert("Failed to update profile");
+      }
     }
   };
 
@@ -33,40 +42,45 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
         isOpen ? "block" : "hidden"
       }`}
     >
-      <div className="bg-white p-8 rounded shadow-lg w-96">
-        <h2 className="text-2xl font-semibold mb-4">Manage Profile</h2>
+      <div className="bg-gray-800 p-8 rounded shadow-lg w-96">
+        <h2 className="text-2xl font-semibold text-white mb-4">
+          Manage Profile
+        </h2>
         <div className="mb-4">
-          <label className="block text-gray-700">Name</label>
+          <label className="block text-gray-300">Name</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-2 bg-gray-700 text-white border border-gray-300 rounded mt-1"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
+          <label className="block text-gray-300">Email</label>
           <input
             type="email"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-2 bg-gray-700 text-white border border-gray-300 rounded mt-1"
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700">Avatar URL</label>
+          <label className="block text-gray-300">Avatar URL</label>
           <input
             type="text"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full p-2 bg-gray-700 text-white border border-gray-300 rounded mt-1"
             value={userAvatar}
             onChange={(e) => setUserAvatar(e.target.value)}
           />
         </div>
         <div className="flex justify-end">
-          <button className="btn btn-secondary mr-2" onClick={onClose}>
+          <button
+            className="btn btn-secondary mr-2 text-white"
+            onClick={onClose}
+          >
             Cancel
           </button>
-          <button className="btn btn-primary" onClick={handleSave}>
+          <button className="btn btn-primary text-white" onClick={handleSave}>
             Save
           </button>
         </div>

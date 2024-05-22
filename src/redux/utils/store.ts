@@ -4,6 +4,7 @@ import authReducer from "../features/auth/authSlice";
 import cartReducer from "../features/newCart/cartSlice";
 import categoryReducer from "../features/category/categorySlice";
 import orderReducer from "../features/order/orderSlice";
+import userReducer from "../features/user/userSlice";
 import slideReducer from "../features/slider/sliderSlice";
 
 // TODO: Store all the states
@@ -15,6 +16,7 @@ const store = configureStore({
     product: productReducer,
     order: orderReducer,
     slider: slideReducer,
+    user: userReducer,
   },
 });
 
