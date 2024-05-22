@@ -6,15 +6,15 @@ const OrderSuccess: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="orderSuccess">
+    <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-semibold mb-4">
         Order Placed Successfully!
       </h2>
-      <p>
+      <p className="text-center">
         Your order has been placed successfully. You will receive a confirmation
         email shortly.
       </p>
-      <ButtonComponent onClick={() => navigate("/")}>
+      <ButtonComponent className="mt-4" onClick={() => navigate("/")}>
         Go to Home
       </ButtonComponent>
     </div>
