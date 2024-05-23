@@ -4,9 +4,7 @@ export enum UserRole {
 }
 
 export enum orderStatus {
-  Shipped = "shipped",
   Pending = "pending",
-  AwaitingPayment = "awaiting payment",
   Processing = "processing",
   Shipping = "shipping",
   Completed = "completed",
