@@ -72,45 +72,36 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
 
 ## User Interface
 
-1. Authentication:
-
+### 1. Authentication
 ![register](image/README/register.png)
 ![login](image/README/login.png)
 
-2. Home Page:
-
+### 2. Home Page
 ![home](image/README/home.png)
 
-3. Catalog Page:
-
+### 3. Catalog Page
 ![catalog](image/README/catalog.png)
 
-4. Single Product Page:
-
+### 4. Single Product Page
 ![product](image/README/product.png)
 
-5. Cart Page:
-
+### 5. Cart Page
 ![cartModal](image/README/cartModal.png)
 ![cart](image/README/cart.png)
 
-6. Order Page:
-
+### 6. Order Page
 ![confirmOrder](image/README/confirmOrder.png)
 ![orderSuccess](image/README/orderSuccess.png)
 
-7. Profile Page:
-
+### 7. Profile Page
 ![profile](image/README/profile.png)
 
-8. Admin Dashboard:
-
+### 8. Admin Dashboard
 ![adminProduct](image/README/adminProduct.png)
 ![adminOrder](image/README/adminOrder.png)
 ![adminUser](image/README/adminUser.png)
 
-9. Toasters:
-
+### 9. Toasters
 ![toast](image/README/toast.png)
 
 ## Project Structure
