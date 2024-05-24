@@ -22,7 +22,6 @@ const UpdatingUserModalComponent = ({
 }: UpdatingUserModalComponentProps) => {
   const [userName, setUserName] = useState(user?.userName || "");
   const [userEmail, setUserEmail] = useState(user?.userEmail || "");
-  const [userPassword, setUserPassword] = useState("");
   const [userRole, setUserRole] = useState<UserRole>(
     user?.userRole || UserRole.Customer
   );
@@ -37,34 +36,12 @@ const UpdatingUserModalComponent = ({
   }, [user]);
 
   const handleSave = () => {
-    const userData: UserUpdateType | UserCreateType = {
+    const userData: UserUpdateType = {
       userName,
       userEmail,
-      userPassword,
       userRole,
     };
     onSave(userData);
-  };
-
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (files) {
-      const convertedImages: ImageCreateType[] = [];
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const compressedFile = await imageCompression(file, {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 500,
-        });
-        const base64Image = await imageCompression.getDataUrlFromFile(
-          compressedFile
-        );
-        convertedImages.push({ imageData: base64Image });
-      }
-      setUserAvatar(convertedImages);
-    }
   };
 
   return (
@@ -95,17 +72,6 @@ const UpdatingUserModalComponent = ({
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
-        {!user && (
-          <div className="mb-4">
-            <label className="block mb-2">Password</label>
-            <input
-              type="password"
-              className="w-full border px-2 py-1"
-              value={userPassword}
-              onChange={(e) => setUserPassword(e.target.value)}
-            />
-          </div>
-        )}
         <div className="mb-4">
           <label className="block mb-2">Role</label>
           <select
@@ -120,9 +86,7 @@ const UpdatingUserModalComponent = ({
             ))}
           </select>
         </div>
-        <ButtonComponent onClick={handleSave}>
-          {user ? "Update" : "Create"}
-        </ButtonComponent>
+        <ButtonComponent onClick={handleSave}>Update</ButtonComponent>
       </div>
     </div>
   );
