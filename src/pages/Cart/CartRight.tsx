@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from "../../redux/utils/hooks";
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
 import { useNavigate } from "react-router-dom";
 import { ShippingInfoCreateType } from "../../misc/orderType";
+import { toast } from "react-toastify";
 
 const CartRight: React.FC = () => {
   const { cart } = useAppSelector((state) => state.cart);
@@ -16,10 +17,15 @@ const CartRight: React.FC = () => {
   );
 
   const onSubmit: SubmitHandler<ShippingInfoCreateType> = (data) => {
-    // Store the shipping info in local storage or global state
-    // Navigate to the order confirmation page
-    localStorage.setItem("shippingInfo", JSON.stringify(data));
-    navigate("/order/confirm");
+    try {
+      // Store the shipping info in local storage or global state
+      // Navigate to the order confirmation page
+      localStorage.setItem("shippingInfo", JSON.stringify(data));
+      navigate("/order/confirm");
+      toast.success("Let's go to the final stage of confirmation");
+    } catch (error) {
+      toast.error("Please fill in the form your shipping information.");
+    }
   };
 
   return (
