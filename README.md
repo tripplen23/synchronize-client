@@ -95,6 +95,10 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
 ![adminOrder](image/README/adminOrder.png)
 ![adminUser](image/README/adminUser.png)
 
+9. Toasters:
+
+![toast](image/README/toast.png)
+
 ## Project Structure
 
 ```sh
