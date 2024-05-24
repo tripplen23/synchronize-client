@@ -7,15 +7,16 @@ import { FaRegRegistered } from "react-icons/fa";
 import { IoMdLogIn } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { useNavigate } from "react-router";
-
+import { CiUser } from "react-icons/ci";
 import { SiSuperuser } from "react-icons/si";
 import CartIcon from "./CartIcon/CartIcon";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
-import { logout } from "../../../redux/features/auth/authSlice";
+import { logout, setUserRole } from "../../../redux/features/auth/authSlice";
 import {
   CustomButtonLink,
   CustomLink,
 } from "../../reusable/CustomNavComponents/CustomNavComponents";
+import { UserRole } from "../../../misc/enum";
 
 interface HeaderProps {
   handleShow: () => void;
@@ -33,13 +34,15 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
   const dispatch = useAppDispatch();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  // TODO: Check if login token is present in local storage
+  // TODO: Check if login token and userRole are present in local storage
   useEffect(() => {
     const loginToken = localStorage.getItem("loginToken");
-    if (loginToken) {
+    const storedUserRole = localStorage.getItem("userRole");
+    if (loginToken && storedUserRole) {
       setIsAuthenticated(true);
+      dispatch(setUserRole(storedUserRole as UserRole));
     }
-  }, [user, token]);
+  }, [user, token, dispatch]);
 
   const logoutHandler = async () => {
     await dispatch(logout());
@@ -153,6 +156,16 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
                     className={iconStyles}
                   >
                     <SiSuperuser />
+                  </motion.a>
+                )}
+                {userRole === "Customer" && (
+                  <motion.a
+                    href="/customer/customerprofile"
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.9 }}
+                    className={iconStyles}
+                  >
+                    <CiUser />
                   </motion.a>
                 )}
                 <motion.button
@@ -283,6 +296,16 @@ const Header: React.FC<HeaderProps> = ({ handleShow }) => {
                       className="w-6 mx-3 sm:mx-1"
                     >
                       <SiSuperuser />
+                    </motion.a>
+                  )}
+                  {userRole === "Customer" && (
+                    <motion.a
+                      href="/customer/customerprofile"
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={iconStyles}
+                    >
+                      <CiUser />
                     </motion.a>
                   )}
                   <motion.button

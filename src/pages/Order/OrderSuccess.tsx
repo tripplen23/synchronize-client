@@ -5,6 +5,11 @@ import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonCom
 const OrderSuccess: React.FC = () => {
   const navigate = useNavigate();
 
+  const handleGoToHome = () => {
+    localStorage.removeItem("shippingInfo");
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-semibold mb-4">
@@ -14,7 +19,7 @@ const OrderSuccess: React.FC = () => {
         Your order has been placed successfully. You will receive a confirmation
         email shortly.
       </p>
-      <ButtonComponent className="mt-4" onClick={() => navigate("/")}>
+      <ButtonComponent className="mt-4" onClick={handleGoToHome}>
         Go to Home
       </ButtonComponent>
     </div>

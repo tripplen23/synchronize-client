@@ -8,6 +8,7 @@ import authService from "./authService";
 import { STATUS } from "../../../constants/Status";
 import axios from "axios";
 import { UserRole } from "../../../misc/enum";
+import { getCartByUserId } from "../newCart/cartSlice";
 
 export interface AuthState {
   user: UserDetailsType | null;
@@ -53,7 +54,16 @@ export const login = createAsyncThunk(
   "auth/login",
   async (user: UserCredential, thunkAPI) => {
     try {
-      return await authService.login(user);
+      const response = await authService.login(user);
+      thunkAPI.dispatch(getAuthProfile()).then((resultAction) => {
+        if (getAuthProfile.fulfilled.match(resultAction)) {
+          const user = resultAction.payload;
+          if (user) {
+            thunkAPI.dispatch(getCartByUserId(user.id));
+          }
+        }
+      });
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue({
@@ -93,6 +103,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     authReset: () => initialState,
+    setUserRole: (state, action: PayloadAction<UserRole>) => {
+      state.userRole = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(register.pending, (state) => {
@@ -173,6 +186,6 @@ const authSlice = createSlice({
 
 const authReducer = authSlice.reducer;
 
-export const { authReset } = authSlice.actions;
+export const { authReset, setUserRole } = authSlice.actions;
 
 export default authReducer;

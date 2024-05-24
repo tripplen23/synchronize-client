@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../redux/utils/hooks";
-import { getAuthProfile } from "../../../../redux/features/auth/authSlice";
-import { getOrdersByUserId } from "../../../../redux/features/order/orderSlice";
-import SpinnerComponent from "../../../../components/reusable/SpinnerComponent/SpinnerComponent";
-import TransitionEffect from "../../../../components/reusable/TransitionEffect/TransitionEffect";
-import ProfileModal from "../../../../components/reusable/ProfileComponents/ProfileModal";
-import OrderHistoryTable from "../../../../components/reusable/ProfileComponents/OrderHistoryTable";
-import ButtonComponent from "../../../../components/reusable/ButtonComponent/ButtonComponent";
-const AdminProfile = () => {
+import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
+import { getAuthProfile } from "../../redux/features/auth/authSlice";
+import { getOrdersByUserId } from "../../redux/features/order/orderSlice";
+import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
+import ProfileModal from "../../components/reusable/ProfileComponents/ProfileModal";
+import OrderHistoryTable from "../../components/reusable/ProfileComponents/OrderHistoryTable";
+import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
+import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
+
+const CustomerProfile = () => {
   const { user, isLoading: authLoading } = useAppSelector(
     (state) => state.auth
   );
@@ -94,4 +95,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default CustomerProfile;

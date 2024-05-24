@@ -6,6 +6,8 @@ import {
 } from "../../../misc/userType";
 import { UserRole } from "../../../misc/enum";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
+import { ImageCreateType } from "../../../misc/newProductType";
+import imageCompression from "browser-image-compression";
 
 interface UpdatingUserModalComponentProps {
   user: UserReadType | null;
@@ -24,6 +26,7 @@ const UpdatingUserModalComponent = ({
   const [userRole, setUserRole] = useState<UserRole>(
     user?.userRole || UserRole.Customer
   );
+  const [userAvatar, setUserAvatar] = useState<ImageCreateType[]>([]);
 
   useEffect(() => {
     if (user) {
@@ -43,13 +46,34 @@ const UpdatingUserModalComponent = ({
     onSave(userData);
   };
 
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = event.target.files;
+    if (files) {
+      const convertedImages: ImageCreateType[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const compressedFile = await imageCompression(file, {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 500,
+        });
+        const base64Image = await imageCompression.getDataUrlFromFile(
+          compressedFile
+        );
+        convertedImages.push({ imageData: base64Image });
+      }
+      setUserAvatar(convertedImages);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div
         className="absolute inset-0 bg-black opacity-50"
         onClick={onClose}
       ></div>
-      <div className="bg-white p-4 rounded shadow-lg z-10">
+      <div className="bg-white p-4 rounded shadow-lg z-10 dark:text-dark">
         <h2 className="text-xl font-bold mb-4">
           {user ? "Update User" : "Create User"}
         </h2>
@@ -95,6 +119,15 @@ const UpdatingUserModalComponent = ({
               </option>
             ))}
           </select>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-2">Avatar</label>
+          <input
+            type="file"
+            className="w-full border px-2 py-1"
+            multiple
+            onChange={handleImageUpload}
+          />
         </div>
         <ButtonComponent onClick={handleSave}>
           {user ? "Update" : "Create"}

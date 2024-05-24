@@ -19,7 +19,6 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
   productKey,
   productTitle,
   productPrice,
-  productDescription,
   category,
   productImages,
   productInventory,
@@ -27,17 +26,19 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state) => state.auth);
   const [isLoadingProduct, setIsLoadingProduct] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const addToCartHandler = async () => {
-    if (!user) {
+    if (!user || !token) {
       alert("Please login first!");
       navigate("/login");
       return;
     }
 
     setIsLoadingProduct(true);
+    setError(null);
     try {
       await dispatch(
         addToCart({
@@ -49,6 +50,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
         })
       ).unwrap();
     } catch (error) {
+      setError("Failed to add product to cart. Please try again.");
       console.error("Failed to add product to cart", error);
     } finally {
       setIsLoadingProduct(false);

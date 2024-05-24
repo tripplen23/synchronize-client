@@ -43,7 +43,7 @@ const ConfirmOrder: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-semibold mb-4">Confirm Order</h2>
-      <div className="bg-white rounded-lg shadow-md p-4 mb-8">
+      <div className="bg-primary rounded-lg shadow-md p-4 mb-8 dark:bg-gray-500">
         <h3 className="text-lg font-semibold mb-2">Shipping Information</h3>
         <p>Address: {shippingInfo.shippingAddress}</p>
         <p>City: {shippingInfo.shippingCity}</p>
@@ -51,7 +51,7 @@ const ConfirmOrder: React.FC = () => {
         <p>Postcode: {shippingInfo.shippingPostCode}</p>
         <p>Phone Number: {shippingInfo.shippingPhone}</p>
       </div>
-      <div className="bg-white rounded-lg shadow-md p-4 mb-8">
+      <div className="bg-white rounded-lg shadow-md p-4 mb-8 dark:bg-dark">
         <h3 className="text-lg font-semibold mb-2">Order Summary</h3>
         {cart?.cartItems.map((item) => (
           <div key={item.product.id} className="flex justify-between mb-2">
@@ -70,7 +70,7 @@ const ConfirmOrder: React.FC = () => {
       </div>
       <ButtonComponent
         onClick={handleConfirmOrder}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+        className="hover:bg-primary text-white font-bold py-2 px-4 rounded transition-colors duration-300"
       >
         Confirm Order
       </ButtonComponent>

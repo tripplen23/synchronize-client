@@ -6,7 +6,11 @@ import {
   updateUser,
   deleteUser,
 } from "../../../redux/features/user/userSlice";
-import { UserReadType, UserCreateType, UserUpdateType } from "../../../misc/userType";
+import {
+  UserReadType,
+  UserCreateType,
+  UserUpdateType,
+} from "../../../misc/userType";
 import UpdatingUserModalComponent from "../../../components/reusable/ModalComponents/UpdatingUserModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
@@ -23,31 +27,33 @@ const AdminUser = () => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
-  const handleUserUpdate = (updatedUser: UserUpdateType) => {
+  const handleUserUpdate = async (updatedUser: UserUpdateType) => {
     if (selectedUser) {
-      dispatch(
+      await dispatch(
         updateUser({ userId: selectedUser.id, userData: updatedUser })
       );
+      await dispatch(getAllUsers());
       setShowModal(false);
     }
   };
 
-  const handleCreateUser = () => {
+  const handleCreateUser = async () => {
     if (newUser) {
-      dispatch(createUser(newUser));
+      await dispatch(createUser(newUser));
+      await dispatch(getAllUsers());
       setShowModal(false);
     }
   };
 
-  const handleDeleteUser = (userId: string) => {
-    dispatch(deleteUser(userId));
+  const handleDeleteUser = async (userId: string) => {
+    await dispatch(deleteUser(userId));
+    await dispatch(getAllUsers());
   };
 
   return (
     <div className="container mx-auto p-4">
       <TransitionEffect />
       <h1 className="text-2xl font-bold mb-4">User Management</h1>
-      <ButtonComponent onClick={() => setShowModal(true)}>Add New User</ButtonComponent>
       <table className="min-w-full bg-white dark:bg-gray-800 mt-4">
         <thead>
           <tr>

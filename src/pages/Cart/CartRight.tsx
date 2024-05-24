@@ -67,7 +67,7 @@ const CartRight: React.FC = () => {
           <h2 className="text-lg font-semibold mb-4 dark:text-dark">
             Order Summary
           </h2>
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-between mb-4 dark:text-dark">
             <span>Total Price:</span>
             <span>${totalPrice?.toFixed(2)}</span>
           </div>

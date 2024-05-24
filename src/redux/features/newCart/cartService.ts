@@ -12,6 +12,12 @@ const fetchCartItems = async (cartId: string): Promise<CartReadType> => {
   return response.data;
 };
 
+// Get cart by user Id
+const getCartByUserId = async (userId: string): Promise<CartReadType> => {
+  const response = await newAxiosConfig.get(`/carts/user/${userId}`);
+  return response.data;
+};
+
 // Add item to cart
 const addToCart = async (
   cartItem: CartItemCreateType
@@ -94,6 +100,7 @@ const deleteCart = async (cartId: string): Promise<boolean> => {
 
 const cartService = {
   fetchCartItems,
+  getCartByUserId,
   addToCart,
   deleteItemFromCart,
   decreaseQuantity,

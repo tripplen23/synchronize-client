@@ -5,10 +5,9 @@ import {
   getProducts,
   sortProductsByPrice,
 } from "../../redux/features/newProduct/productSlice";
+import { getAllCategories } from "../../redux/features/category/categorySlice";
 import ProductCardComponent from "../../components/reusable/ProductCardComponent/ProductCardComponent";
-import { ROUTES } from "../../constants/Route";
 import { useNavigate, useParams } from "react-router-dom";
-import { categoryData } from "../../data/categoryData";
 import { MdArrowBack, MdArrowForward } from "react-icons/md";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
@@ -17,41 +16,43 @@ import TransitionEffect from "../../components/reusable/TransitionEffect/Transit
 
 const Catalog = () => {
   let { id } = useParams();
-  const { products, isLoading } = useAppSelector((state) => state.product);
+  const { products } = useAppSelector((state) => state.product);
+  const { categories, isLoading: categoriesLoading } = useAppSelector(
+    (state) => state.category
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // sortByPrice state:
   const [sortByPrice, setSortByPrice] = useState("");
-
-  // Pagination state:
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   useEffect(() => {
-    if (!id) {
-      const newUrl = window.location.pathname + "/All";
-      window.history.pushState({ path: newUrl }, "", newUrl);
-      id = "All";
-    }
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
-    setCurrentPage(1); // Reset page to 1 when switching categories
-
-    const category = categoryData.find(
-      (item) => item.name.toLowerCase() === id?.toLowerCase()
-    );
-    if (category && category.value !== "all") {
-      const pathUrl = ROUTES.find(
-        (item) => item.name.toLowerCase() === category.value.toLowerCase()
-      );
-      if (pathUrl) {
-        dispatch(getProductsByCategory(pathUrl.url.toLowerCase()));
+  useEffect(() => {
+    if (!categoriesLoading && categories.length > 0) {
+      if (!id) {
+        navigate(`/catalog/All`);
+        id = "All";
       }
-    } else {
-      dispatch(getProducts());
+
+      setCurrentPage(1);
+
+      if (id === "All") {
+        dispatch(getProducts());
+      } else {
+        const category = categories.find(
+          (cat) => cat.categoryName.toLowerCase() === id?.toLowerCase()
+        );
+        if (category) {
+          dispatch(getProductsByCategory(category.categoryId));
+        }
+      }
     }
-  }, [id]);
+  }, [id, categoriesLoading, categories, dispatch, navigate]);
 
   const convertedString = id
     ?.split("-")
@@ -116,7 +117,7 @@ const Catalog = () => {
             productImages={product.productImages}
             productInventory={product.productInventory}
             productDescription={product.productDescription}
-            categoryId={product.categoryId} // Add categoryId prop
+            categoryId={product.categoryId}
           />
         ))}
       </div>

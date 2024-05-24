@@ -12,3 +12,4 @@ export { default as AdminOrder } from "./AdminDashboard/AdminOnly/AdminOrder";
 export { default as AdminReview } from "./AdminDashboard/AdminOnly/AdminReview";
 export { default as ConfirmOrder } from "./Order/ConfirmOrder";
 export { default as OrderSuccess } from "./Order/OrderSuccess";
+export { default as CustomerProfile } from "./CustomerProfile/CustomerProfile";

@@ -59,7 +59,7 @@ export const ModalComponent = ({
         exit="exit"
         className={`fixed top-5  ${
           isRight ? "right-5" : "left-0"
-        } w-96 h-auto max-h-full bg-light z-50 rounded-2xl shadow-lg overflow-y-auto`}
+        } w-96 h-auto max-h-full bg-light z-50 rounded-2xl shadow-lg overflow-y-auto  dark:text-dark`}
       >
         <div className="p-6 h-full bg-gradient-to-b from-white to-gray-900 rounded-xl">
           <div>

@@ -7,8 +7,8 @@ import {
   deleteProduct,
   updateProduct,
 } from "../../../redux/features/newProduct/productSlice";
-import AddingModalComponent from "../../../components/reusable/ModalComponents/AddingProductModalComponent";
-import UpdatingModalComponent from "../../../components/reusable/ModalComponents/UpdatingProductModalComponent";
+import AddingProductModalComponent from "../../../components/reusable/ModalComponents/AddingProductModalComponent";
+import UpdatingProductModalComponent from "../../../components/reusable/ModalComponents/UpdatingProductModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
 import {
   ProductCreateType,
@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
 
 const AdminProduct = () => {
-  const { products, isLoading } = useAppSelector((state) => state.product);
+  const { products } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
 
   const itemsPerPage = 5;
@@ -33,8 +33,9 @@ const AdminProduct = () => {
     dispatch(getProducts());
   }, [dispatch]);
 
-  const handleAdd = (productData: ProductCreateType) => {
-    dispatch(addNewProduct(productData));
+  const handleAdd = async (productData: ProductCreateType) => {
+    await dispatch(addNewProduct(productData));
+    dispatch(getProducts());
     setIsAddingModalOpen(false);
   };
 
@@ -43,20 +44,22 @@ const AdminProduct = () => {
     setIsUpdatingModalOpen(true);
   };
 
-  const handleUpdate = (updatedProductData: ProductUpdateType) => {
+  const handleUpdate = async (updatedProductData: ProductUpdateType) => {
     if (selectedProduct) {
-      dispatch(
+      await dispatch(
         updateProduct({
           productId: updatedProductData.id,
           productData: updatedProductData,
         })
       );
+      dispatch(getProducts());
+      setIsUpdatingModalOpen(false);
     }
-    setIsUpdatingModalOpen(false);
   };
 
-  const handleDelete = (productId: string) => {
-    dispatch(deleteProduct(productId));
+  const handleDelete = async (productId: string) => {
+    await dispatch(deleteProduct(productId));
+    dispatch(getProducts());
   };
 
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -69,97 +72,97 @@ const AdminProduct = () => {
   return (
     <div className="bg-light dark:bg-dark p-8 rounded shadow">
       <TransitionEffect />
-        <>
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">Product List</h2>
-            <ButtonComponent onClick={() => setIsAddingModalOpen(true)}>
-              + Add Product
-            </ButtonComponent>
-          </div>
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                <th className="px-4 py-4">Product ID</th>
-                <th className="px-4 py-4">Product Title</th>
-                <th className="px-4 py-4">Description</th>
-                <th className="px-4 py-4">Price</th>
-                <th className="px-4 py-4">Category</th>
-                <th className="px-4 py-4">Inventory</th>
-                <th className="px-4 py-4">Image</th>
-                <th className="px-4 py-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {getCurrentPageProducts().map((product) => (
-                <tr
-                  key={product.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                >
-                  <td className="px-4 py-4">{product.id}</td>
-                  <td className="px-4 py-4">
-                    <Link to={`/products/${String(product.id)}`}>
-                      <div className="hover:underline">
-                        {product.productTitle}
-                      </div>
-                    </Link>
-                  </td>
-                  <td className="px-4 py-4">{product.productDescription}</td>
-                  <td className="px-4 py-4">{product.productPrice}</td>
-                  <td className="px-4 py-4">{product.categoryId}</td>
-                  <td className="px-4 py-4">{product.productInventory}</td>
-                  <td className="px-4 py-4">
-                    {product.productImages.length > 0 && (
-                      <img
-                        src={product.productImages[0].imageData}
-                        alt={product.productTitle}
-                        className="w-20 h-20 object-cover"
-                      />
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex space-x-2">
-                      <ButtonComponent
-                        className="dark:bg-primary"
-                        onClick={() => handleUpdateClick(product)}
-                      >
-                        Edit
-                      </ButtonComponent>
-                      <ButtonComponent
-                        className="dark:bg-red-300"
-                        onClick={() => handleDelete(product.id)}
-                      >
-                        Delete
-                      </ButtonComponent>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="flex justify-center mt-6 ">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                onClick={() => setCurrentPage(index + 1)}
-                className={`px-3 py-1 mx-1 ${
-                  currentPage === index + 1
-                    ? "bg-primary text-white"
-                    : "bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
-                }`}
+      <>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold">Product List</h2>
+          <ButtonComponent onClick={() => setIsAddingModalOpen(true)}>
+            + Add Product
+          </ButtonComponent>
+        </div>
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th className="px-4 py-4">Product ID</th>
+              <th className="px-4 py-4">Product Title</th>
+              <th className="px-4 py-4">Description</th>
+              <th className="px-4 py-4">Price</th>
+              <th className="px-4 py-4">Category</th>
+              <th className="px-4 py-4">Inventory</th>
+              <th className="px-4 py-4">Image</th>
+              <th className="px-4 py-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {getCurrentPageProducts().map((product) => (
+              <tr
+                key={product.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
-                {index + 1}
-              </button>
+                <td className="px-4 py-4">{product.id}</td>
+                <td className="px-4 py-4">
+                  <Link to={`/products/${String(product.id)}`}>
+                    <div className="hover:underline">
+                      {product.productTitle}
+                    </div>
+                  </Link>
+                </td>
+                <td className="px-4 py-4">{product.productDescription}</td>
+                <td className="px-4 py-4">{product.productPrice}</td>
+                <td className="px-4 py-4">{product.categoryId}</td>
+                <td className="px-4 py-4">{product.productInventory}</td>
+                <td className="px-4 py-4">
+                  {product.productImages.length > 0 && (
+                    <img
+                      src={product.productImages[0].imageData}
+                      alt={product.productTitle}
+                      className="w-20 h-20 object-cover"
+                    />
+                  )}
+                </td>
+                <td className="px-4 py-4">
+                  <div className="flex space-x-2">
+                    <ButtonComponent
+                      className="dark:bg-primary"
+                      onClick={() => handleUpdateClick(product)}
+                    >
+                      Edit
+                    </ButtonComponent>
+                    <ButtonComponent
+                      className="dark:bg-red-300"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      Delete
+                    </ButtonComponent>
+                  </div>
+                </td>
+              </tr>
             ))}
-          </div>
-        </>
+          </tbody>
+        </table>
+        <div className="flex justify-center mt-6 ">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`px-3 py-1 mx-1 ${
+                currentPage === index + 1
+                  ? "bg-primary text-white"
+                  : "bg-gray-300 dark:bg-gray-700 dark:text-gray-400"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      </>
 
-      <AddingModalComponent
+      <AddingProductModalComponent
         isOpen={isAddingModalOpen}
         onClose={() => setIsAddingModalOpen(false)}
         onAdd={handleAdd}
       />
       {selectedProduct && (
-        <UpdatingModalComponent
+        <UpdatingProductModalComponent
           isOpen={isUpdatingModalOpen}
           onClose={() => setIsUpdatingModalOpen(false)}
           onUpdate={handleUpdate}

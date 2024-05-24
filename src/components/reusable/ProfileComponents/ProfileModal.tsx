@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import { updateUser } from "../../../redux/features/user/userSlice";
+import { getAuthProfile } from "../../../redux/features/auth/authSlice";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             },
           })
         );
+        await dispatch(getAuthProfile());
         onClose();
       } catch (err) {
         console.error(err);

@@ -14,7 +14,8 @@ import {
   Login,
   Register,
   ConfirmOrder,
-  OrderSuccess
+  OrderSuccess,
+  CustomerProfile,
 } from "../pages";
 
 export const router = createBrowserRouter([
@@ -64,6 +65,16 @@ export const router = createBrowserRouter([
           {
             path: "adminreview",
             element: <AdminReview />,
+          },
+        ],
+      },
+
+      {
+        path: "customer",
+        children: [
+          {
+            path: "customerprofile",
+            element: <CustomerProfile />,
           },
         ],
       },

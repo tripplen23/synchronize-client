@@ -44,7 +44,6 @@ const logout = (): void => {
   localStorage.removeItem("authDetails");
   localStorage.removeItem("userIdDemo");
   localStorage.removeItem("userRole");
-  localStorage.removeItem("shippingInfo");
 };
 
 const authService = {

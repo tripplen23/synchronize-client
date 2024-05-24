@@ -4,21 +4,23 @@ import {
   getProductsByCategory,
   getProducts,
 } from "../../../redux/features/newProduct/productSlice";
-import { ROUTES } from "../../../constants/Route";
 import { categoryData } from "../../../data/categoryData";
+import { getAllCategories } from "../../../redux/features/category/categorySlice";
 import { Link } from "react-router-dom";
 import { MdArrowRightAlt } from "react-icons/md";
 import ProductCardComponent from "../../../components/reusable/ProductCardComponent/ProductCardComponent";
 
 const QuickView = () => {
   const { products } = useAppSelector((state) => state.product);
+  const { categories } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
 
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
+    dispatch(getAllCategories());
     dispatch(getProducts());
-  }, []);
+  }, [dispatch]);
 
   const handleCategory = (
     e: React.MouseEvent<HTMLInputElement, MouseEvent>
@@ -26,10 +28,13 @@ const QuickView = () => {
     const target = e.target as HTMLInputElement;
     setSelectedCategory(target.id);
     if (target.value !== "all") {
-      const pathUrl = ROUTES.filter((item) => {
-        return item.name.toLowerCase() === target.value.toLowerCase();
-      });
-      dispatch(getProductsByCategory(pathUrl[0].url.toLowerCase()));
+      const selectedCategory = categories.find(
+        (category) =>
+          category.categoryName.toLowerCase() === target.value.toLowerCase()
+      );
+      if (selectedCategory) {
+        dispatch(getProductsByCategory(selectedCategory.categoryId));
+      }
     } else {
       dispatch(getProducts());
     }

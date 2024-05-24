@@ -12,8 +12,8 @@ import ButtonComponent from "../../../components/reusable/ButtonComponent/Button
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
 
 const AdminOrder = () => {
-  const dispatch = useAppDispatch();
   const { orders } = useAppSelector((state) => state.order);
+  const dispatch = useAppDispatch();
 
   const [selectedOrder, setSelectedOrder] = useState<OrderReadType | null>(
     null
@@ -25,7 +25,7 @@ const AdminOrder = () => {
     dispatch(getAllOrders());
   }, [dispatch]);
 
-  const handleStatusUpdate = () => {
+  const handleStatusUpdate = async () => {
     if (selectedOrder && newStatus) {
       const updateData: OrderUpdateStatusType = {
         orderId: selectedOrder.id,
@@ -39,15 +39,17 @@ const AdminOrder = () => {
         },
         orderStatus: newStatus,
       };
-      dispatch(
+      await dispatch(
         updateOrderStatus({ orderId: selectedOrder.id, orderData: updateData })
       );
+      await dispatch(getAllOrders());
       setShowModal(false);
     }
   };
 
-  const handleDeleteOrder = (orderId: string) => {
-    dispatch(deleteOrder(orderId));
+  const handleDeleteOrder = async (orderId: string) => {
+    await dispatch(deleteOrder(orderId));
+    await dispatch(getAllOrders());
   };
 
   return (
@@ -75,6 +77,7 @@ const AdminOrder = () => {
                   onClick={() => {
                     setSelectedOrder(order);
                     setShowModal(true);
+                    setNewStatus(order.orderStatus);
                   }}
                 >
                   Update Status
@@ -98,8 +101,14 @@ const AdminOrder = () => {
             <label className="block mb-2">New Status</label>
             <select
               className="w-full border px-2 py-1"
-              onChange={(e) => setNewStatus(e.target.value as orderStatus)}
+              value={newStatus ?? ""}
+              onChange={(e) => {
+                const selectedStatus = e.target.value as orderStatus;
+                console.log("Selected Status:", selectedStatus); // Debug log
+                setNewStatus(selectedStatus);
+              }}
             >
+              <option value="">...</option>
               {Object.values(orderStatus).map((status) => (
                 <option key={status} value={status}>
                   {status}

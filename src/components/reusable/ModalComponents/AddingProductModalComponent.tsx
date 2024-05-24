@@ -1,28 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
+import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
+import { getAllCategories } from "../../../redux/features/category/categorySlice";
 import {
   ProductCreateType,
   ImageCreateType,
 } from "../../../misc/newProductType";
 import imageCompression from "browser-image-compression";
-import Modal from "react-modal";
 
-interface AddingModalComponentProps {
+Modal.setAppElement("#root");
+
+interface AddingProductModalComponentProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (productData: ProductCreateType) => void;
 }
 
-const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
-  isOpen,
-  onClose,
-  onAdd,
-}) => {
+const AddingProductModalComponent: React.FC<
+  AddingProductModalComponentProps
+> = ({ isOpen, onClose, onAdd }) => {
+  const dispatch = useAppDispatch();
+  const { categories } = useAppSelector((state) => state.category);
   const [productTitle, setProductTitle] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const [categoryId, setCategoryId] = useState("");
   const [productInventory, setProductInventory] = useState(0);
   const [productImages, setProductImages] = useState<ImageCreateType[]>([]);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
 
   const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -61,11 +69,11 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50"
+      className="fixed inset-0 z-50 flex items-center justify-center"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md mx-4">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
+      <div className="bg-white dark:bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-semibold mb-4 text-center dark:text-light">
           Add New Product
         </h2>
         <form
@@ -84,7 +92,7 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
               value={productTitle}
               onChange={(e) => setProductTitle(e.target.value)}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
             />
           </div>
           <div>
@@ -95,7 +103,7 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
               value={productDescription}
               onChange={(e) => setProductDescription(e.target.value)}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
             />
           </div>
           <div>
@@ -107,20 +115,26 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
               value={productPrice}
               onChange={(e) => setProductPrice(Number(e.target.value))}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Category ID:
             </label>
-            <input
-              type="text"
+            <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
-            />
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            >
+              <option>Select a category ID</option>
+              {categories.map((category) => (
+                <option key={category.categoryId} value={category.categoryId}>
+                  {category.categoryId}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -131,7 +145,7 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
               value={productInventory}
               onChange={(e) => setProductInventory(Number(e.target.value))}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 sm:text-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
             />
           </div>
           <div>
@@ -143,21 +157,14 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
               accept="image/*"
               multiple
               onChange={handleImageUpload}
-              className="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+              className="mt-1 block w-full file-upload"
             />
           </div>
           <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={onClose}
-              className="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            >
+            <button type="button" onClick={onClose} className="mr-2 btn-cancel">
               Cancel
             </button>
-            <button
-              type="submit"
-              className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
+            <button type="submit" className="btn-submit">
               Add Product
             </button>
           </div>
@@ -167,4 +174,4 @@ const AddingModalComponent: React.FC<AddingModalComponentProps> = ({
   );
 };
 
-export default AddingModalComponent;
+export default AddingProductModalComponent;
