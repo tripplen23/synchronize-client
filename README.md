@@ -1,133 +1,172 @@
 # Synchrnonize Ecommerce
 
-Synchronize project is a merchandise ecommerce where will be the base for selling fashion, jellewry products for Synchronize Recording Studio.
+![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
+![React](https://img.shields.io/badge/React-v.18.2-blue)
+![Redux toolkit](https://img.shields.io/badge/Redux-v.2.2-brown)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v.3.4.1-lightblue)
 
-The demo version is currently using the [fakestoreapi](https://fakestoreapi.com/) for placing the products in needed places with tech-stack for front-end included: TypeScript, React, React Router, Framer Motion, and tailwind.
+## Project Description
 
-Checkout the demo deployment via [Synchronize](https://synchronize-ecommerce-fcsi-7z3b0x6xc.vercel.app/)
+The project was done as a final project at [Integrify](https://www.integrify.io/) bootcamp. It will offer core functionality concepts for a typical Ecommerce Website.
+
+## Project overview
+
+This repository contains the backend server for an E-Commerce Platform. The project implements RESTful API endpoints for managing users, products, orders, carts, categories, and reviews.
+
+**NOTE**: The frontend repository can be found [here](https://github.com/tripplen23/fs17-Frontend-project)
+
+Link to deployed Frontend Web UI: [Frontend](https://fs17-frontend-project-zln9-kl59btf0o.vercel.app/)
+
+Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.net/index.html)
 
 ## Table of Contents
 
-- Introduction
-- Table of Contents
-- Getting Started
+1. [Technologies](#technologies)
+2. [Getting Started](#getting-started)
+3. [User Interface](#user-interface)
+4. [Project Structure](#project-structure)
+5. [Data Flow](#data-flow)
 
-  - Prerequisites
-  - Installation
-  - Setting up the Environment
+## Technologies
 
-- Features
-- Architecture & Design
-
-  - Folder Structure
-  - Data Flow
-  - Component Structure
-
-- Testing
-- Deployment
-- Contributing
-
-## Getting Started
-
-### Prerequisites
-
-- ypeScript: `^4.9.5`
+- TypeScript: `^4.9.5`
 - React: `^18.2.0`
 - Node Js: v18.14.2
 - Git
 - Package Manager: Either npm or Yarn
+  - npm version: `^8.4.1`
+  - Yarn version:`^1.22.10`
+- TailwindCSS `^4.9.5`
 
-  - npm version: 8.4.1 or higher
-  - Yarn version: 1.22.10 or higher
+## Getting Started
 
-### Installation
+1. Open your terminal and clone the repository with the following command:
 
-- Git command: Git clone https://github.com/tripplen23/synchronize-ecommerce.git
-- Navigate to the project directory: cd fs17-Frontend-project.
-- Install the project dependencies: npm i or yarn.
+`git clone https://github.com/tripplen23/synchronize-ecommerce.git`
 
-### Scripts
+2. Navigate to the project directory:
 
-- Start the development server: npm start or yarn start
-- Build the production-ready bundle: npm run build or yarn build
-- Run the tests: npm test or yarn test
+`cd fs17-Frontend-project`
 
-## Features
+3. Install all the packages:
 
-- User authentication. (Optimize for Google login needed)
+`npm i` or `yarn`
 
-![alt text](./readmeImg/image.png)
+4. Start the application in your local machine:
 
-- Categories, sort product by price, product detail.
+`npm start`
 
-![alt text](./readmeImg/image-1.png)
-![alt text](./readmeImg/image-2.png)
+## User Interface
 
-- Shopping cart
+1. Authentication:
 
-![alt text](./readmeImg/image-3.png)
-![alt text](./readmeImg/image-4.png)
+![register](image/README/register.png)
+![login](image/README/login.png)
 
-- Admin dashboard
+2. Home Page:
 
-![alt text](./readmeImg/image-5.png)
+![home](image/README/home.png)
 
-## Architecture & Design
+3. Catalog Page:
 
-### Folder Structure
+![catalog](image/README/catalog.png)
+
+4. Single Product Page:
+
+![product](image/README/product.png)
+
+5. Cart Page:
+
+![cartModal](image/README/cartModal.png)
+![cart](image/README/cart.png)
+
+6. Order Page:
+
+![confirmOrder](image/README/confirmOrder.png)
+![orderSuccess](image/README/orderSuccess.png)
+
+7. Profile Page:
+
+![profile](image/README/profile.png)
+
+8. Admin Dashboard:
+
+![adminProduct](image/README/adminProduct.png)
+![adminOrder](image/README/adminOrder.png)
+![adminUser](image/README/adminUser.png)
+
+## Project Structure
 
 ```sh
 └── /src
-    ├── App.tsx                          // Main component for rendering the application.
-    ├── index.css                        // CSS file for global styles.
-    ├── index.tsx                        // Entry point of the application.
-    ├── react-app-env.d.ts               // Declaration file for TypeScript.
-    ├── reportWebVitals.ts               // File for reporting web vitals.
-    ├── setupTests.ts                    // Setup file for configuring testing environment.
-    ├── tailwind.config.js               // Configuring tailwind styling.
-    ├── asset                            // For static images and fonts.
-    ├── components                       // Directory for components.
-    |   ├── layouts                      // Directory for rendering the layout of the whole website.
-    |   |    ├── Footer                  // Directory for the footer of the website.
-    |   |    ├── Header                  // Directory for the header of the website included header and cartIcon components.
-    |   |    ├── index.tsx               // Component for displaying the whole layout of website.
-    |   ├── reusable                     // Directory for reusable components.
-    |   |    ├── ButtonComponent         // Directory for reusable button.
-    |   |    ├── CustomNavComponents     // Directory for custom NavLink/button for header.
-    |   |    ├── GoToTopComponent        // Directory for go to top button component.
-    |   |    ├── IconComponent           // Directory for complicated svg icons.
-    |   |    ├── LogoComponent           // Directory for custom logo.
-    |   |    ├── ModalComponent          // Directory for custom modal for shopping cart or CRUD products.
-    |   |    ├── Notification            // Directory for custom notification - still in progress.
-    |   |    ├── ProductCardComponent    // Directory for single product card component
-    |   |    ├── SpinnerComponent        // Directory for loading icon effect.
-    |   |    └── TransitionEffect        // Directory transition effect when changing route/page.
-    ├── constants                        // Directory for constant route and status.
-    |   ├── Route.ts                     // Constants for using routes of the project.
-    |   └── Status.ts                    // Constants for status when working with redux.
-    ├── data                             // Directory for mock data cateGory data and images for homepage data.
-    ├── hooks                            // Custom hooks for managing state and logic.
-    │   └── useThemeSwitcher.ts          // Custom hook for setting up dark mode theme switcher.
-    ├── misc                             // Directory for declaring types of data in project.
-    ├── pages                            // Components representing different pages of the application.
-    │   ├── AdminDashboard               // Directory for admin dashboard page component.
-    │   ├── Cart                         // Directory for cart page component and modal cart component.
-    │   ├── Catalog                      // Directory for catalog page.
-    │   ├── Home                         // Directory for homepage component.
-    │   ├── Login                        // Directory for login component.
-    │   └── Product                      // Directory for single product details component.
-    ├── redux                            // Redux-related files for state management.
-    |   ├── features                     // Redux slice files for managing specific parts of the state.
-    |   |    ├── auth                    // Redux slice, service and test for managing authentication state.
-    |   |    ├── cart                    // Redux slice, service and test for managing the cart state.
-    |   |    └── product                 // Redux slice, service and test for managing the product state.
-    │   └── utils                        // Directory for Redux store configurations.
-    |   |    ├── axiosConfig.ts          // Config the axios with the used API
-    |   |    ├── hook.ts                 // Hook of store like useAppDispatch, useAppSelector
-    |   |    └── store.ts                // Redux store.
-    ├── requests                         // Directory for manual testing with API.
-    ├── routes                           // Directory for creating browser router for the whole app.
-    └── shared                           // Directory for mock server for testing purpose.
+    ├── App.css
+    ├── App.tsx
+    ├── index.css
+    ├── index.tsx
+    ├── react-app-env.d.ts
+    ├── reportWebVitals.ts
+    ├── setupTests.ts
+    ├── asset
+    ├── components
+    |   ├── layouts
+    |   |    ├── Footer
+    |   |    ├── Header
+    |   |    ├── index.tsx
+    |   ├── reusable
+    |   |    ├── ButtonComponent
+    |   |    ├── CustomNavComponents
+    |   |    ├── GoToTopComponent
+    |   |    ├── IconComponent
+    |   |    ├── LogoComponent
+    |   |    ├── ModalComponent
+    |   |    ├── Notification
+    |   |    ├── ProductCardComponent
+    |   |    ├── SpinnerComponent
+    |   |    └── TransitionEffect
+    ├── constants
+    |   ├── Route.ts
+    |   └── Status.ts
+    ├── data
+    ├── hooks
+    │   └── useThemeSwitcher.ts
+    ├── misc
+    │   ├── authType
+    │   ├── cartType
+    │   ├── categoryType
+    │   ├── enum
+    │   ├── orderType
+    │   ├── productType
+    │   └── userType
+    ├── pages
+    │   ├── AdminDashboard
+    │   ├── Auth
+    │   ├── Cart
+    │   ├── Catalog
+    │   ├── CustomerProfile
+    │   ├── Home
+    │   ├── Order
+    │   └── Product
+    ├── redux
+    |   ├── features
+    |   |    ├── auth
+    |   |    ├── cart
+    |   |    ├── category
+    |   |    ├── order
+    |   |    ├── product
+    |   |    ├── slider
+    |   |    └── user
+    │   └── utils
+    |   |    ├── newAxiosConfig.ts
+    |   |    ├── hook.ts
+    |   |    └── store.ts
+    ├── routes
+    │   ├── PrivateRouteProps.tsx
+    │   ├── ProtectedRoute.tsx
+    │   └── Routes.tsx
+    ├── shared¨
+    │   └── authMSW.ts
+    └── style
+        └── toastify.css
 ```
 
 ### Data Flow
@@ -135,19 +174,3 @@ Checkout the demo deployment via [Synchronize](https://synchronize-ecommerce-fcs
 - The main logic of the app is implemented in the slice files (for example: productSlice, cartSlice, authSlice, etc). The slice files are connected to the service files (for example: productService, cartService and authService, etc) which play the role as the bridges between the API and the redux store. The redux store after being processed all the logic with the API will be implemented in the application through the the hooks of useAppSelector for selecting the state and the useAppDispatch for triggering the state to the redux store.
 
 ![alt text](./readmeImg/image-6.png)
-
-## Testing
-
-- Testing libraries/frameworks: Jest, React Testing Library
-- Run tests using the command npm test or yarn test.
-- The tests are structured into unit tests with reducers, covering different aspects of the application.
-- For further development, this is neccessary to implement more test cases.
-
-## Deployment
-
-- To deploy the project to a server, follow these general steps:
-
-  1.  Set up a hosting platform (e.g., Netlify, Vercel, AWS, etc.).
-  2.  Configure the deployment settings, such as specifying the build command and environment variables.
-  3.  Connect the hosting platform to the Git repository to enable automatic deployments based on commits or pull requests.
-  4.  Trigger the deployment process, and the hosting platform will build and deploy the application.
