@@ -1,6 +1,6 @@
 import axios from "axios";
 const newAxiosConfig = axios.create({
-  baseURL: "http://localhost:5227/api/v1/",
+  baseURL: "https://sync-ecommerce.azurewebsites.net/api/v1/",
   headers: {
     "Content-Type": "application/json",
   },
