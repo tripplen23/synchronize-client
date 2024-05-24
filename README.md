@@ -7,11 +7,11 @@
 
 ## Project Description
 
-The project was done as a final project at [Integrify](https://www.integrify.io/) bootcamp. It will offer core functionality concepts for a typical Ecommerce Website.
+The project was developed as a final project at the [Integrify](https://www.integrify.io/) bootcamp. It offers core functionality for a typical E-commerce website, designed to serve as a base for selling fashion and jewelry products for Synchronize Recording Studio.
 
 ## Project overview
 
-This repository contains the backend server for an E-Commerce Platform. The project implements RESTful API endpoints for managing users, products, orders, carts, categories, and reviews.
+This repository contains the frontend source code for an E-commerce sample application. The project includes the implementation of a RESTful API for managing users, products, orders, carts, categories, and reviews (in the future!).
 
 **NOTE**: The backend repository can be found [here](https://github.com/tripplen23/fs17_CSharp_FullStack)
 
@@ -29,32 +29,46 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
 
 ## Technologies
 
-- TypeScript: `^4.9.5`
-- React: `^18.2.0`
-- Node Js: v18.14.2
-- Git
-- Package Manager: Either npm or Yarn
-  - npm version: `^8.4.1`
-  - Yarn version:`^1.22.10`
-- TailwindCSS `^4.9.5`
+- **TypeScript**: `^4.9.5`
+- **React**: `^18.2.0`
+- **Node.js**: `v18.14.2`
+- **Git**
+- **Package Manager**: Either npm or Yarn
+  - npm: `^8.4.1`
+  - Yarn: `^1.22.10`
+- **TailwindCSS**: `^3.4.1`
 
 ## Getting Started
 
 1. Open your terminal and clone the repository with the following command:
 
-`git clone https://github.com/tripplen23/synchronize-ecommerce.git`
+   ```sh
+   git clone https://github.com/tripplen23/synchronize-ecommerce.git
+
+   ```
 
 2. Navigate to the project directory:
 
-`cd fs17-Frontend-project`
+   ```sh
+   cd fs17-Frontend-project
+
+   ```
 
 3. Install all the packages:
 
-`npm i` or `yarn`
+   ```sh
+    npm install
+    # or
+    yarn
+    ```
 
 4. Start the application in your local machine:
 
-`npm start`
+   ```sh
+    npm start
+    # or
+    yarn start
+    ```
 
 ## User Interface
 
@@ -220,7 +234,7 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
 ## Data Flow
 
 1. Redux store logic and authentication policies:
-![redux](image/README/redux.png)
+   ![redux](image/README/redux.png)
 
 2. Data flow:
-![dataFlow](image/README/dataFlow.png)
+   ![dataFlow](image/README/dataFlow.png)
