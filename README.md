@@ -13,7 +13,7 @@ The project was done as a final project at [Integrify](https://www.integrify.io/
 
 This repository contains the backend server for an E-Commerce Platform. The project implements RESTful API endpoints for managing users, products, orders, carts, categories, and reviews.
 
-**NOTE**: The frontend repository can be found [here](https://github.com/tripplen23/fs17-Frontend-project)
+**NOTE**: The backend repository can be found [here](https://github.com/tripplen23/fs17_CSharp_FullStack)
 
 Link to deployed Frontend Web UI: [Frontend](https://fs17-frontend-project-zln9-kl59btf0o.vercel.app/)
 
@@ -111,11 +111,13 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
     ├── reportWebVitals.ts
     ├── setupTests.ts
     ├── asset
+    |   ├── fonts
+    |   └── imgs
     ├── components
     |   ├── layouts
     |   |    ├── Footer
     |   |    ├── Header
-    |   |    ├── index.tsx
+    |   |    └── index.tsx
     |   ├── reusable
     |   |    ├── ButtonComponent
     |   |    ├── CustomNavComponents
@@ -123,28 +125,56 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
     |   |    ├── IconComponent
     |   |    ├── LogoComponent
     |   |    ├── ModalComponent
-    |   |    ├── Notification
+    |   |    |    ├── AddingProductModalComponent.tsx
+    |   |    |    ├── ModalComponent.tsx
+    |   |    |    ├── UpdatingOrderModalComponent.tsx
+    |   |    |    ├── UpdatingProductModalComponent.tsx
+    |   |    |    └── UpdatingUserModalComponent.tsx
     |   |    ├── ProductCardComponent
+    |   |    ├── ProfileComponent
+    |   |    |    ├── OrderHistoryTable.tsx
+    |   |    |    └── ProfileModal.tsx
     |   |    ├── SpinnerComponent
     |   |    └── TransitionEffect
     ├── constants
     |   ├── Route.ts
     |   └── Status.ts
     ├── data
+    ├── helpers
+    │   └── getImageData.ts
     ├── hooks
     │   └── useThemeSwitcher.ts
     ├── misc
-    │   ├── authType
-    │   ├── cartType
-    │   ├── categoryType
-    │   ├── enum
-    │   ├── orderType
-    │   ├── productType
-    │   └── userType
+    │   ├── authType.ts
+    │   ├── cartType.ts
+    │   ├── categoryType.ts
+    │   ├── enum.ts
+    │   ├── orderType.ts
+    │   ├── productType.ts
+    │   └── userType.ts
     ├── pages
     │   ├── AdminDashboard
+    |   |    ├── AdminOnly
+    |   |    |    ├── AdminProfile.tsx
+    |   |    |    ├── AdminOrder.tsx
+    |   |    |    ├── AdminProduct.tsx
+    |   |    |    ├── AdminProfile.tsx
+    |   |    |    ├── AdminReview.tsx
+    |   |    |    └── AdminUser.tsx
+    |   |    └── AdminDashboard.tsx
     │   ├── Auth
+    |   |    ├── Login.tsx
+    |   |    └── Register.tsx
     │   ├── Cart
+    |   |    ├── CartModal
+    |   |    |    ├── CartModal.tsx
+    |   |    |    ├── CartModalItem.tsx
+    |   |    |    └── CartModalSummary.tsx
+    |   |    ├── Cart.tsx
+    |   |    ├── CartItem.tsx
+    |   |    ├── CartLeft.tsx
+    |   |    ├── CartRight.tsx
+    |   |    └── EmptyCart.tsx
     │   ├── Catalog
     │   ├── CustomerProfile
     │   ├── Home
@@ -153,12 +183,26 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
     ├── redux
     |   ├── features
     |   |    ├── auth
+    |   |    |    ├── authReducer.test.ts
+    |   |    |    ├── authService.ts
+    |   |    |    └── authSlice.ts
     |   |    ├── cart
+    |   |    |    ├── cartService.ts
+    |   |    |    └── cartSlice.ts
     |   |    ├── category
+    |   |    |    ├── categoryService.ts
+    |   |    |    └── categorySlice.ts
     |   |    ├── order
+    |   |    |    ├── orderService.ts
+    |   |    |    └── orderSlice.ts
     |   |    ├── product
+    |   |    |    ├── productService.ts
+    |   |    |    └── productSlice.ts
     |   |    ├── slider
+    |   |    |    └── sliderSlice.tsx
     |   |    └── user
+    |   |    |    ├── userService.ts
+    |   |    |    └── userSlice.ts
     │   └── utils
     |   |    ├── newAxiosConfig.ts
     |   |    ├── hook.ts
@@ -167,14 +211,16 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
     │   ├── PrivateRouteProps.tsx
     │   ├── ProtectedRoute.tsx
     │   └── Routes.tsx
-    ├── shared¨
+    ├── shared
     │   └── authMSW.ts
     └── style
         └── toastify.css
 ```
 
-### Data Flow
+## Data Flow
 
-- The main logic of the app is implemented in the slice files (for example: productSlice, cartSlice, authSlice, etc). The slice files are connected to the service files (for example: productService, cartService and authService, etc) which play the role as the bridges between the API and the redux store. The redux store after being processed all the logic with the API will be implemented in the application through the the hooks of useAppSelector for selecting the state and the useAppDispatch for triggering the state to the redux store.
+1. Redux store logic and authentication policies:
+![redux](image/README/redux.png)
 
-![alt text](./readmeImg/image-6.png)
+2. Data flow:
+![dataFlow](image/README/dataFlow.png)
