@@ -10,6 +10,7 @@ import { orderStatus } from "../../../misc/enum";
 import UpdatingProductModalComponent from "../../../components/reusable/ModalComponents/UpdatingOrderModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
+import { toast } from "react-toastify";
 
 const AdminOrder = () => {
   const { orders } = useAppSelector((state) => state.order);
@@ -26,30 +27,43 @@ const AdminOrder = () => {
   }, [dispatch]);
 
   const handleStatusUpdate = async () => {
-    if (selectedOrder && newStatus) {
-      const updateData: OrderUpdateStatusType = {
-        orderId: selectedOrder.id,
-        shippingInfo: {
-          shippingInfoId: selectedOrder.shippingInfo.id,
-          shippingAddress: selectedOrder.shippingInfo.shippingAddress,
-          shippingCity: selectedOrder.shippingInfo.shippingCity,
-          shippingCountry: selectedOrder.shippingInfo.shippingCountry,
-          shippingPostCode: selectedOrder.shippingInfo.shippingPostCode,
-          shippingPhone: selectedOrder.shippingInfo.shippingPhone,
-        },
-        orderStatus: newStatus,
-      };
-      await dispatch(
-        updateOrderStatus({ orderId: selectedOrder.id, orderData: updateData })
-      );
-      await dispatch(getAllOrders());
-      setShowModal(false);
+    try {
+      if (selectedOrder && newStatus) {
+        const updateData: OrderUpdateStatusType = {
+          orderId: selectedOrder.id,
+          shippingInfo: {
+            shippingInfoId: selectedOrder.shippingInfo.id,
+            shippingAddress: selectedOrder.shippingInfo.shippingAddress,
+            shippingCity: selectedOrder.shippingInfo.shippingCity,
+            shippingCountry: selectedOrder.shippingInfo.shippingCountry,
+            shippingPostCode: selectedOrder.shippingInfo.shippingPostCode,
+            shippingPhone: selectedOrder.shippingInfo.shippingPhone,
+          },
+          orderStatus: newStatus,
+        };
+        await dispatch(
+          updateOrderStatus({
+            orderId: selectedOrder.id,
+            orderData: updateData,
+          })
+        );
+        await dispatch(getAllOrders());
+        toast.success("Order updated successfully!");
+        setShowModal(false);
+      }
+    } catch (error: any) {
+      toast.error(`Failed to update order status with ${error.message}`);
     }
   };
 
   const handleDeleteOrder = async (orderId: string) => {
-    await dispatch(deleteOrder(orderId));
-    await dispatch(getAllOrders());
+    try {
+      await dispatch(deleteOrder(orderId));
+      toast.success("Order deleted successfully!");
+      await dispatch(getAllOrders());
+    } catch (error: any) {
+      toast.error(`Failed to delete order with ${error.message}`);
+    }
   };
 
   return (

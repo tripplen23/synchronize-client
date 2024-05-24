@@ -14,6 +14,7 @@ import {
 import UpdatingUserModalComponent from "../../../components/reusable/ModalComponents/UpdatingUserModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
+import { toast } from "react-toastify";
 
 const AdminUser = () => {
   const dispatch = useAppDispatch();
@@ -28,26 +29,41 @@ const AdminUser = () => {
   }, [dispatch]);
 
   const handleUserUpdate = async (updatedUser: UserUpdateType) => {
-    if (selectedUser) {
-      await dispatch(
-        updateUser({ userId: selectedUser.id, userData: updatedUser })
-      );
-      await dispatch(getAllUsers());
-      setShowModal(false);
+    try {
+      if (selectedUser) {
+        await dispatch(
+          updateUser({ userId: selectedUser.id, userData: updatedUser })
+        );
+        await dispatch(getAllUsers());
+        toast.success("User updated successfully");
+        setShowModal(false);
+      }
+    } catch (error: any) {
+      toast.error(`Failed to update user with message ${error.message}`);
     }
   };
 
   const handleCreateUser = async () => {
-    if (newUser) {
-      await dispatch(createUser(newUser));
-      await dispatch(getAllUsers());
-      setShowModal(false);
+    try {
+      if (newUser) {
+        await dispatch(createUser(newUser));
+        await dispatch(getAllUsers());
+        toast.success("User created successfully");
+        setShowModal(false);
+      }
+    } catch (error: any) {
+      toast.error(`Failed to create user with message ${error.message}`);
     }
   };
 
   const handleDeleteUser = async (userId: string) => {
-    await dispatch(deleteUser(userId));
-    await dispatch(getAllUsers());
+    try {
+      await dispatch(deleteUser(userId));
+      await dispatch(getAllUsers());
+      toast.success("User deleted successfully");
+    } catch (error: any) {
+      toast.error(`Failed to delete user with message ${error.message}`);
+    }
   };
 
   return (

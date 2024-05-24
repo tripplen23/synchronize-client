@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { deleteCart } from "../../../redux/features/newCart/cartSlice";
 import CartModalItem from "./CartModalItem";
 import CartModalSummary from "./CartModalSummary";
+import { toast } from "react-toastify";
 
 interface CartModalProps {
   show: boolean;
@@ -26,8 +27,15 @@ const CartModal: React.FC<CartModalProps> = ({ show, setShow }) => {
   const handleClose = () => setShow(false);
 
   const handleEmptyCart = () => {
-    if (cart) {
-      dispatch(deleteCart(cart.id));
+    try {
+      if (cart) {
+        dispatch(deleteCart(cart.id));
+      }
+      toast.success("Cart emptied successfully");
+    } catch (error: any) {
+      toast.error(
+        `Empty cart failed with status ${error.status}: ${error.message}`
+      );
     }
   };
 

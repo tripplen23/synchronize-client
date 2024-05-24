@@ -35,11 +35,11 @@ const AdminProfile = () => {
   return (
     <div className="container mx-auto mt-8 mb-8 ipadMini:my-20">
       <TransitionEffect />
-      <div className="text-center mb-4">
+      <div className="text-center mb-6">
         <h1 className="text-3xl font-semibold">Admin Profile</h1>
       </div>
 
-      <div className="flex flex-col space-y-4 bg-light dark:bg-primary p-8 rounded shadow ipadMini:hidden">
+      <div className="flex flex-col space-y-4 bg-light dark:bg-gradient-to-r from-purple-300 to-primary p-8 rounded shadow ipadMini:hidden">
         {authLoading ? (
           <div className="flex justify-center items-center">
             <SpinnerComponent />

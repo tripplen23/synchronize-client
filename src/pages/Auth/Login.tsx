@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import { login } from "../../redux/features/auth/authSlice";
 import { motion } from "framer-motion";
-import VanGoghImage from "../../assets/imgs/VanGoghImage.jpg";
+import background from "../../assets/imgs/background.jpg";
 import { getAuthProfile } from "../../redux/features/auth/authSlice";
+import { toast } from "react-toastify";
+import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 
 const Login = () => {
-  const { user, token } = useAppSelector((state) => state.auth);
+  const { token } = useAppSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -32,14 +34,12 @@ const Login = () => {
       // Specify the type of 'resultAction' as 'any'
       setLoading(false);
       if (login.fulfilled.match(resultAction)) {
+        toast.success("Logged in successfully");
         navigate("/");
       } else if (login.rejected.match(resultAction)) {
         const error: any = resultAction.payload; // Specify the type of 'error' as 'any'
-        console.error(
+        toast.error(
           `Login failed with status ${error.status}: ${error.message}`
-        );
-        alert(
-          "Login failed. Please check your credentials and try again. If you don't have an account, feel free to register a new one!"
         );
       }
     });
@@ -47,11 +47,12 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden mt-6">
+      <TransitionEffect />
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: `url(${VanGoghImage})` }}
+        style={{ backgroundImage: `url(${background})` }}
       ></div>
-      <div className="bg-white shadow-md rounded p-8 w-full max-w-md relative z-10">
+      <div className="bg-white shadow-md rounded p-8 w-full max-w-md relative z-10 dark:text-dark">
         <div>
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
             Welcome Back!

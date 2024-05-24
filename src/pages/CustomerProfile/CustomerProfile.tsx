@@ -36,11 +36,11 @@ const CustomerProfile = () => {
   return (
     <div className="container mx-auto mt-8 mb-8 ipadMini:my-20">
       <TransitionEffect />
-      <div className="text-center mb-4">
-        <h1 className="text-3xl font-semibold">Admin Profile</h1>
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-semibold">Customer Profile</h1>
       </div>
 
-      <div className="flex flex-col space-y-4 bg-light dark:bg-primary p-8 rounded shadow ipadMini:hidden">
+      <div className="flex flex-col space-y-4 bg-light dark:bg-gradient-to-r from-purple-300 to-primary p-8 rounded shadow ipadMini:hidden">
         {authLoading ? (
           <div className="flex justify-center items-center">
             <SpinnerComponent />
@@ -57,7 +57,7 @@ const CustomerProfile = () => {
               />
               <div className="flex flex-col">
                 <span className="name text-xl font-semibold text-dark dark:text-gray-300">
-                  Admin Name: {user?.userName}
+                  Customer Name: {user?.userName}
                 </span>
                 <span className="email text-sm text-gray-500 dark:text-gray-300">
                   Email: <strong>{user?.userEmail}</strong>

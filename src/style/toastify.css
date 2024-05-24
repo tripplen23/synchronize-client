@@ -1,0 +1,23 @@
+/* toastify.css */
+.Toastify__toast {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.Toastify__toast--success {
+  background-color: #244625;
+  color: white;
+}
+
+.Toastify__toast--error {
+  background-color: #501434;
+  color: white;
+}
+
+.Toastify__close-button {
+  color: white;
+}
+
+.Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7);
+}

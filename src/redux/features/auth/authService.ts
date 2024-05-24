@@ -41,8 +41,6 @@ const getAuthProfile = async (): Promise<UserDetailsType> => {
 
 const logout = (): void => {
   localStorage.removeItem("loginToken");
-  localStorage.removeItem("authDetails");
-  localStorage.removeItem("userIdDemo");
   localStorage.removeItem("userRole");
 };
 

@@ -1,4 +1,3 @@
-// AdminProduct.js
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import {
@@ -17,6 +16,7 @@ import {
 } from "../../../misc/newProductType";
 import { Link } from "react-router-dom";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
+import { toast } from "react-toastify";
 
 const AdminProduct = () => {
   const { products } = useAppSelector((state) => state.product);
@@ -34,9 +34,16 @@ const AdminProduct = () => {
   }, [dispatch]);
 
   const handleAdd = async (productData: ProductCreateType) => {
-    await dispatch(addNewProduct(productData));
-    dispatch(getProducts());
-    setIsAddingModalOpen(false);
+    try {
+      await dispatch(addNewProduct(productData)).unwrap();
+      toast.success("Product added successfully");
+      dispatch(getProducts());
+      setIsAddingModalOpen(false);
+    } catch (error: any) {
+      toast.error(
+        `Failed to add product with status ${error.status}: ${error.message}`
+      );
+    }
   };
 
   const handleUpdateClick = (product: ProductReadType) => {
@@ -46,20 +53,34 @@ const AdminProduct = () => {
 
   const handleUpdate = async (updatedProductData: ProductUpdateType) => {
     if (selectedProduct) {
-      await dispatch(
-        updateProduct({
-          productId: updatedProductData.id,
-          productData: updatedProductData,
-        })
-      );
-      dispatch(getProducts());
-      setIsUpdatingModalOpen(false);
+      try {
+        await dispatch(
+          updateProduct({
+            productId: updatedProductData.id,
+            productData: updatedProductData,
+          })
+        ).unwrap();
+        toast.success("Product updated successfully");
+        dispatch(getProducts());
+        setIsUpdatingModalOpen(false);
+      } catch (error: any) {
+        toast.error(
+          `Failed to update product with status ${error.status}: ${error.message}`
+        );
+      }
     }
   };
 
   const handleDelete = async (productId: string) => {
-    await dispatch(deleteProduct(productId));
-    dispatch(getProducts());
+    try {
+      await dispatch(deleteProduct(productId)).unwrap();
+      toast.success("Product deleted successfully");
+      dispatch(getProducts());
+    } catch (error: any) {
+      toast.error(
+        `Failed to delete product with status ${error.status}: ${error.message}`
+      );
+    }
   };
 
   const totalPages = Math.ceil(products.length / itemsPerPage);

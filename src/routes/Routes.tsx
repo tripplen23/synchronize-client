@@ -17,6 +17,9 @@ import {
   OrderSuccess,
   CustomerProfile,
 } from "../pages";
+import PrivateRoute from "./PrivateRouteProps";
+import { UserRole } from "../misc/enum";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -44,33 +47,40 @@ export const router = createBrowserRouter([
       // Admin: Should be set as a private route
       {
         path: "admin",
-        element: <AdminDashboard />,
+        element: <PrivateRoute allowedRoles={[UserRole.Admin]} />,
         children: [
           {
-            path: "adminproduct",
-            element: <AdminProduct />,
-          },
-          {
-            path: "adminuser",
-            element: <AdminUser />,
-          },
-          {
-            path: "adminprofile",
-            element: <AdminProfile />,
-          },
-          {
-            path: "adminorder",
-            element: <AdminOrder />,
-          },
-          {
-            path: "adminreview",
-            element: <AdminReview />,
+            path: "",
+            element: <AdminDashboard />,
+            children: [
+              {
+                path: "adminproduct",
+                element: <AdminProduct />,
+              },
+              {
+                path: "adminuser",
+                element: <AdminUser />,
+              },
+              {
+                path: "adminprofile",
+                element: <AdminProfile />,
+              },
+              {
+                path: "adminorder",
+                element: <AdminOrder />,
+              },
+              {
+                path: "adminreview",
+                element: <AdminReview />,
+              },
+            ],
           },
         ],
       },
 
       {
         path: "customer",
+        element: <PrivateRoute allowedRoles={[UserRole.Customer]} />,
         children: [
           {
             path: "customerprofile",
@@ -115,6 +125,7 @@ export const router = createBrowserRouter([
       // Order
       {
         path: "order",
+        element: <ProtectedRoute />,
         children: [
           {
             path: "confirm",

@@ -12,18 +12,19 @@ import { FaOpencart } from "react-icons/fa";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 import getImageData from "../../helpers/getImageData";
 import { CartItemCreateType } from "../../misc/newCartType";
+import { toast } from "react-toastify";
 
 const Product = () => {
   const { product, isLoading } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state) => state.auth);
   const [isLoadingProduct, setIsLoadingProduct] = useState(false);
 
   const addToCartHandler = async () => {
-    if (!user) {
-      alert("Please login first!");
+    if (!user || !token) {
+      toast.error(`You need to login first! :D`);
       navigate("/login");
       return;
     }
@@ -39,8 +40,11 @@ const Product = () => {
           } as CartItemCreateType,
         })
       ).unwrap();
-    } catch (error) {
-      console.log(error);
+      toast.success(`Product added to cart!`);
+    } catch (error: any) {
+      toast.error(
+        `Failed to add product to cart with error ${error.message} :<`
+      );
     } finally {
       setIsLoadingProduct(false);
     }

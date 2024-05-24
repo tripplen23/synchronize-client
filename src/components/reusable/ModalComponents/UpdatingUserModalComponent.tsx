@@ -120,15 +120,6 @@ const UpdatingUserModalComponent = ({
             ))}
           </select>
         </div>
-        <div className="mb-4">
-          <label className="block mb-2">Avatar</label>
-          <input
-            type="file"
-            className="w-full border px-2 py-1"
-            multiple
-            onChange={handleImageUpload}
-          />
-        </div>
         <ButtonComponent onClick={handleSave}>
           {user ? "Update" : "Create"}
         </ButtonComponent>

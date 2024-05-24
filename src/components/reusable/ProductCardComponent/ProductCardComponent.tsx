@@ -9,6 +9,7 @@ import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 import { CgShoppingBag } from "react-icons/cg";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import getImageData from "../../../helpers/getImageData";
+import { toast } from "react-toastify";
 
 interface ProductCardComponentProps extends ProductReadType {
   productKey: number;
@@ -32,7 +33,7 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
 
   const addToCartHandler = async () => {
     if (!user || !token) {
-      alert("Please login first!");
+      toast.error(`You need to login first! :D`);
       navigate("/login");
       return;
     }
@@ -49,9 +50,12 @@ const ProductCardComponent: FC<ProductCardComponentProps> = ({
           },
         })
       ).unwrap();
-    } catch (error) {
-      setError("Failed to add product to cart. Please try again.");
-      console.error("Failed to add product to cart", error);
+
+      toast.success("Add product to cart successful!");
+    } catch (error: any) {
+      toast.error(
+        `Add product to cart failed with status ${error.status}: ${error.message}`
+      );
     } finally {
       setIsLoadingProduct(false);
     }

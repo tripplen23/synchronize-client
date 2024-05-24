@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { useAppDispatch } from "../../redux/utils/hooks";
 import { register } from "../../redux/features/auth/authSlice";
 import { UserRole } from "../../misc/enum";
+import background from "../../assets/imgs/background.jpg";
+import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const {
@@ -19,17 +22,23 @@ const Register = () => {
     try {
       // Dispatch the register action
       await dispatch(register(data));
-      // Handle successful registration, redirect or show a success message
+      toast.success("Registration successfully :D");
       navigate("/login"); // Navigate to the login page
-    } catch (error) {
-      // Handle registration error, show an error message
-      console.error("Registration failed:", error);
+    } catch (error: any) {
+      toast.error(
+        `Failed to register with status ${error.status}: ${error.message}`
+      );
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden mt-6">
-      <div className="bg-white shadow-md rounded p-8 w-full max-w-md relative z-10">
+      <TransitionEffect />
+      <div
+        className="absolute inset-0 bg-cover bg-center z-0"
+        style={{ backgroundImage: `url(${background})` }}
+      ></div>
+      <div className="bg-white shadow-md rounded p-8 w-full max-w-md relative z-10 dark:text-dark">
         <div>
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">
             Register an Account
@@ -88,7 +97,7 @@ const Register = () => {
                 </p>
               )}
             </div>
-            <div className="mb-4">
+            <div className="mb-16">
               <label className="block text-sm font-medium text-gray-700">
                 User Role
               </label>

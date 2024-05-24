@@ -120,7 +120,7 @@ const AddingProductModalComponent: React.FC<
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Category ID:
+              Category ID : "Women" - "Jewelery" - "Electronics" - "Men"
             </label>
             <select
               value={categoryId}

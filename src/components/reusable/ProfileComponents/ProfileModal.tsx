@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import { updateUser } from "../../../redux/features/user/userSlice";
 import { getAuthProfile } from "../../../redux/features/auth/authSlice";
+import ButtonComponent from "../ButtonComponent/ButtonComponent";
+import { toast } from "react-toastify";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -12,7 +14,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { user } = useAppSelector((state) => state.auth);
   const [userName, setUserName] = useState(user?.userName || "");
   const [userEmail, setUserEmail] = useState(user?.userEmail || "");
-  const [userAvatar, setUserAvatar] = useState(user?.userAvatar || "");
 
   const dispatch = useAppDispatch();
 
@@ -25,15 +26,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             userData: {
               userName,
               userEmail,
-              userAvatar,
             },
           })
         );
         await dispatch(getAuthProfile());
+        toast.success("Profile updated successfully");
         onClose();
-      } catch (err) {
-        console.error(err);
-        alert("Failed to update profile");
+      } catch (error: any) {
+        toast.error(
+          `Update profile failed with status ${error.status}: ${error.message}`
+        );
       }
     }
   };
@@ -66,25 +68,19 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-300">Avatar URL</label>
-          <input
-            type="text"
-            className="w-full p-2 bg-gray-700 text-white border border-gray-300 rounded mt-1"
-            value={userAvatar}
-            onChange={(e) => setUserAvatar(e.target.value)}
-          />
-        </div>
         <div className="flex justify-end">
-          <button
-            className="btn btn-secondary mr-2 text-white"
+          <ButtonComponent
+            className="btn btn-secondary mr-2 text-white dark:bg-red-300"
             onClick={onClose}
           >
             Cancel
-          </button>
-          <button className="btn btn-primary text-white" onClick={handleSave}>
+          </ButtonComponent>
+          <ButtonComponent
+            className="btn btn-primary text-white dark:bg-primary"
+            onClick={handleSave}
+          >
             Save
-          </button>
+          </ButtonComponent>
         </div>
       </div>
     </div>
