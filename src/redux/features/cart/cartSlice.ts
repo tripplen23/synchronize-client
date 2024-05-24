@@ -4,7 +4,7 @@ import {
   CartReadType,
   CartItemCreateType,
   CartItemReadType,
-} from "../../../misc/newCartType";
+} from "../../../misc/cartType";
 
 interface CartState {
   cart: CartReadType | null;

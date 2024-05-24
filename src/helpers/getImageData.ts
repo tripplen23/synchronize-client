@@ -1,4 +1,4 @@
-import { ImageReadType } from "../misc/newProductType";
+import { ImageReadType } from "../misc/productType";
 
 const getImageData = (images: ImageReadType[] | undefined): string => {
   if (!images || images.length === 0) {

@@ -3,7 +3,7 @@ import {
   ProductCreateType,
   ProductReadType,
   ProductUpdateType,
-} from "../../../misc/newProductType";
+} from "../../../misc/productType";
 
 // Get all products
 const getProducts = async (): Promise<ProductReadType[]> => {

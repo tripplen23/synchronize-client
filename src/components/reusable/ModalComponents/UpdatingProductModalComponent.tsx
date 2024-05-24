@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { ProductUpdateType, ProductReadType } from "../../../misc/newProductType";
+import { ProductUpdateType, ProductReadType } from "../../../misc/productType";
 
 Modal.setAppElement("#root");
 
@@ -13,12 +13,9 @@ interface UpdatingProductModalComponentProps {
 
 Modal.setAppElement("#root");
 
-const UpdatingProductModalComponent: React.FC<UpdatingProductModalComponentProps> = ({
-  isOpen,
-  onClose,
-  onUpdate,
-  product,
-}) => {
+const UpdatingProductModalComponent: React.FC<
+  UpdatingProductModalComponentProps
+> = ({ isOpen, onClose, onUpdate, product }) => {
   const [productTitle, setProductTitle] = useState(product.productTitle);
   const [productDescription, setProductDescription] = useState(
     product.productDescription
@@ -62,33 +59,79 @@ const UpdatingProductModalComponent: React.FC<UpdatingProductModalComponentProps
         <h2 className="text-2xl font-semibold mb-4 text-center dark:text-light">
           Update Product
         </h2>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }} className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="space-y-4"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title:</label>
-            <input type="text" value={productTitle} onChange={(e) => setProductTitle(e.target.value)} required className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Title:
+            </label>
+            <input
+              type="text"
+              value={productTitle}
+              onChange={(e) => setProductTitle(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description:</label>
-            <textarea value={productDescription} onChange={(e) => setProductDescription(e.target.value)} required className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Description:
+            </label>
+            <textarea
+              value={productDescription}
+              onChange={(e) => setProductDescription(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price:</label>
-            <input type="number" value={productPrice} onChange={(e) => setProductPrice(Number(e.target.value))} required className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Price:
+            </label>
+            <input
+              type="number"
+              value={productPrice}
+              onChange={(e) => setProductPrice(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category ID:</label>
-            <input type="text" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} required className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Category ID:
+            </label>
+            <input
+              type="text"
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Inventory:</label>
-            <input type="number" value={productInventory} onChange={(e) => setProductInventory(Number(e.target.value))} required className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm" />
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Inventory:
+            </label>
+            <input
+              type="number"
+              value={productInventory}
+              onChange={(e) => setProductInventory(Number(e.target.value))}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:ring focus:ring-indigo-200 sm:text-sm"
+            />
           </div>
           <div className="flex justify-end">
-            <button type="button" onClick={onClose} className="mr-2 btn-cancel">Cancel</button>
-            <button type="submit" className="btn-submit">Update Product</button>
+            <button type="button" onClick={onClose} className="mr-2 btn-cancel">
+              Cancel
+            </button>
+            <button type="submit" className="btn-submit">
+              Update Product
+            </button>
           </div>
         </form>
       </div>

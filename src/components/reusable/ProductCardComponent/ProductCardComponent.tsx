@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ProductReadType, ImageReadType } from "../../../misc/newProductType";
+import { ProductReadType, ImageReadType } from "../../../misc/productType";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 
-import { addToCart } from "../../../redux/features/newCart/cartSlice";
+import { addToCart } from "../../../redux/features/cart/cartSlice";
 import { motion } from "framer-motion";
 import SpinnerComponent from "../SpinnerComponent/SpinnerComponent";
 import { CgShoppingBag } from "react-icons/cg";

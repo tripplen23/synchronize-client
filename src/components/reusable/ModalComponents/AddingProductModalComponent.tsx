@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import { getAllCategories } from "../../../redux/features/category/categorySlice";
-import {
-  ProductCreateType,
-  ImageCreateType,
-} from "../../../misc/newProductType";
+import { ProductCreateType, ImageCreateType } from "../../../misc/productType";
 import imageCompression from "browser-image-compression";
 
 Modal.setAppElement("#root");
@@ -120,7 +117,7 @@ const AddingProductModalComponent: React.FC<
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Category ID : "Women" - "Jewelery" - "Electronics" - "Men"
+              Category ID : "Electronics" - "Men" - "Jewelery" - "Women"
             </label>
             <select
               value={categoryId}

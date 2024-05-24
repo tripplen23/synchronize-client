@@ -8,7 +8,7 @@ import authService from "./authService";
 import { STATUS } from "../../../constants/Status";
 import axios from "axios";
 import { UserRole } from "../../../misc/enum";
-import { getCartByUserId } from "../newCart/cartSlice";
+import { getCartByUserId } from "../cart/cartSlice";
 
 export interface AuthState {
   user: UserDetailsType | null;

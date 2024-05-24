@@ -3,7 +3,7 @@ import {
   CartItemCreateType,
   CartReadType,
   CartUpdateType,
-} from "../../../misc/newCartType";
+} from "../../../misc/cartType";
 import newAxiosConfig from "../../utils/newAxiosConfig";
 
 // Fetch cart items

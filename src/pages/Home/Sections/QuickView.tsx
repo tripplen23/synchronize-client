@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/utils/hooks";
 import {
   getProductsByCategory,
   getProducts,
-} from "../../../redux/features/newProduct/productSlice";
+} from "../../../redux/features/product/productSlice";
 import { categoryData } from "../../../data/categoryData";
 import { getAllCategories } from "../../../redux/features/category/categorySlice";
 import { Link } from "react-router-dom";

@@ -3,7 +3,7 @@ import "./App.css";
 import Layout from "./components/layouts";
 import { useAppDispatch, useAppSelector } from "./redux/utils/hooks";
 import { getAuthProfile } from "./redux/features/auth/authSlice";
-import { getCartByUserId } from "./redux/features/newCart/cartSlice";
+import { getCartByUserId } from "./redux/features/cart/cartSlice";
 
 function App() {
   const dispatch = useAppDispatch();

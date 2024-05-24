@@ -3,15 +3,15 @@ import GoToTopComponent from "../../components/reusable/GoToTopComponent/GoToTop
 import SpinnerComponent from "../../components/reusable/SpinnerComponent/SpinnerComponent";
 import { useAppDispatch, useAppSelector } from "../../redux/utils/hooks";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getProductById } from "../../redux/features/newProduct/productSlice";
+import { getProductById } from "../../redux/features/product/productSlice";
 
-import { addToCart } from "../../redux/features/newCart/cartSlice";
+import { addToCart } from "../../redux/features/cart/cartSlice";
 import { sizeData } from "../../data/categoryData";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaOpencart } from "react-icons/fa";
 import TransitionEffect from "../../components/reusable/TransitionEffect/TransitionEffect";
 import getImageData from "../../helpers/getImageData";
-import { CartItemCreateType } from "../../misc/newCartType";
+import { CartItemCreateType } from "../../misc/cartType";
 import { toast } from "react-toastify";
 
 const Product = () => {

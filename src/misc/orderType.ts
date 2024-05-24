@@ -1,6 +1,6 @@
 import { UserReadType } from "./userType";
 import { orderStatus } from "./enum";
-import { ProductReadType } from "./newProductType";
+import { ProductReadType } from "./productType";
 
 export interface OrderReadType {
   id: string;

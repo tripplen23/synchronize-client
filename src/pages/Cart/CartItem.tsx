@@ -10,7 +10,7 @@ import {
   increaseQuantity,
   decreaseQuantity,
   deleteItemFromCart,
-} from "../../redux/features/newCart/cartSlice";
+} from "../../redux/features/cart/cartSlice";
 
 interface CartItemProps {
   item: {

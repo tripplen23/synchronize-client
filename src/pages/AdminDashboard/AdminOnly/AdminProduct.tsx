@@ -5,7 +5,7 @@ import {
   addNewProduct,
   deleteProduct,
   updateProduct,
-} from "../../../redux/features/newProduct/productSlice";
+} from "../../../redux/features/product/productSlice";
 import AddingProductModalComponent from "../../../components/reusable/ModalComponents/AddingProductModalComponent";
 import UpdatingProductModalComponent from "../../../components/reusable/ModalComponents/UpdatingProductModalComponent";
 import ButtonComponent from "../../../components/reusable/ButtonComponent/ButtonComponent";
@@ -13,7 +13,7 @@ import {
   ProductCreateType,
   ProductReadType,
   ProductUpdateType,
-} from "../../../misc/newProductType";
+} from "../../../misc/productType";
 import { Link } from "react-router-dom";
 import TransitionEffect from "../../../components/reusable/TransitionEffect/TransitionEffect";
 import { toast } from "react-toastify";

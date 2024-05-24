@@ -6,7 +6,7 @@ import {
 } from "../../../misc/userType";
 import { UserRole } from "../../../misc/enum";
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
-import { ImageCreateType } from "../../../misc/newProductType";
+import { ImageCreateType } from "../../../misc/productType";
 import imageCompression from "browser-image-compression";
 
 interface UpdatingUserModalComponentProps {

@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "../../../redux/utils/hooks";
 import ModalComponent from "../../../components/reusable/ModalComponents/ModalComponent";
 import { useMediaQuery } from "react-responsive";
 import { motion } from "framer-motion";
-import { deleteCart } from "../../../redux/features/newCart/cartSlice";
+import { deleteCart } from "../../../redux/features/cart/cartSlice";
 import CartModalItem from "./CartModalItem";
 import CartModalSummary from "./CartModalSummary";
 import { toast } from "react-toastify";

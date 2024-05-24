@@ -2,7 +2,7 @@ import {
   ProductCreateType,
   ProductReadType,
   ProductUpdateType,
-} from "../../../misc/newProductType";
+} from "../../../misc/productType";
 import productService from "./productService";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "../../../constants/Status";

@@ -1,6 +1,9 @@
 import React from "react";
 import { useAppDispatch } from "../../../redux/utils/hooks";
-import { increaseQuantity, decreaseQuantity } from "../../../redux/features/newCart/cartSlice";
+import {
+  increaseQuantity,
+  decreaseQuantity,
+} from "../../../redux/features/cart/cartSlice";
 
 interface CartModalItemProps {
   item: {

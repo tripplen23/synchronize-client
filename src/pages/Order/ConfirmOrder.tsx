@@ -4,7 +4,7 @@ import { createOrder } from "../../redux/features/order/orderSlice";
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from "../../components/reusable/ButtonComponent/ButtonComponent";
 import { OrderCreateType } from "../../misc/orderType";
-import { deleteCart } from "../../redux/features/newCart/cartSlice";
+import { deleteCart } from "../../redux/features/cart/cartSlice";
 
 const ConfirmOrder: React.FC = () => {
   const { cart } = useAppSelector((state) => state.cart);

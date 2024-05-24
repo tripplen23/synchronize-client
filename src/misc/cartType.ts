@@ -1,4 +1,4 @@
-import { ProductReadType } from "./newProductType";
+import { ProductReadType } from "./productType";
 import { UserReadType } from "./userType";
 
 export interface CartReadType {

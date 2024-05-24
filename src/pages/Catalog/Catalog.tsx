@@ -4,7 +4,7 @@ import {
   getProductsByCategory,
   getProducts,
   sortProductsByPrice,
-} from "../../redux/features/newProduct/productSlice";
+} from "../../redux/features/product/productSlice";
 import { getAllCategories } from "../../redux/features/category/categorySlice";
 import ProductCardComponent from "../../components/reusable/ProductCardComponent/ProductCardComponent";
 import { useNavigate, useParams } from "react-router-dom";
