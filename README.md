@@ -15,7 +15,7 @@ This repository contains the frontend source code for an E-commerce sample appli
 
 **NOTE**: The backend repository can be found [here](https://github.com/tripplen23/synchronize-server)
 
-Link to deployed Frontend Web UI: [Frontend](https://fs17-frontend-project-zln9-kl59btf0o.vercel.app/)
+Link to deployed Frontend Web UI: [Frontend](https://synchronize-client.vercel.app/)
 
 Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.net/index.html)
 
@@ -73,6 +73,14 @@ Link to deployed Backend Server: [Backend](https://sync-ecommerce.azurewebsites.
 ## User Interface
 
 ### 1. Authentication
+
+Mock Customer credentials:
+  - Email: customer1@customer.com
+  - Password: customer@123
+
+Mock Admin credentials:
+  - Email: binh@admin.com
+  - Password: binh@123
 
 ![register](image/README/register.png)
 ![login](image/README/login.png)
