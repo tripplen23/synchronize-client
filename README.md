@@ -13,7 +13,7 @@ The project was developed as a final project at the [Integrify](https://www.inte
 
 This repository contains the frontend source code for an E-commerce sample application. The project includes the implementation of a RESTful API for managing users, products, orders, carts, categories, and reviews (in the future!).
 
-**NOTE**: The backend repository can be found [here](https://github.com/tripplen23/fs17_CSharp_FullStack)
+**NOTE**: The backend repository can be found [here](https://github.com/tripplen23/synchronize-server)
 
 Link to deployed Frontend Web UI: [Frontend](https://fs17-frontend-project-zln9-kl59btf0o.vercel.app/)
 
